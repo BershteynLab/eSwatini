@@ -7,6 +7,7 @@
 		"Tool": "Notepad++"
 	},
 	"Defaults": {
+		"Society__KP_Defaults": "<-- MARKER",
 		"Society": {
 			"Concurrency_Configuration": {
 				"Probability_Person_Is_Behavioral_Super_Spreader": 0,
@@ -40,26 +41,6 @@
 				}
 			},
 			"COMMERCIAL": {
-				"Concurrency_Parameters": {
-					"HIGH": {
-						"Max_Simultaneous_Relationships_Female": 59,
-						"Max_Simultaneous_Relationships_Male": 59,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					},
-					"LOW": {
-						"Max_Simultaneous_Relationships_Female": 0,
-						"Max_Simultaneous_Relationships_Male": 0,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					},
-					"MEDIUM": {
-						"Max_Simultaneous_Relationships_Female": 0,
-						"Max_Simultaneous_Relationships_Male": 0,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					}
-				},
 				"Pair_Formation_Parameters": {
 					"Age_of_First_Bin_Edge_Female": 15,
 					"Age_of_First_Bin_Edge_Male": 15,
@@ -81,26 +62,6 @@
 				}
 			},
 			"INFORMAL": {
-				"Concurrency_Parameters": {
-					"HIGH": {
-						"Max_Simultaneous_Relationships_Female": 1,
-						"Max_Simultaneous_Relationships_Male": 1,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					},
-					"LOW": {
-						"Max_Simultaneous_Relationships_Female": 1.6052079364461302,
-						"Max_Simultaneous_Relationships_Male": 1.6052079364461302,
-						"Prob_Extra_Relationship_Female": 0,
-						"Prob_Extra_Relationship_Male": 0.5327652181646236
-					},
-					"MEDIUM": {
-						"Max_Simultaneous_Relationships_Female": 0.9156884274249174,
-						"Max_Simultaneous_Relationships_Male": 0.9156884274249174,
-						"Prob_Extra_Relationship_Female": 0.39942859326457386,
-						"Prob_Extra_Relationship_Male": 0.37086485516189854
-					}
-				},
 				"Pair_Formation_Parameters": {
 					"Age_of_First_Bin_Edge_Female": 17.5,
 					"Age_of_First_Bin_Edge_Male": 17.5,
@@ -559,26 +520,6 @@
 				}
 			},
 			"MARITAL": {
-				"Concurrency_Parameters": {
-					"HIGH": {
-						"Max_Simultaneous_Relationships_Female": 1,
-						"Max_Simultaneous_Relationships_Male": 1,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					},
-					"LOW": {
-						"Max_Simultaneous_Relationships_Female": 1,
-						"Max_Simultaneous_Relationships_Male": 1,
-						"Prob_Extra_Relationship_Female": 0,
-						"Prob_Extra_Relationship_Male": 0
-					},
-					"MEDIUM": {
-						"Max_Simultaneous_Relationships_Female": 0.9,
-						"Max_Simultaneous_Relationships_Male": 0.9,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					}
-				},
 				"Pair_Formation_Parameters": {
 					"Age_of_First_Bin_Edge_Female": 17.5,
 					"Age_of_First_Bin_Edge_Male": 17.5,
@@ -1037,26 +978,6 @@
 				}
 			},
 			"TRANSITORY": {
-				"Concurrency_Parameters": {
-					"HIGH": {
-						"Max_Simultaneous_Relationships_Female": 1,
-						"Max_Simultaneous_Relationships_Male": 1,
-						"Prob_Extra_Relationship_Female": 1,
-						"Prob_Extra_Relationship_Male": 1
-					},
-					"LOW": {
-						"Max_Simultaneous_Relationships_Female": 1.5009139604907449,
-						"Max_Simultaneous_Relationships_Male": 1.5009139604907449,
-						"Prob_Extra_Relationship_Female": 0.1370149244245198,
-						"Prob_Extra_Relationship_Male": 0.25977692232616656
-					},
-					"MEDIUM": {
-						"Max_Simultaneous_Relationships_Female": 2.738368682943356,
-						"Max_Simultaneous_Relationships_Male": 2.738368682943356,
-						"Prob_Extra_Relationship_Female": 0.5837316234889807,
-						"Prob_Extra_Relationship_Male": 0.5876342060719743
-					}
-				},
 				"Pair_Formation_Parameters": {
 					"Age_of_First_Bin_Edge_Female": 17.5,
 					"Age_of_First_Bin_Edge_Male": 17.5,
@@ -1518,8 +1439,29 @@
 	"Nodes": [{
 		"NodeID": 1,
 		"NodeName": "Swaziland",
+		"Society__KP_Swaziland": "<-- MARKER",
 		"Society": {
 			"COMMERCIAL": {
+				"Concurrency_Parameters": {
+					"HIGH": {
+						"Max_Simultaneous_Relationships_Female": 59,
+						"Max_Simultaneous_Relationships_Male": 59,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					},
+					"LOW": {
+						"Max_Simultaneous_Relationships_Female": 0,
+						"Max_Simultaneous_Relationships_Male": 0,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					},
+					"MEDIUM": {
+						"Max_Simultaneous_Relationships_Female": 0,
+						"Max_Simultaneous_Relationships_Male": 0,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					}
+				},
 				"Pair_Formation_Parameters": {
 					"Formation_Rate_Constant": 0.15,
 					"Formation_Rate_Type": "CONSTANT"
@@ -1543,7 +1485,27 @@
 				}
 			},
 			"INFORMAL": {
-				"Pair_Formation_Parameters": {
+				"Concurrency_Parameters": {
+				"HIGH": {
+					"Max_Simultaneous_Relationships_Female": 1,
+					"Max_Simultaneous_Relationships_Male": 1,
+					"Prob_Extra_Relationship_Female": 1,
+					"Prob_Extra_Relationship_Male": 1
+				},
+				"LOW": {
+					"Max_Simultaneous_Relationships_Female": 1.6052079364461302,
+					"Max_Simultaneous_Relationships_Male": 1.6052079364461302,
+					"Prob_Extra_Relationship_Female": 0,
+					"Prob_Extra_Relationship_Male": 0.5327652181646236
+				},
+				"MEDIUM": {
+					"Max_Simultaneous_Relationships_Female": 0.9156884274249174,
+					"Max_Simultaneous_Relationships_Male": 0.9156884274249174,
+					"Prob_Extra_Relationship_Female": 0.39942859326457386,
+					"Prob_Extra_Relationship_Male": 0.37086485516189854
+				}
+			},
+			"Pair_Formation_Parameters": {
 					"Formation_Rate_Constant": 0.0010841069,
 					"Formation_Rate_Type": "CONSTANT"
 				},
@@ -1566,6 +1528,26 @@
 				}
 			},
 			"MARITAL": {
+				"Concurrency_Parameters": {
+					"HIGH": {
+						"Max_Simultaneous_Relationships_Female": 1,
+						"Max_Simultaneous_Relationships_Male": 1,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					},
+					"LOW": {
+						"Max_Simultaneous_Relationships_Female": 1,
+						"Max_Simultaneous_Relationships_Male": 1,
+						"Prob_Extra_Relationship_Female": 0,
+						"Prob_Extra_Relationship_Male": 0
+					},
+					"MEDIUM": {
+						"Max_Simultaneous_Relationships_Female": 0.9,
+						"Max_Simultaneous_Relationships_Male": 0.9,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					}
+				},
 				"Pair_Formation_Parameters": {
 					"Formation_Rate_Constant": 5.47945e-05,
 					"Formation_Rate_Type": "CONSTANT"
@@ -1589,6 +1571,26 @@
 				}
 			},
 			"TRANSITORY": {
+				"Concurrency_Parameters": {
+					"HIGH": {
+						"Max_Simultaneous_Relationships_Female": 1,
+						"Max_Simultaneous_Relationships_Male": 1,
+						"Prob_Extra_Relationship_Female": 1,
+						"Prob_Extra_Relationship_Male": 1
+					},
+					"LOW": {
+						"Max_Simultaneous_Relationships_Female": 1.5009139604907449,
+						"Max_Simultaneous_Relationships_Male": 1.5009139604907449,
+						"Prob_Extra_Relationship_Female": 0.1370149244245198,
+						"Prob_Extra_Relationship_Male": 0.25977692232616656
+					},
+					"MEDIUM": {
+						"Max_Simultaneous_Relationships_Female": 2.738368682943356,
+						"Max_Simultaneous_Relationships_Male": 2.738368682943356,
+						"Prob_Extra_Relationship_Female": 0.5837316234889807,
+						"Prob_Extra_Relationship_Male": 0.5876342060719743
+					}
+				},
 				"Pair_Formation_Parameters": {
 					"Formation_Rate_Constant": 0.0010478386,
 					"Formation_Rate_Type": "CONSTANT"
@@ -1611,8 +1613,6 @@
 					]
 				}
 			}
-		},
-		"Society__KP_Defaults": "<-- MARKER",
-		"Society__KP_Swaziland": "<-- MARKER"
+		}
 	}]
 }
