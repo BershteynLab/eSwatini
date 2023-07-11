@@ -70,7 +70,7 @@ def get_gender(channel):
 
 def get_reports(data):
     # verify channels
-    channels_supported = ['Prevalence', 'Population', 'OnART', 'Incidence', 'ARTCoverage']
+    channels_supported = ['Prevalence', 'Population', 'OnART', 'Incidence', 'ARTCoverage', 'ARTPrevalence']
     channels_ref = list(ref_config.keys())
 
     channels_not_supported = list(set(channels_ref) - set(channels_supported))
@@ -132,9 +132,9 @@ def get_reports(data):
                  'Reduce': compute_incidence}
         entries.append(entry)
 
-    channel = 'ARTCoverage'
-    if channel in channels_ref:
-        entry = {'Name': channel,
+    def get_art_coverage_entry(channel):
+        # allowing multiple names for the same actual 'channel'
+        art_coverage_entry = {'Name': channel,
                  'Type': 'Prevalence',
                  'Year': set(list(range(first_year, last_prevalence_year + 1)) + get_year(channel=channel)),
                  'AgeBins': get_age_bin(channel=channel),
@@ -142,7 +142,15 @@ def get_reports(data):
                  'ByNode': 'Both',
                  'Map': lambda rows: rows.sum(),
                  'Reduce': lambda row: float(row.On_ART) / float(row.Infected) if row.Infected > 0 else 0}
-        entries.append(entry)
+        return art_coverage_entry
+
+    channel = 'ARTCoverage'
+    if channel in channels_ref:
+        entries.append(get_art_coverage_entry(channel=channel))
+
+    channel = 'ARTPrevalence'
+    if channel in channels_ref:
+        entries.append(get_art_coverage_entry(channel=channel))
 
     return entries
 

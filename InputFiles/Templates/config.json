@@ -93,8 +93,9 @@
       "Infectious_Period_Mean": 12,
       "Infectious_Period_Std_Dev": 10,
       "Infectivity_Scale_Type": "CONSTANT_INFECTIVITY",
-      "Listed_Events": [
+      "Custom_Individual_Events": [
          "OnPreART0",
+         "NoTrigger",
          "HCTUptakePostDebut3",
          "LostForever2",
          "ARTStaging16",
@@ -384,6 +385,10 @@
          50,
          55,
          60,
+         65,
+         70,
+         75,
+         80,
          100
       ],
       "Report_HIV_ByAgeAndGender_Collect_Circumcision_Data": 1,
@@ -462,6 +467,19 @@
       "logLevel_default": "ERROR",
       "x_Birth": 1,
       "x_Other_Mortality": 1,
-      "x_Population_Immunity": 1
+      "x_Population_Immunity": 1,
+
+      ".new parameters for new model version compatibility": "note by ck4",
+      "Custom_Reports_Filename": "",
+      "Enable_Abort_Zero_Infectivity" : 0,
+      "Enable_Infectivity_Reservoir" : 0,
+      "Post_Infection_Acquisition_Multiplier": 0,
+      "Post_Infection_Mortality_Multiplier": 1,
+      "Post_Infection_Transmission_Multiplier": 0,
+      "Report_Coordinator_Event_Recorder" : 0,
+      "Report_HIV_ByAgeAndGender_Add_Concordant_Relationships" : 0,
+      "Report_HIV_ByAgeAndGender_Collect_HIV_Stage_Data" : 0,
+      "Report_Node_Event_Recorder" : 0,
+      "Report_Surveillance_Event_Recorder" : 0
    }
 }
