@@ -30,9 +30,9 @@ GENDER_STR = {k: v for v, k in GENDER_MAP.items()}  # int to str
 
 # load file post_channel_config.json which configures which data to process
 # linux/cluster version
-# ref_config = json.load(open(os.path.join("..", "Assets", "post_channel_config.json"), 'rb'))
+ref_config = json.load(open(os.path.join("..", "Assets", "post_channel_config.json"), 'rb'))
 # COMPS version
-ref_config = json.load(open(os.path.join("Assets", "post_channel_config.json"), 'rb'))
+# ref_config = json.load(open(os.path.join("Assets", "post_channel_config.json"), 'rb'))
 
 
 def timing(f, message):
