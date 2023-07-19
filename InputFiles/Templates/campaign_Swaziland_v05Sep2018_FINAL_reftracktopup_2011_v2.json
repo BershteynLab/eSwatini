@@ -107,7 +107,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -146,7 +145,6 @@
                   "Delay_Period_Max": 1825,
                   "Delay_Period_Min": 0,
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "",
                   "class": "HIVDelayedIntervention"
                },
@@ -199,7 +197,6 @@
                   "Delay_Period_Scale": 2215,
                   "Delay_Period_Shape": 3.312,
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "",
                   "class": "HIVDelayedIntervention"
                },
@@ -248,7 +245,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config_": "Event",
                   "Interpolation_Order": 1,
                   "New_Property_Value": "",
                   "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
@@ -291,7 +287,6 @@
                   "Delay_Period_Max": 3650,
                   "Delay_Period_Min": 0,
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "",
                   "class": "HIVDelayedIntervention"
                },
@@ -321,7 +316,6 @@
                   "Delay_Period_Max": 10950,
                   "Delay_Period_Min": 730,
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "",
                   "class": "HIVDelayedIntervention"
                },
@@ -349,7 +343,6 @@
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
@@ -390,7 +383,6 @@
                   "Disqualifying_Properties": [
                      "CascadeState:LostForever"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "LostForever0",
@@ -437,7 +429,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:HCTTestingLoop"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut1",
@@ -483,7 +474,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "ARTStaging1",
@@ -527,7 +517,6 @@
                      "CascadeState:LostForever",
                      "CascadeState:OnART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "New_Property_Value": "CascadeState:TestingOnSymptomatic",
@@ -572,7 +561,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "HCTTestingLoop0",
@@ -623,7 +611,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 0,
                   "New_Property_Value": "CascadeState:ARTStagingDiagnosticTest",
@@ -979,7 +966,6 @@
                   "Delay_Period_Scale": 8539.811524,
                   "Delay_Period_Shape": 5.4849922,
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "",
                   "class": "HIVDelayedIntervention"
                },
@@ -1397,7 +1383,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1.2,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut1",
                   "New_Property_Value": "CascadeState:HCTUptakeAtDebut",
@@ -1458,7 +1443,6 @@
          "Event_Coordinator_Config": {
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
-                  "Event_Or_Config": "Event",
                   "Positive_Diagnosis_Event": "HCTUptakePostDebut1",
                   "class": "STIIsPostDebut"
                },
@@ -1532,7 +1516,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:HCTTestingLoop"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut7",
                   "New_Property_Value": "CascadeState:HCTUptakePostDebut",
@@ -1641,7 +1624,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Negative_Diagnosis_Event": "HCTTestingLoop0",
                   "New_Property_Value": "CascadeState:HCTTestingLoop",
                   "Positive_Diagnosis_Event": "ARTStaging9",
@@ -1677,7 +1659,6 @@
                      "CascadeState:LinkingToPreART",
                      "CascadeState:ARTStaging"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "ARTStaging8",
                   "New_Property_Value": "CascadeState:TestingOnSymptomatic",
@@ -1717,7 +1698,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:TestingOnANC",
                   "Positive_Diagnosis_Event": "Needs_PMTCT_Diagnostic_Test",
                   "Ramp_Max": 0.915,
@@ -1758,7 +1738,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:TestingOnANC",
                   "Positive_Diagnosis_Event": "HIV_Positive_at_ANC",
                   "class": "HIVRapidHIVDiagnostic"
@@ -1824,7 +1803,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Negative_Diagnosis_Event": "Needs_Combination_PMTCT",
                   "New_Property_Value": "CascadeState:TestingOnANC",
                   "Positive_Diagnosis_Event": "Needs_sdNVP_PMTCT",
@@ -1882,7 +1860,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Interpolation_Order": 0,
                   "Negative_Diagnosis_Event": "Needs_Option_A",
                   "New_Property_Value": "CascadeState:TestingOnANC",
@@ -1970,7 +1947,6 @@
                      "CascadeState:ARTStaging",
                      "CascadeState:TestingOnSymptomatic"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Interpolation_Order": 1,
                   "New_Property_Value": "CascadeState:TestingOnChild6w",
@@ -2024,7 +2000,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Negative_Diagnosis_Event": "ARTStaging8",
                   "New_Property_Value": "CascadeState:ARTStagingDiagnosticTest",
                   "Positive_Diagnosis_Event": "ARTStaging1",
@@ -2120,7 +2095,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:ARTStaging",
                   "Positive_Diagnosis_Event": "ARTStaging4",
                   "class": "HIVDrawBlood"
@@ -2208,7 +2182,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "NOTE1": "Threshold for adult vs child guidelines",
                   "Negative_Diagnosis_Event": "ARTStaging5",
                   "New_Property_Value": "CascadeState:ARTStaging",
@@ -2273,7 +2246,6 @@
                      "CascadeState:OnPreART",
                      "CascadeState:LinkingToPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "If_Active_TB": {
                      "Times": [
                         2009.5
@@ -2338,7 +2310,6 @@
                      "CascadeState:LinkingToART",
                      "CascadeState:OnPreART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut9",
                   "New_Property_Value": "CascadeState:LinkingToPreART",
@@ -2493,7 +2464,6 @@
                      "CascadeState:OnART",
                      "CascadeState:LinkingToART"
                   ],
-                  "Event_Or_Config": "Event",
                   "NOTE1": "Threshold for adult vs child guidelines",
                   "Negative_Diagnosis_Event": "OnPreART3",
                   "New_Property_Value": "CascadeState:OnPreART",
@@ -2523,7 +2493,6 @@
                      "CascadeState:OnART",
                      "CascadeState:LinkingToART"
                   ],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:OnPreART",
                   "Positive_Diagnosis_Event": "OnPreART4",
                   "class": "HIVDrawBlood"
@@ -2552,7 +2521,6 @@
                      "CascadeState:OnART",
                      "CascadeState:LinkingToART"
                   ],
-                  "Event_Or_Config": "Event",
                   "If_Active_TB": {
                      "Times": [
                         2010.34
@@ -2615,7 +2583,6 @@
                      "CascadeState:LostForever",
                      "CascadeState:OnART"
                   ],
-                  "Event_Or_Config": "Event",
                   "Female_Multiplier": 1.2,
                   "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
                   "New_Property_Value": "CascadeState:LinkingToART",
@@ -2733,7 +2700,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -2784,7 +2750,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -2835,7 +2800,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -2886,7 +2850,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -2937,7 +2900,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -2988,7 +2950,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -3039,7 +3000,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -3090,7 +3050,6 @@
                "Delay_Period_Mean": 180,
                "Delay_Period_Std_Dev": 5,
                "Disqualifying_Properties": [],
-               "Event_Or_Config": "Event",
                "Intervention_Name": "On_ART",
                "New_Property_Value": "CascadeState:OnART",
                "class": "HIVDelayedIntervention"
@@ -3190,7 +3149,6 @@
             "Intervention_Config": {
                "Actual_IndividualIntervention_Config": {
                   "Disqualifying_Properties": [],
-                  "Event_Or_Config": "Event",
                   "New_Property_Value": "CascadeState:LostForever",
                   "Positive_Diagnosis_Event": "LTFU0",
                   "Target_Property_Key": "CascadeState",
