@@ -1,5 +1,7 @@
 {
    "parameters": {
+      "Serialized_Population_Reading_Type": "NONE",
+      "Serialized_Population_Writing_Type": "NONE",
       "AIDS_Duration_In_Months": 9,
       "AIDS_Stage_Infectivity_Multiplier": 10,
       "ART_CD4_at_Initiation_Saturating_Reduction_in_Mortality": 350,
@@ -86,7 +88,7 @@
       "Immunity_Initialization_Distribution_Type": "DISTRIBUTION_OFF",
       "Immunity_Mortality_Factor": 1,
       "Immunity_Transmission_Factor": 0,
-      "Incubation_Period_Distribution": "FIXED_DURATION",
+      "Incubation_Period_Distribution": "CONSTANT_DISTRIBUTION",
       "Individual_Sampling_Type": "FIXED_SAMPLING",
       "Infection_Updates_Per_Timestep": 1,
       "Infectious_Period_Distribution": "GAUSSIAN_DURATION",
