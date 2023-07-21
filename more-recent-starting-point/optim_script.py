@@ -46,11 +46,11 @@ SetupParser.default_block = "HPC"
 CALIBRATION_SCENARIO = 'Baseline'
 
 # commonly modified calibration variables
-BASE_POPULATION_SCALE_FACTOR = 0.001 # 0.05  # For quick test simulations, this is set to a very low value
+BASE_POPULATION_SCALE_FACTOR = 0.05 # 0.05  # For quick test simulations, this is set to a very low value
 N_ITERATIONS = 1
-N_SAMPLES_PER_ITERATION = 5  # the number of distinct parameter sets to run per iteration
+N_SAMPLES_PER_ITERATION = 20  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 1  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = 1  # TEST_N is macro variable used to create directory name
+TEST_N = "original-files"  # TEST_N is macro variable used to create directory name
 
 # maximum memory in MB a sim can use before raising an error. Normally 8000.
 MAX_MEMORY_MB = 8000
