@@ -66,7 +66,6 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-                        "New_Property_Value": "",
                         "Target_Property_Key": "Risk",
                         "Target_Property_Value": "HIGH",
                         "class": "PropertyValueChanger"
@@ -117,7 +116,6 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-                        "New_Property_Value": "",
                         "Target_Property_Key": "Risk",
                         "Target_Property_Value": "MEDIUM",
                         "class": "PropertyValueChanger"
@@ -2232,7 +2230,6 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "New_Property_Value": "",
                                 "Target_Property_Key": "ARTstate",
                                 "Target_Property_Value": "OnARTPreVLS",
                                 "class": "PropertyValueChanger"
@@ -2272,7 +2269,6 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "New_Property_Value": "",
                                 "Target_Property_Key": "ARTstate",
                                 "Target_Property_Value": "OnART",
                                 "class": "PropertyValueChanger"
@@ -2713,7 +2709,6 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "New_Property_Value": "",
                                 "Target_Property_Key": "ARTstate",
                                 "Target_Property_Value": "OffART",
                                 "class": "PropertyValueChanger"
@@ -2743,9 +2738,11 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
+			"HCTUptakePostDebut3-NOTE": "This used to be HCTUptakePostDebut8, but nothing was listening for it. Connecting it to HCTUptakePostDebut3, which represents return to HCTUptake post-ART-dropout",
+			"LostForever0-NOTE": "This used to be LostForever9, but nothing was listening for it and nothing broadcasted LostForever0. Change back if appropriate and/or the probability for this choice could be > 0",
                         "Choice_Names": [
-                            "HCTUptakePostDebut8",
-                            "LostForever9"
+                            "HCTUptakePostDebut3",
+                            "LostForever0"
                         ],
                         "Choice_Probabilities": [
                             1,
@@ -2777,7 +2774,6 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-                        "New_Property_Value": "CascadeState:LostForever",
                         "Target_Property_Key": "CascadeState",
                         "Target_Property_Value": "LostForever",
                         "class": "PropertyValueChanger"
