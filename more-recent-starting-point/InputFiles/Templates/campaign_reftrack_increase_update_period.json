@@ -2328,10 +2328,13 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 24.99999,
@@ -2348,7 +2351,8 @@
                         2013,
                         2014,
                         2015,
-                        2016
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2358,7 +2362,8 @@
                         0.176070099,
                         0.232140197,
                         0.288210296,
-                        0.360350493
+                        0.360350493,
+                        0.868661185
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2377,10 +2382,13 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 34.99999,
@@ -2396,7 +2404,8 @@
                         2012,
                         2013,
                         2014,
-                        2015
+                        2015,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2405,7 +2414,8 @@
                         0.366,
                         0.444,
                         0.522,
-                        0.6
+                        0.6,
+                        0.678569546
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2424,10 +2434,13 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 44.99999,
@@ -2443,7 +2456,8 @@
                         2012,
                         2013,
                         2014,
-                        2015
+                        2015,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2452,7 +2466,8 @@
                         0.544,
                         0.616,
                         0.688,
-                        0.76
+                        0.76,
+                        0.941241628
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2471,13 +2486,16 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
-                "Target_Age_Max": 99.99999,
+                "Target_Age_Max": 199.99999,
                 "Target_Age_Min": 45,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
                 "Target_Disease_State": "HIV_Positive",
@@ -2513,15 +2531,133 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
+            "End_Year": 2021,
             "class": "CampaignEventByYear"
         },
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 54.99999,
+                "Target_Age_Min": 45,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.99
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Male ages 45-55",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 64.99999,
+                "Target_Age_Min": 55,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.980412027
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Male ages 55-65",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 199.99999,
+                "Target_Age_Min": 65,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.99
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Male ages 65+",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 24.99999,
@@ -2537,7 +2673,8 @@
                         2012,
                         2013,
                         2014,
-                        2015
+                        2015,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2546,7 +2683,8 @@
                         0.348,
                         0.432,
                         0.516,
-                        0.65
+                        0.65,
+                        0.808567964
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2565,10 +2703,13 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 34.99999,
@@ -2584,7 +2725,8 @@
                         2012,
                         2013,
                         2014,
-                        2015
+                        2015,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2593,7 +2735,8 @@
                         0.512,
                         0.608,
                         0.704,
-                        0.85
+                        0.85,
+                        0.910774589
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2612,10 +2755,13 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
                 "Target_Age_Max": 44.99999,
@@ -2631,7 +2777,8 @@
                         2012,
                         2013,
                         2014,
-                        2015
+                        2015,
+                        2021
                     ],
                     "Values": [
                         0,
@@ -2640,7 +2787,8 @@
                         0.636,
                         0.724,
                         0.812,
-                        0.95
+                        0.95,
+                        0.989133001
                     ]
                 },
                 "Update_Period": 182.5,
@@ -2659,13 +2807,16 @@
         {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
-                    "Broadcast_Event": "OnART0",
+                    "Broadcast_Event": "OnART1",
                     "Event_Or_Config": "Event",
                     "Intervention_Name": "On_ART",
                     "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
                     "class": "BroadcastEvent"
                 },
-                "Target_Age_Max": 99.99999,
+                "Target_Age_Max": 199.99999,
                 "Target_Age_Min": 45,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
                 "Target_Disease_State": "HIV_Positive",
@@ -2701,6 +2852,121 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
+            "End_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 54.99999,
+                "Target_Age_Min": 45,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.99
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Female ages 45-55",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 64.99999,
+                "Target_Age_Min": 55,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.99
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Female ages 55-65",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART1",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 199.99999,
+                "Target_Age_Min": 65,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2021
+                    ],
+                    "Values": [
+                        0.99
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "Swaziland UTT scale-up, Female ages 65+",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2021,
             "class": "CampaignEventByYear"
         },
         {
