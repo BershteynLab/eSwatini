@@ -40,17 +40,17 @@ def load_campaign_templates(template_dir):
     return campaign_templates
 
 
-SetupParser.default_block = "HPC"
+SetupParser.default_block = "NYUCLUSTER"
 
 # calibration will be performed using the scenario_template_set that is loaded and given this name (see below)
 CALIBRATION_SCENARIO = 'Baseline'
 
 # commonly modified calibration variables
 BASE_POPULATION_SCALE_FACTOR = 0.05 # 0.05  # For quick test simulations, this is set to a very low value
-N_ITERATIONS = 1
-N_SAMPLES_PER_ITERATION = 20  # the number of distinct parameter sets to run per iteration
+N_ITERATIONS = 20
+N_SAMPLES_PER_ITERATION = 500  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 1  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = "original-files"  # TEST_N is macro variable used to create directory name
+TEST_N = "official-trial-1"  # TEST_N is macro variable used to create directory name
 
 # maximum memory in MB a sim can use before raising an error. Normally 8000.
 MAX_MEMORY_MB = 8000
@@ -59,7 +59,9 @@ MAX_MEMORY_MB = 8000
 NUM_REQUESTED_CORES = math.ceil(MAX_MEMORY_MB / 8000)
 
 # The excel file with parameter, analyzer, and reference data to parse
-ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07.xlsm')
+#ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07.xlsm')
+# Narrowed parameter ranges after 10 iterations:
+ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07-B.xlsm')
 
 # params is a dict, site_info is a dict, reference is a PopulationObs object, analyzers is a list of dictionaries of
 # analyzer arguments
@@ -278,7 +280,7 @@ def map_sample_to_model_input(sample_dict, template_set_name, scenario_name, cam
 
 
 # Compute hypersphere radius as a function of the number of dynamic parameters
-volume_fraction = 0.1  # fraction of N-sphere area to unit cube area for numerical derivative
+volume_fraction = 0.05  # fraction of N-sphere area to unit cube area for numerical derivative
 num_params = len([p for p in params if p['Dynamic']])
 
 r = OptimTool.get_r(num_params, volume_fraction)
@@ -289,7 +291,7 @@ optimtool = OptimTool(
     mu_r=r,  # <-- Mean percent of parameter range for numerical derivative.  CAREFUL with integer parameters!
     sigma_r=r / 10.,  # <-- stddev of above
     samples_per_iteration=N_SAMPLES_PER_ITERATION,
-    center_repeats=2,  # 10 is real size, 2 is testing
+    center_repeats=10,  # 10 is real size, 2 is testing
     rsquared_thresh=0.81
     # Linear regression goodness of fit threshold, [0:1].  Above this, regression is used.  Below, use best point. Best to be fairly high.
 )
