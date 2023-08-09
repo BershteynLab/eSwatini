@@ -10,3 +10,6 @@ EMOD binary.
 Starting EMOD version, as reported from COMPS:
 Intellectual Ventures(R)/EMOD Disease Transmission Kernel 2.18.4476.0
 Built on Jun  8 2021 17:23:43 by SYSTEM from HIV-Ongoing (9567070) checked in on 2021-06-08 15:24:57 -0700
+
+
+The current post processor is needed to prevent miscounting due to the current inclusion of IP_Key:Risk and IP_Key:ARTstate in ReportHIVByAgeAndGender.csv .
