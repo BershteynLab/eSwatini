@@ -32,7 +32,7 @@ GENDER_STR = {k: v for v, k in GENDER_MAP.items()}  # int to str
 # linux/cluster version
 ref_config = json.load(open(os.path.join("..", "Assets", "post_channel_config.json"), 'rb'))
 # COMPS version
-# ref_config = json.load(open(os.path.join("Assets", "post_channel_config.json"), 'rb'))
+#ref_config = json.load(open(os.path.join("Assets", "post_channel_config.json"), 'rb'))
 
 
 def timing(f, message):
@@ -176,8 +176,8 @@ def add_year_in(df):
 
 
 def preprocess_for_incidence(all_data):
-    input_stratifiers = ['Year', 'NodeId', 'Gender', 'Age', 'IsCircumcised', 'IP_Key:Risk']
-    grouping_stratifiers = ['NodeId', 'Gender', 'Age', 'year_in', 'IsCircumcised', 'IP_Key:Risk']
+    input_stratifiers = ['Year', 'NodeId', 'Gender', 'Age', 'IsCircumcised', 'IP_Key:Risk', 'IP_Key:ARTstate']
+    grouping_stratifiers = ['NodeId', 'Gender', 'Age', 'year_in', 'IsCircumcised', 'IP_Key:Risk', 'IP_Key:ARTstate']
 
     # add the year each row is in
     data = add_year_in(all_data)
