@@ -151,7 +151,7 @@
                     ]
                 ],
                 "ResultScaleFactor": 2.7397260273972604e-09,
-                "ResultsValues": [
+                "ResultValues": [
                     [
                         117.3,
                         117.3,
@@ -1114,9 +1114,9 @@
                         2062.5
                     ]
                 ],
-                "ResultsScaleFactor": 2.7397260273972604e-06,
-                "ResultsUnits": "annual deaths per capita",
-                "ResultsValues": [
+                "ResultScaleFactor": 2.7397260273972604e-06,
+                "ResultUnits": "annual deaths per capita",
+                "ResultValues": [
                     [
                         0.1455597999999999,
                         0.13760584,
@@ -2258,9 +2258,9 @@
                         2062.5
                     ]
                 ],
-                "ResultsScaleFactor": 2.7397260273972604e-06,
-                "ResultsUnits": "annual deaths per capita",
-                "ResultsValues": [
+                "ResultScaleFactor": 2.7397260273972604e-06,
+                "ResultUnits": "annual deaths per capita",
+                "ResultValues": [
                     [
                         0.17525006,
                         0.1657888399999999,
