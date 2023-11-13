@@ -47,10 +47,10 @@ CALIBRATION_SCENARIO = 'Baseline'
 
 # commonly modified calibration variables
 BASE_POPULATION_SCALE_FACTOR = 0.05 # 0.05  # For quick test simulations, this is set to a very low value
-N_ITERATIONS = 20
-N_SAMPLES_PER_ITERATION = 500  # the number of distinct parameter sets to run per iteration
-N_REPLICATES = 1  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = "official-trial-1"  # TEST_N is macro variable used to create directory name
+N_ITERATIONS = 15
+N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
+N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
+TEST_N = "0"  # TEST_N is macro variable used to create directory name
 
 # maximum memory in MB a sim can use before raising an error. Normally 8000.
 MAX_MEMORY_MB = 8000
@@ -92,7 +92,8 @@ province_names.append(PopulationObs.AGGREGATED_PROVINCE)  # to allow for nationa
 
 static_params = {
     'Base_Population_Scale_Factor': BASE_POPULATION_SCALE_FACTOR,   # older EMOD version back-compatibility
-    'x_Base_Population_Scale_Factor': BASE_POPULATION_SCALE_FACTOR  # newer EMOD version compatibility
+    'x_Base_Population_Scale_Factor': BASE_POPULATION_SCALE_FACTOR,  # newer EMOD version compatibility
+    'x_Base_Population': BASE_POPULATION_SCALE_FACTOR
 }
 
 # Setting up our model configuration from templates
@@ -122,7 +123,7 @@ campaign_templates = load_campaign_templates(template_dir=template_files_dir)
 
 demographics_templates = []
 demographics_filenames = [
-    os.path.join(static_files_dir, 'Swaziland_Demographics_With_Properties.json'),
+    os.path.join(static_files_dir, 'Demographics.json'),
     os.path.join(template_files_dir, 'PFA_Overlay.json'),
     os.path.join(template_files_dir, 'Accessibility_and_Risk_IP_Overlay.json'),
     os.path.join(template_files_dir, 'Risk_Assortivity_Overlay.json')
