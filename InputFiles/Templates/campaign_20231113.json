@@ -2264,6 +2264,12 @@
             "class": "CampaignEventByYear"
         },
         {
+            "Event_Name": "OnART: state 1 (run AntiretroviralTherapy)",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -2288,13 +2294,7 @@
                     "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "OnART: state 1 (run AntiretroviralTherapy)",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "Event_Coordinator_Config": {
@@ -2326,6 +2326,16 @@
             "class": "CampaignEventByYear"
         },
         {
+            "BEGIN":"UTT scale-up ART",
+            "Event_Name": "Swaziland UTT scale-up, Male ages 15-24",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2368,16 +2378,7 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 15-24",
-            "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class": "NodeSetNodeList"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "Event_Coordinator_Config": {
@@ -2432,6 +2433,15 @@
             "class": "CampaignEventByYear"
         },
         {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 35-44",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2472,8 +2482,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 35-44",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 45+",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2481,9 +2493,8 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "End_Year": 2015,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2522,17 +2533,7 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 45+",
-            "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class": "NodeSetNodeList"
-            },
-            "Start_Year": 1990,
-            "End_Year": 2015,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "Event_Coordinator_Config": {
@@ -2593,7 +2594,7 @@
                 "Target_Gender": "Male",
                 "Time_Value_Map": {
                     "Times": [
-			2015,
+			            2015,
                         2021
                     ],
                     "Values": [
@@ -2880,7 +2881,7 @@
                 "Target_Gender": "Female",
                 "Time_Value_Map": {
                     "Times": [
-			2015,
+			            2015,
                         2021
                     ],
                     "Values": [
@@ -2920,7 +2921,7 @@
                 "Target_Gender": "Female",
                 "Time_Value_Map": {
                     "Times": [
-			2015,
+			            2015,
                         2021
                     ],
                     "Values": [
@@ -2942,6 +2943,16 @@
             "class": "CampaignEventByYear"
         },
         {
+            "EMD":"UTT scale-up ART",
+            "Event_Name": "Swaziland UTT scale-up, Female ages 65+",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2015,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2961,7 +2972,7 @@
                 "Time_Value_Map": {
                     "Times": [
                         2015,
-			2021
+			            2021
                     ],
                     "Values": [
                         0.923355025,
@@ -2970,16 +2981,7 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 65+",
-            "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class": "NodeSetNodeList"
-            },
-            "Start_Year": 2015,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "Event_Coordinator_Config": {

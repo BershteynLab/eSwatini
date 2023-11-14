@@ -7,10 +7,11 @@
     * PHIA
     * SHIMS
 * *Demographics Data*
+    * UN WPP, extracted by DTC in 2023
 * *ART Prevalence Data*
-    * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference trackerjk
+    * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference tracker called "UTT scale-up ART"
+    * *ART Availability*
 * *Circumcision distribution*
-* *ART Availability*
 
 ## Notes from Clark, c. 2023-09-26
 
