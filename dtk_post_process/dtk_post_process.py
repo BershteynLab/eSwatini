@@ -70,7 +70,7 @@ def get_gender(channel):
 
 def get_reports(data):
     # verify channels
-    channels_supported = ['Prevalence', 'Population', 'OnART', 'Incidence', 'ARTCoverage', 'ARTPrevalence']
+    channels_supported = ['Prevalence', 'Population']#, 'OnART', 'Incidence', 'ARTCoverage', 'ARTPrevalence']
     channels_ref = list(ref_config.keys())
 
     channels_not_supported = list(set(channels_ref) - set(channels_supported))
