@@ -50,7 +50,7 @@ BASE_POPULATION_SCALE_FACTOR = 0.05 # 0.05  # For quick test simulations, this i
 N_ITERATIONS = 15
 N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = "0"  # TEST_N is macro variable used to create directory name
+TEST_N = "1"  # TEST_N is macro variable used to create directory name
 
 # maximum memory in MB a sim can use before raising an error. Normally 8000.
 MAX_MEMORY_MB = 8000
@@ -59,7 +59,7 @@ MAX_MEMORY_MB = 8000
 NUM_REQUESTED_CORES = math.ceil(MAX_MEMORY_MB / 8000)
 
 # The excel file with parameter, analyzer, and reference data to parse
-ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07.xlsm')
+ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland--UPDATED--2023-12.xlsm')
 # Narrowed parameter ranges after 10 iterations:
 #ingest_xlsm_filename = os.path.join('Data', 'calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07-B.xlsm')
 

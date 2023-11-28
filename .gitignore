@@ -10,3 +10,10 @@ output
 output/*
 **.out
 
+.Rproj.user
+
+Analysis/**.pdf
+__pycache__
+__pycache__/*
+DownloadAnalyzerTPI_cache
+DownloadAnalyzerTPI_cache/*
