@@ -8,6 +8,8 @@
     * SHIMS
 * *Demographics Data*
     * UN WPP, extracted by DTC in 2023
+    * UN WPP 2019 estimates 1,148,000 total population 
+    * Meanwhile, national census of SWZ estimates 1,093,238 in 2017, while UN WPP estimates 1,125,000 in that same year.
 * *ART Prevalence Data*
     * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference tracker called "UTT scale-up ART"
     * *ART Availability*
