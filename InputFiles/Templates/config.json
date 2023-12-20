@@ -183,15 +183,17 @@
             70,
             75,
             80,
-	    200
+            85,
+            90,
+            95,
+            99
         ],
         "Report_HIV_ByAgeAndGender_Collect_Circumcision_Data": 1,
         "Report_HIV_ByAgeAndGender_Collect_Gender_Data": 1,
         "Report_HIV_ByAgeAndGender_Collect_HIV_Data": 0,
         "Report_HIV_ByAgeAndGender_Collect_HIV_Stage_Data": 1,
         "Report_HIV_ByAgeAndGender_Collect_IP_Data": [
-            "Risk",
-            "ARTstate"
+            "Risk"
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
@@ -208,7 +210,7 @@
         "Report_Relationship_End": 0,
         "Report_Relationship_Start": 0,
         "Report_Surveillance_Event_Recorder": 0,
-        "Report_Transmission": 1,
+        "Report_Transmission": 0,
         "Run_Number": 99.0,
         "STI_Coinfection_Acquisition_Multiplier": 5.5,
         "STI_Coinfection_Transmission_Multiplier": 5.5,

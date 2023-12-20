@@ -4,6 +4,7 @@
             "AgeDistribution": {
                 "AxisScaleFactors": 1,
                 "DistributionValues": [
+                    0, 
                     0.184200988,
                     0.333827523,
                     0.458214738,
@@ -22,7 +23,6 @@
                     0.99752212,
                     0.999491945,
                     0.999943549,
-                    1,
                     1
                 ],
                 "NumDistributionAxes": 0,
