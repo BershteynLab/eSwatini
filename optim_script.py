@@ -47,10 +47,10 @@ CALIBRATION_SCENARIO = 'Baseline'
 
 # commonly modified calibration variables
 BASE_POPULATION_SCALE_FACTOR = 0.05 # 0.05  # For quick test simulations, this is set to a very low value
-N_ITERATIONS = 15
+N_ITERATIONS = 25
 N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.
-TEST_N = "1"  # TEST_N is macro variable used to create directory name
+TEST_N = "2"  # TEST_N is macro variable used to create directory name
 
 # maximum memory in MB a sim can use before raising an error. Normally 8000.
 MAX_MEMORY_MB = 8000
