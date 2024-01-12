@@ -33,7 +33,7 @@ SWZ_CENSUS_POP = 1148000 # UN WPP 2019, according to SWZ national census 2017 10
 ```{r, echo=FALSE}
 sim.results <- EMODAnalyzeR::read.simulation.results(
   #results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test2/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender",
-  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test2_double_FSW_rate/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/",
+  #results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test2_double_FSW_rate/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/",
   scenario_name = 'baseline',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
@@ -1288,16 +1288,19 @@ ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_
 ## FSW
 
 ```{r}
-h %>% group_by(Year, Gender, `IP_Key:Risk`) %>% 
+sim.results %>% filter(sim.ix == 1) %>% group_by(Year, Gender, `IP_Key.Risk`) %>% 
   summarize(Population = sum(Population)) %>% 
 ggplot() + 
-  geom_line(mapping = aes(x = Year, y = Population, color = `IP_Key:Risk`)) +
+  geom_line(mapping = aes(x = Year, y = Population, color = `IP_Key.Risk`)) +
   facet_grid(cols = vars(Gender))
 ```
 ```{r}
-h %>% group_by(Year, Gender, `IP_Key:Risk`) %>% 
-  summarize(Population = sum(Population*10)) %>% 
-  filter(Year == 1995)
+sim.results %>% 
+  group_by(Year, Gender, `IP_Key.Risk`, sim.ix) %>% 
+  summarize(Population = sum(Population)) %>% 
+  group_by(Year, Gender, `IP_Key.Risk`) %>% 
+  summarize(Population = mean(Population)) %>% 
+  filter(Year == 2015)
 ```
 
 ```{r}
@@ -1307,11 +1310,27 @@ j  %>% group_by(Year, Gender, `IP_Key:Risk`) %>%
   summarize(Population = sum(Population)) %>% 
   filter(Year == 1995)
 ```
+
 ```{r}
 j %>% group_by(Year, Gender, `IP_Key:Risk`) %>% 
   summarize(Population = sum(Population)) %>% 
 ggplot() + 
   geom_line(mapping = aes(x = Year, y = Population, color = `IP_Key:Risk`)) +
   facet_grid(cols = vars(Gender))
+```
+```{r}
+h <- fread("/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test2/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/ReportHIVByAgeAndGender_TPI0000_REP24055.csv")
+
+h %>% group_by(Year, Gender, `IP_Key:Risk`) %>% 
+  summarize(Population = sum(Population)) %>% 
+  filter(Year == 1995)
+```
+
+```{r}
+h2 <- fread("/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test2_double_FSW_rate/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/ReportHIVByAgeAndGender_TPI0000_REP24055.csv")
+
+h2 %>% group_by(Year, Gender, `IP_Key:Risk`) %>% 
+  summarize(Population = sum(Population)) %>% 
+  filter(Year == 2015)
 ```
 
