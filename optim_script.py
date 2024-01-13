@@ -46,7 +46,7 @@ SetupParser.default_block = "NYUCLUSTER"
 CALIBRATION_SCENARIO = 'Baseline'
 
 # commonly modified calibration variables
-BASE_POPULATION_SCALE_FACTOR = 0.2 # 0.05  # For quick test simulations, this is set to a very low value
+BASE_POPULATION_SCALE_FACTOR = 0.1 # 0.05  # For quick test simulations, this is set to a very low value
 N_ITERATIONS = 25
 N_SAMPLES_PER_ITERATION = 83  # the number of distinct parameter sets to run per iteration
 N_REPLICATES = 3  # replicates > 1 helps OptimTool to be more stable at the cost of more simulations. 3 is recommended.

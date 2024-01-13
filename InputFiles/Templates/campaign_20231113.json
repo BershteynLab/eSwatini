@@ -12,10 +12,14 @@
                         "Positive_Diagnosis_Event": "Commercial_DelayFromDebutToUptake",
                         "Time_Value_Map": {
                             "Times": [
-                                1960
+                                1960,
+                                2004.9,
+                                2005
                             ],
                             "Values": [
-                                0.06
+                                0.06,
+                                0.06,
+                                0.03
                             ]
                         },
                         "class": "HIVPiecewiseByYearAndSexDiagnostic"
@@ -91,6 +95,35 @@
                         "Broadcast_Event": "Commercial_Dropout",
                         "Delay_Period_Distribution": "WEIBULL_DISTRIBUTION",
                         "Delay_Period_Kappa": 3.312,
+                        "Delay_Period_Lambda": 4430,
+                        "Event_Or_Config": "Event",
+                        "New_Property_Value": "",
+                        "class": "HIVDelayedIntervention"
+                    },
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Female",
+                    "Trigger_Condition_List": [
+                        "Commercial_Uptake"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV",
+                    "Duration":16060
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "Commercial Sex (Female): Delay to Dropout, before 2005",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1961,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "Commercial_Dropout",
+                        "Delay_Period_Distribution": "WEIBULL_DISTRIBUTION",
+                        "Delay_Period_Kappa": 3.312,
                         "Delay_Period_Lambda": 2215,
                         "Event_Or_Config": "Event",
                         "New_Property_Value": "",
@@ -105,11 +138,11 @@
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             },
-            "Event_Name": "Commercial Sex (Female): Delay to Dropout",
+            "Event_Name": "Commercial Sex (Female): Delay to Dropout, after 2005",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 1961,
+            "Start_Year": 2005,
             "class": "CampaignEventByYear"
         },
         {
