@@ -21,4 +21,4 @@
 
 # python optim_script.py
 
-python run_scenarios.py -c optim_script.py --resample-method roulette --nsamples 250 --output-dir test2_double_FSW_rate_2 --suite-name test2_double_FSW_rate_2 --table scenarios.csv --calib-dir Swaziland--0.05--rep3--test2
+python run_scenarios.py -c optim_script.py --resample-method roulette --nsamples 250 --output-dir test2_double_FSW_rate_3 --suite-name test2_double_FSW_rate_3 --table scenarios.csv --calib-dir Swaziland--0.05--rep3--test2

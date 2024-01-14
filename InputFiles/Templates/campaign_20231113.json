@@ -343,7 +343,7 @@
         },
         {
             "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0.075,
+                "Demographic_Coverage": 0.15,
                 "Demographic_Coverage__KP_Seeding": "<-- MARKER",
                 "Intervention_Config": {
                     "Event_Name": "Outbreak (not used)",
@@ -367,10 +367,10 @@
         },
         {
             "Event_Coordinator_Config": {
-                "   Property_Restrictions": [
-                    "Risk:HIGH"
+                "Property_Restrictions": [
+                    "Risk:MEDIUM"
                 ],
-                "Demographic_Coverage": 0,
+                "Demographic_Coverage": 0.075,
                 "Demographic_Coverage__KP_Seeding_Male_15_24": "<-- MARKER",
                 "Intervention_Config": {
                     "Event_Name": "Outbreak (not used)",
@@ -395,7 +395,7 @@
         },
         {
             "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0,
+                "Demographic_Coverage": 0.075,
                 "Demographic_Coverage__KP_Seeding_Female_15_24": "<-- MARKER",
                 "Intervention_Config": {
                     "Event_Name": "Outbreak (not used)",
@@ -404,7 +404,7 @@
                     "class": "OutbreakIndividual"
                 },
                 "Property_Restrictions": [
-                    "Risk:HIGH"
+                    "Risk:MEDIUM"
                 ],
                 "Target_Age_Max": 24,
                 "Target_Age_Min": 15,
