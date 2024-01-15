@@ -343,7 +343,7 @@
         },
         {
             "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0.15,
+                "Demographic_Coverage": 0.1,
                 "Demographic_Coverage__KP_Seeding": "<-- MARKER",
                 "Intervention_Config": {
                     "Event_Name": "Outbreak (not used)",
@@ -395,7 +395,7 @@
         },
         {
             "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0.075,
+                "Demographic_Coverage": 0.0,
                 "Demographic_Coverage__KP_Seeding_Female_15_24": "<-- MARKER",
                 "Intervention_Config": {
                     "Event_Name": "Outbreak (not used)",
