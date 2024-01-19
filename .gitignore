@@ -12,7 +12,7 @@ output/*
 
 .Rproj.user
 
-Analysis/**.pdf
+Analysis/*.pdf
 __pycache__
 __pycache__/*
 DownloadAnalyzerTPI_cache
