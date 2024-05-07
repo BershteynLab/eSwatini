@@ -124,12 +124,15 @@ ggplot() +
 ```
 
 ```{r}
-prev.20.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021),
+prev.15.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021),
                          Gender = c("Female", "Male"),
-                         prev = c(0.38861021, 0.282294676, 0.462308369, 0.274811025, 0.421160235, 0.26133829, 0.384828736, 0.195259228))
+                         prev = c(31.36998255, 19.54469739, 38.79583333, 24.3101129, 34.67579541, 19.87162343, 32.01485259, 16.34463925)/100,
+                         #prev = c(0.38861021, 0.282294676, 0.462308369, 0.274811025, 0.421160235, 0.26133829, 0.384828736, 0.195259228),
+                         lb = c(30.02809341, 18.26093783, 37.83139223,23.39183621, 33.35133936,18.60315482,31.85041561, 16.21699044)/100,
+                         ub = c(32.73564238, 20.87807258, 39.76691062, 25.2464012, 36.01828845,21.18736119, 32.17962673, 16.4728948)/100)
 
 data <- EMODAnalyzeR::calculate.prevalence(
-  sim.results %>% filter(Age >=20, Age < 50),
+  sim.results %>% filter(Age >=15, Age < 50),
          stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"),
          numerator = "Infected",
          denominator = "Population")
@@ -143,11 +146,15 @@ ggplot() +
     geom_line(data= prev.data.mean %>% filter(Year > 1995),
               aes(x=Year, y=Prevalence, group=scenario_name, color=Gender), linewidth=2, 
                show.legend = FALSE)+
-    geom_point(data = prev.20.49,
-               mapping = aes(x = Year, y = prev), 
+    geom_point(data = prev.15.49,
+               mapping = aes(x = Year, y = prev),
                 show.legend = FALSE,
                color = 'black', shape = 0,
                size = 2) +
+    geom_errorbar(data = prev.15.49,
+                  mapping = aes(x = Year, ymin = lb, ymax = ub),
+                  show.legend = FALSE,
+                  color = 'black', size = .5)+
     facet_wrap(~ Gender, ncol=2) +
     xlab("Year")+
     #xlim(c(date.start, date.end)) +
@@ -155,18 +162,21 @@ ggplot() +
     theme_bw(base_size=16) +
     guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
     scale_x_continuous(breaks = seq(1980,2050,10)) +
+    scale_y_continuous(breaks = seq(0,.40,.10), 
+                       limits = c(0,.45),
+                       labels = scales::percent_format(accuracy = 1)) +
     theme(legend.position="bottom") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme(strip.background = element_rect(colour="black", fill="white")) +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-    #scale_y_continuous(labels = scales::percent_format(accuracy = 1), breaks = seq(0,0.25,0.05), limits=c(0, 0.25)) +
-      ylab("HIV Prevalence (%)") + 
+    ylab("HIV Prevalence (%)") + 
     scale_color_manual(values=c("blue", "red")) 
 
 
 ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/prev_adults.pdf",
        width = 8, height = 4, units = "in")
 ```
+
 
 What year is the peak adult all ages prevalence?
 ```{r}
@@ -234,36 +244,42 @@ p <- data.mean %>%
              mapping = aes(x = AgeBin_index, y = Prevalence), 
              size = 3, color = 'black', shape = 0,
              show.legend = FALSE) +
-  # geom_errorbar(data = obs.prev.sheet.base,
-  #            mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub),
-  #            size = 1, color = 'black',
-  #            show.legend = FALSE) +
+  geom_errorbar(data = obs.prev.sheet.base,
+             mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub),
+             size = 1, color = 'black',
+             show.legend = FALSE) +
   # plot means
   geom_point(
     mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = Gender),
-    size=1,
+    size=2,
      show.legend = FALSE
   ) +
   geom_line(
     mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = Gender),
-    size=.25,
+    size=1,
     show.legend = FALSE,
     group = 1
   ) +
-  geom_errorbar(
-    mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=Gender),
-    width=.15, size=1,
-   show.legend = FALSE) +
+  # geom_errorbar(
+  #   mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=Gender),
+  #   width=.15, size=1,
+  #  show.legend = FALSE) +
   facet_grid(cols = vars(Gender), rows = vars(Year)) +
-  xlab("Age") +
-  ylab("Prevalence") +
+  #xlab("Age") +
+  #ylab("Prevalence") +
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_discrete(
     breaks = 1:length(age_labels),
-    labels = age_labels
+    labels = rep("",length(age_labels))
     ) +
-  theme(legend.position="bottom") +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
+  #theme(legend.position="bottom") + 
+  theme(legend.position="bottom",
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -777,14 +793,16 @@ mort.dat <- rbind(mort.all, hiv.mort)
 
 
 p <- ggplot() +  
-  geom_line(mort.dat, mapping = aes(x = Year, y = mort.rate, color = Gender), 
+  geom_line(mort.dat, mapping = aes(x = Year, y = mort.rate*100, color = Gender), 
             size = 2) + 
   facet_grid(cols = vars(Gender), rows = vars(row)) + 
   xlab("Year") +
-  ylab("Death Rate") +
+  ylab("Mortality Rate (%)") +
+  scale_x_continuous(breaks = c(2000, 2050, 5)) + 
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  theme(legend.position="bottom") +
+  #scale_y_continuous(labels = scales::percent_format(accuracy = 2)) + 
+  #theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -835,16 +853,19 @@ p <- Deaths.by.Age %>%
             show.legend = FALSE) + 
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = seq(2000,2040,5)) +
+  scale_x_continuous(breaks = seq(2000,2050,5)) +
   #scale_y_continuous(breaks = c(20,25,30,35)) + 
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  ylab("Mean Age of New Infections") + 
+  ylab("Mean Age of HIV-related Deaths") + 
   scale_color_manual(values = c("red", "blue"))
 
 p
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/mean_age_hiv_deaths.pdf",
+       width = 6, height = 4, units = "in")
 ```
 
 
@@ -871,7 +892,7 @@ data <- data %>% mutate(
 data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
 
 # Count HIV deaths
-cases.dat <- data %>% 
+deaths.dat <- data %>% 
   group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name, sim.ix) %>% 
   summarize(Died_from_HIV = sum(Died_from_HIV* pop.scaling.factor), .groups = 'keep') %>% 
   group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
@@ -883,11 +904,10 @@ cases.dat <- data %>%
                 lower = case_when(Died_from_HIV - 2 * sd.Died_from_HIV > 0 ~ Died_from_HIV - 2 * sd.Died_from_HIV,
                          Died_from_HIV - 2 * sd.Died_from_HIV <= 0 ~ 0)
                 )
-
 # Transform data
-cases.dat <- cases.dat %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+deaths.dat <- deaths.dat %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 
-p <- cases.dat %>%
+p <- deaths.dat %>%
   ggplot() +
   # plot means
   geom_point(
@@ -1011,44 +1031,43 @@ p
 
 ggsave(
   filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/incidence_all_1549.pdf",
-       width = 8, height = 6, units = "in")
+       width = 12, height = 6, units = "in")
 
 ```
 
 # Incidence by age
 ```{r}
-age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,100)
-subset_years = c(2007, 2011, 2016, 2021)
+age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
+subset_years = c(2007, 2007.5, 2011, 2011.5, 2016, 2016.5, 2021, 2021.5)
 
 # Subset data on years
 data <- sim.results %>% filter(Year %in% subset_years)
-
-# Calculate incidence
-data$Year_Integer <- floor((data$Year-0.5))
-# Aggregate number of new infections each year, broken down by Year_Integer and Gender
-trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+Age + sim.id+scenario_name, data=data,FUN=sum)
-#Make the denominator as HIV-negative individuals
-trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+Age + sim.id+scenario_name, data=data, FUN=sum)
-trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
-#remove second instance of duplicate rows
-trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","Age", "sim.id","scenario_name")]),]
-trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
-trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","Age", "sim.id","scenario_name"))
-trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
-data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
 
 # Age bins
 age_labels = c()
 for (i in 1:(length(age_bins) - 1)){
   age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
 }
-
 # Label each age by its bin
 data <- data %>% mutate(
   AgeBin = cut(Age, breaks = age_bins, right = FALSE)
   ) %>%
   filter(!is.na(AgeBin))
 data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+
+# Calculate incidence
+data$Year_Integer <- floor((data$Year-0.5))
+# Aggregate number of new infections each year, broken down by Year_Integer and Gender
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
 
 # Calculate mean prevalence across all sim runs
 data.mean <- data %>%
@@ -1065,22 +1084,22 @@ data.mean <- data %>%
 # Transform data
 data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 
-p <- data.mean %>%
+p <- data.mean %>% filter(Year %in% c(2007, 2011, 2016, 2021)) %>% 
   ggplot() +
   # plot means
   geom_point(
-    mapping = aes(x = AgeBin_index, y = mean.Incidence*100, color = Gender),
+    mapping = aes(x = AgeBin_index, y = mean.Incidence, color = Gender),
     size=2,
      show.legend = FALSE
   ) +
   geom_line(
-    mapping = aes(x = AgeBin_index, y = mean.Incidence*100, color = Gender),
+    mapping = aes(x = AgeBin_index, y = mean.Incidence, color = Gender),
     size=.25,
      show.legend = FALSE,
     group = 1
   ) +
   geom_errorbar(
-    mapping = aes(x=AgeBin_index, ymin=lower*100, ymax=upper*100, color=Gender),
+    mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=Gender),
     width=.15, size=1,
    show.legend = FALSE) +
   facet_grid(cols = vars(Gender), rows = vars(Year)) +
@@ -1090,9 +1109,17 @@ p <- data.mean %>%
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_discrete(
     breaks = 1:length(age_labels),
-    labels = age_labels
+    #labels = age_labels
+    labels = rep("", length(age_labels))
     ) +
-  theme(legend.position="bottom") +
+  scale_y_continuous(#breaks = seq(0,.4,.1),
+                       labels = scales::percent_format(accuracy = 1)) +
+  #theme(legend.position="bottom") +
+  theme(axis.title.x=element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y=element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -1110,20 +1137,25 @@ ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_
 ```{r}
 # SHIMS annual report on incidence, 2016
 inc.data <- data.table(
-  Year = rep(2016, 6),
+  Year = c(rep(2016, 6), rep(2021, 6)),
   Gender = c("Male","Male","Male", "Female", "Female", "Female"),
   AgeBin = c("[15,25)", "[25:35)","[35:50)", "[15,25)", "[25:35)","[35:50)"),
   AgeBin_index = c(1,2,3,1,2,3),
-  Incidence = c(.79, 1.5, .68, 1.87, 1.84, 2.4),
-  lb = c(.07, 0, 0 , .76, .17, .45),
-  ub = c( 1.5, 3.06, 1.85, 2.98, 3.48, 4.33)
+  Incidence = c(.79, 1.5, .68, 1.87, 1.84, 2.4, 
+                .17, .38, 0.77, 1.63, 1.90, .42),
+  lb = c(.07, 0, 0 , .76, .17, .45,
+         0,0,0, 0.43, 0.45, 0),
+  ub = c( 1.5, 3.06, 1.85, 2.98, 3.48, 4.33,
+          .5, 1.13, 1.54, 2.81, 3.33, 1.24)
 )
+
+
 ```
 
 
 ```{r}
 age_bins = c(15, 25, 35,50)
-subset_years = c(2016)
+subset_years = c(2016, 2016.5, 2021, 2021.5)
 
 # Subset data on years
 data <- sim.results %>% filter(Year %in% subset_years)
@@ -1168,7 +1200,9 @@ data.mean <- data %>%
       mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
       mean.Incidence - 2 * sd.Incidence <= 0 ~ 0)
     )  %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+```
 
+```{r}
 p <- data.mean %>% filter(Year == 2016) %>% 
   ggplot() +
   # plot means
@@ -1183,12 +1217,12 @@ p <- data.mean %>% filter(Year == 2016) %>%
    show.legend = FALSE) +
   # shims data 
   geom_point(
-    data = inc.data, 
+    data = inc.data %>% filter(Year == 2016), 
     mapping = aes(x = AgeBin_index, y = Incidence), 
     size = 3, shape = 0, color = 'black'
   ) + 
   geom_errorbar(
-    data = inc.data,
+    data = inc.data %>% filter(Year == 2016),
     mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub),
     color = 'black'
   ) + 
@@ -1199,9 +1233,17 @@ p <- data.mean %>% filter(Year == 2016) %>%
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_discrete(
     breaks = 1:length(age_labels),
-    labels = age_labels
+    #labels = age_labels
+    labels = rep("", length(age_labels))
     ) +
-  theme(legend.position="bottom") +
+  ylim(0,4.5) + 
+  theme(legend.position="bottom",
+        axis.title.x =element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y =element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
@@ -1209,10 +1251,82 @@ p <- data.mean %>% filter(Year == 2016) %>%
   
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2.pdf",
-       width = 6, height = 4, units = "in")
-
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2016.pdf",
+       width = 8, height = 4, units = "in")
 ```
+
+
+And again for 2021
+```{r}
+p <- data.mean %>% filter(Year == 2021) %>% 
+  ggplot() +
+  # plot means
+  geom_point(
+    mapping = aes(x = AgeBin_index, y = mean.Incidence*100, color = Gender),
+    size=2,
+     show.legend = FALSE
+  ) +
+  geom_errorbar(
+    mapping = aes(x=AgeBin_index, ymin=lower*100, ymax=upper*100, color=Gender),
+    width=.15, size=1,
+   show.legend = FALSE) +
+  # shims data 
+  geom_point(
+    data = inc.data %>% filter(Year == 2021), 
+    mapping = aes(x = AgeBin_index, y = Incidence), 
+    size = 3, shape = 0, color = 'black'
+  ) + 
+  geom_errorbar(
+    data = inc.data %>% filter(Year == 2021),
+    mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub),
+    color = 'black'
+  ) + 
+  facet_grid(cols = vars(Gender), rows = vars(Year)) +
+  xlab("Age") +
+  ylab("Incidence (%)") +
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_discrete(
+    breaks = 1:length(age_labels),
+    #labels = age_labels
+    labels = rep("", length(age_labels))
+    ) +
+  theme(legend.position="bottom",
+        axis.title.x =element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y =element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_color_manual(values=c("blue", "red"))  +
+  scale_x_discrete(
+    breaks = 1:length(age_labels),
+    #labels = age_labels
+    labels = rep("", length(age_labels))
+    ) +
+  ylim(0,4.5) +
+  theme(legend.position="bottom",
+        axis.title.x =element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.y =element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank()) +
+  scale_color_manual(values=c("blue", "red"))
+
+p
+
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2021.pdf",
+       width = 8, height = 4, units = "in")
+```
+
 
 # New Cases by Age
 
@@ -1272,15 +1386,21 @@ p <- cases.dat %>%
     width=.15, size=1,
    show.legend = FALSE) +
   facet_grid(cols = vars(Gender), rows = vars(Year)) +
-  xlab("Age") +
-  ylab("New HIV Cases") +
+  #xlab("Age") +
+  #ylab("New HIV Cases") +
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_discrete(
     breaks = 1:length(age_labels),
-    labels = age_labels
+    #labels = age_labels
+    labels = rep("", length(age_labels))
     ) +
-  theme(legend.position="bottom") +
+  #theme(legend.position="bottom") +
+  theme(axis.title.x =element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y =element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
