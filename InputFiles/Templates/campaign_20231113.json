@@ -422,60 +422,6 @@
             "class": "CampaignEventByYear"
         },
         {
-            "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0,
-                "Demographic_Coverage__KP_Seeding_25_49": "<-- MARKER",
-                "Intervention_Config": {
-                    "Event_Name": "Outbreak (not used)",
-                    "Incubation_Period_Override": 1,
-                    "Outbreak_Source": "PrevalenceIncrease",
-                    "class": "OutbreakIndividual"
-                },
-                "Property_Restrictions": [
-                    "Risk:HIGH"
-                ],
-                "Target_Age_Max": 49,
-                "Target_Age_Min": 25,
-                "Target_Demographic": "ExplicitAgeRanges",
-                "Travel_Linked": 0,
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "Epidemic seeding for 25-49",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1985,
-            "Start_Year__KP_Seeding_Year_25_49": "<-- MARKER",
-            "class": "CampaignEventByYear"
-        },
-        {
-            "Event_Coordinator_Config": {
-                "Demographic_Coverage": 0,
-                "Demographic_Coverage__KP_Seeding_50_65": "<-- MARKER",
-                "Intervention_Config": {
-                    "Event_Name": "Outbreak (not used)",
-                    "Incubation_Period_Override": 1,
-                    "Outbreak_Source": "PrevalenceIncrease",
-                    "class": "OutbreakIndividual"
-                },
-                "Property_Restrictions": [
-                    "Risk:HIGH"
-                ],
-                "Target_Age_Max": 65,
-                "Target_Age_Min": 50,
-                "Target_Demographic": "ExplicitAgeRanges",
-                "Travel_Linked": 0,
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "Epidemic seeding for 50-65",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1985,
-            "Start_Year__KP_Seeding_Year_50_65": "<-- MARKER",
-            "class": "CampaignEventByYear"
-        },
-        {
             "BEGIN": "STI CO-INFECTION",
             "Event_Coordinator_Config": {
                 "Demographic_Coverage": 0.3,
