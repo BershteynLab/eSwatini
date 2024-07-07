@@ -12,8 +12,19 @@
     * Meanwhile, national census of SWZ estimates 1,093,238 in 2017, while UN WPP estimates 1,125,000 in that same year.
 * *ART Prevalence Data*
     * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference tracker called "UTT scale-up ART"
+    * ART is distributed in a piecewise fashion, using SHIMS (2011, 2016, 2021) data to inform ART coverage by age and sex
     * *ART Availability*
 * *Circumcision distribution*
+
+## Major Updates
+
+### 2024-07-07
+
+Updated ART coverage distribution to match SHIMS data.
+
+### 2024-01-19
+
+Completed test3_swz2024 - these results were presented at eSwatini meetings in January 2024.
 
 ## Notes from Clark, c. 2023-09-26
 
