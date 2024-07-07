@@ -2360,6 +2360,15 @@
             }
         },
         {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 25-34",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2400,16 +2409,7 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 25-34",
-            "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class": "NodeSetNodeList"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "Event_Name": "Swaziland UTT scale-up, Male ages 35-44",
@@ -2472,7 +2472,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
-            "End_Year": 2015,
+            "Duration":9125,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -2515,6 +2515,15 @@
             }
         },
         {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 45-55",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 2015,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2543,8 +2552,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 45-55",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 55-65",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2552,9 +2563,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 2015,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2583,8 +2592,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 55-65",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Male ages 65+",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2592,9 +2603,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 2015,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2623,18 +2632,18 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Male ages 65+",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 15-24",
             "Nodeset_Config": {
                 "Node_List": [
                     1
                 ],
                 "class": "NodeSetNodeList"
             },
-            "Start_Year": 2015,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2675,8 +2684,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 15-24",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 25-34",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2684,9 +2695,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2727,8 +2736,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 25-34",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 35-44",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2736,9 +2747,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2779,8 +2788,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 35-44",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 45+",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2788,9 +2799,8 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "Duration":9125,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2829,19 +2839,18 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 45+",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 45-55",
             "Nodeset_Config": {
                 "Node_List": [
                     1
                 ],
                 "class": "NodeSetNodeList"
             },
-            "Start_Year": 1990,
-            "End_Year": 2015,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "Start_Year": 2015,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2870,8 +2879,10 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 45-55",
+            }
+        },
+        {
+            "Event_Name": "Swaziland UTT scale-up, Female ages 55-65",
             "Nodeset_Config": {
                 "Node_List": [
                     1
@@ -2879,9 +2890,7 @@
                 "class": "NodeSetNodeList"
             },
             "Start_Year": 2015,
-            "class": "CampaignEventByYear"
-        },
-        {
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Broadcast_Event": "OnART0",
@@ -2910,16 +2919,7 @@
                 },
                 "Update_Period": 182.5,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
-            },
-            "Event_Name": "Swaziland UTT scale-up, Female ages 55-65",
-            "Nodeset_Config": {
-                "Node_List": [
-                    1
-                ],
-                "class": "NodeSetNodeList"
-            },
-            "Start_Year": 2015,
-            "class": "CampaignEventByYear"
+            }
         },
         {
             "EMD":"UTT scale-up ART",

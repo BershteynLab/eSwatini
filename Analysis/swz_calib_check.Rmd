@@ -13,7 +13,6 @@ The purpose of this notebook is to compare the Swaziland model output against th
 
 ```{r Load Libraries, echo = FALSE}
 library(tidyverse)
-library(tidyr)
 library(data.table)
 library(magrittr)
 library(ggplot2)
@@ -31,8 +30,15 @@ SWZ_CENSUS_POP = 1148000 # UN WPP 2019, according to SWZ national census 2017 10
 ## Import data
 
 ```{r, echo=FALSE}
+
+# Test version 4
+# results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test4/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender"
+
+# Test version 3
+results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test3_swz2024/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/"
+
 sim.results <- EMODAnalyzeR::read.simulation.results(
-  results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test3_swz2024/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender",
+  results_path = results_path,
   scenario_name = 'baseline',
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
@@ -41,7 +47,6 @@ sim.results <- EMODAnalyzeR::read.simulation.results(
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
-
 
 sim.results.pop.scaling <- sim.results %>% 
       filter(Year == CENSUS_YEAR) %>%
@@ -84,7 +89,7 @@ calib.targets.prev.all <- data.table(Year = c(2006, 2006, 2016, 2016),
 
 obs.prev.sheet.base %>% head
 ```
-
+## Prevalence adults 15-49
 ```{r, fig.width=8}
 data <- EMODAnalyzeR::calculate.prevalence(
   sim.results %>% filter(Age >=15, Age < 50),
@@ -173,8 +178,8 @@ ggplot() +
     scale_color_manual(values=c("blue", "red")) 
 
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/prev_adults.pdf",
-       width = 8, height = 4, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/prev_adults.pdf",
+#       width = 8, height = 4, units = "in")
 ```
 
 
@@ -287,20 +292,31 @@ p <- data.mean %>%
   
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_prev.pdf",
-       width = 12, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_prev.pdf",
+#        width = 12, height = 6, units = "in")
 ```
 
-```{r}
+```{r, fig.width=10, fig.height=10}
 ggplot() +
   geom_point(data = obs.prev.sheet.base,
-             mapping = aes(x = AgeBin_index, y = Prevalence, color = Gender), 
+             mapping = aes(x = AgeBin_index, y = Prevalence), color = 'black', 
              size = 3, shape = 0,
              show.legend = FALSE) +
   geom_errorbar(data = obs.prev.sheet.base,
-             mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub, color = Gender),
+             mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub), color = 'black',
              size = 1.5,
              show.legend = FALSE) +
+  # plot means
+  geom_point(
+    data = data.mean,
+    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = Gender),
+    size=2,
+     show.legend = FALSE
+  ) +
+  geom_errorbar(
+    data = data.mean,
+    mapping = aes(x = AgeBin_index, ymin = lower, ymax = upper, color = Gender)
+  ) + 
   facet_grid(cols = vars(Gender), rows = vars(Year)) +
   xlab("Age") +
   ylab("Prevalence") +
@@ -316,8 +332,8 @@ ggplot() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   scale_color_manual(values=c("blue", "red"))
 
-# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_prev_data.pdf",
-#        width = 12, height = 8, units = "in")
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_prev_data_v4.pdf",
+       width = 12, height = 8, units = "in")
 ```
 
 
@@ -327,11 +343,11 @@ Method here is counting number of infected people in each age group:
 ```{r}
 
 # These are the means that kasturi calculated
-mean.age.plhiv.dat <- data.table(Year = c(2006, 2011, 2016), 
-          Gender = c("Male", "Male", "Male", "Female", "Female", "Female"),
-          mean.age.plhiv = c(32.83, 37.26,39.88, 29.10, 30.41, 35.80),
-          mean.age.plhiv.1549 = c(33.05, 36.86, 35.89, 29.24, 30.2, 32.98),
-          mean.age.plhiv.all = c(33.05, 36.85, 41.25, 29.24, 30.2, 36.92))
+mean.age.plhiv.dat <- data.table(Year = c(2006, 2011, 2016, 2021), 
+          Gender = c("Male", "Male", "Male", "Male", "Female", "Female", "Female", "Female"),
+          #mean.age.plhiv = c(32.83, 37.26,39.88, 29.10, 30.41, 35.80),
+          #mean.age.plhiv.all = c(33.05, 36.85, 41.25, 29.24, 30.2, 36.92),
+          mean.age.plhiv.1549 = c(33.06, 36.86, 35.89, 37.63, 29.24, 30.2, 32.98, 34.42))
 
 
 Infected.by.age = sim.results %>% 
@@ -382,7 +398,7 @@ p <- Infected.by.age %>%
   filter(Year >= 2000) %>% 
   mutate(Gender = factor(Gender, labels = c("Male", "Female")))  %>%
   ggplot() + 
-  geom_line(mapping = aes(x = Year, y = prod, color = Gender), size = 2, show.legend = FALSE) + 
+  geom_line(mapping = aes(x = Year, y = prod, color = Gender), size = 2, show.legend = TRUE) + 
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
   scale_x_continuous(breaks = seq(2000,2050,5)) +
@@ -397,8 +413,8 @@ p <- Infected.by.age %>%
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_mean_age_1549_long.pdf",
-       width = 6, height = 4, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_mean_age_1549_long.pdf",
+#        width = 6, height = 4, units = "in")
 
 p +
   geom_point(data = mean.age.plhiv.dat,
@@ -406,7 +422,7 @@ p +
              shape = 0, size = 3,
              show.legend = FALSE)
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_mean_age_1549_compare.pdf",
+ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_mean_age_1549_compare_v3.pdf",
        width = 6, height = 4, units = "in")
 
 ```
@@ -557,10 +573,10 @@ p <- plhiv.frac %>%
   
 p
 
-ggsave(
-  filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_plhiv_age_dist.pdf",
-  width = 12, height = 6, units = "in"
-  )
+# ggsave(
+#   filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_plhiv_age_dist.pdf",
+#   width = 12, height = 6, units = "in"
+#   )
 
 ```
 
@@ -669,9 +685,9 @@ p <- pop.data %>%
   
 p
 
-ggsave(
-  filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/pop_by_age.pdf",
-       width = 10, height = 8, units = "in")
+# ggsave(
+#   filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/pop_by_age.pdf",
+#        width = 10, height = 8, units = "in")
 
 ```
 
@@ -1029,9 +1045,9 @@ p <- data.mean %>%
   
 p
 
-ggsave(
-  filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/incidence_all_1549.pdf",
-       width = 12, height = 6, units = "in")
+# ggsave(
+#   filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/incidence_all_1549.pdf",
+#        width = 12, height = 6, units = "in")
 
 ```
 
@@ -1127,8 +1143,8 @@ p <- data.mean %>% filter(Year %in% c(2007, 2011, 2016, 2021)) %>%
   
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence.pdf",
-       width = 12, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence.pdf",
+#        width = 12, height = 6, units = "in")
 
 ```
 
@@ -1251,8 +1267,8 @@ p <- data.mean %>% filter(Year == 2016) %>%
   
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2016.pdf",
-       width = 8, height = 4, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2016.pdf",
+#        width = 8, height = 4, units = "in")
 ```
 
 
@@ -1323,8 +1339,8 @@ p <- data.mean %>% filter(Year == 2021) %>%
 
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2021.pdf",
-       width = 8, height = 4, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2021.pdf",
+#        width = 8, height = 4, units = "in")
 ```
 
 
@@ -1408,10 +1424,80 @@ p <- cases.dat %>%
   
 p
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_newcases.pdf",
-       width = 12, height = 6, units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_newcases.pdf",
+#        width = 12, height = 6, units = "in")
 
 ```
+
+### New Cases by Age over Time
+
+New plot: going to show number of new cases over time for age cohorts starting in 1980.
+* Children 10-15
+* Men and women 15-20
+* Men and women 20-25
+* Men and women 25-30
+
+```{r}
+sim.results.age <- sim.results %>% 
+  merge(
+    data.frame(
+      Year = seq(1980, 2020,5),
+      bracket1 = seq(10,10 + 40,5),
+      bracket2 = seq(15,15 + 40, 5),
+      bracket3 = seq(20, 20+ 40, 5),
+      bracket4 = seq(25, 25+ 40, 5),
+      bracket5 = seq(30, 30 + 40, 5)
+    ),
+    by = c("Year")
+  )
+
+# filter down between brackets 1 and 2
+```
+
+```{r}
+sim.results.age  %>% 
+  filter(Age >= bracket1, Age < bracket2) %>% 
+  group_by(Year, Gender, Age, scenario_name, sim.ix) %>% 
+  summarize(Population = sum(Population * pop.scaling.factor),
+            Infected = sum(Infected * pop.scaling.factor),
+            Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor)) %>%
+  group_by(Year, Gender, Age, scenario_name) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected),
+            Newly.Infected = mean(Newly.Infected),
+            Died_from_HIV = mean(Died_from_HIV)) %>% 
+  ungroup() %>% 
+  mutate(inc.rate = Newly.Infected/Population,
+         mort.rate = Died_from_HIV/Infected) %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected), color = 'green') + 
+  geom_line(mapping = aes(x = Year, y = Died_from_HIV), color = 'red') + 
+  facet_grid(cols = vars(Gender))
+```
+
+```{r}
+sim.results.age  %>% 
+  filter(Age >= bracket2, Age < bracket3) %>% 
+  group_by(Year, Gender, Age, scenario_name, sim.ix) %>% 
+  summarize(Population = sum(Population * pop.scaling.factor),
+            Infected = sum(Infected * pop.scaling.factor),
+            Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor)) %>%
+  group_by(Year, Gender, Age, scenario_name) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected),
+            Newly.Infected = mean(Newly.Infected),
+            Died_from_HIV = mean(Died_from_HIV)) %>% 
+  ungroup() %>% 
+  mutate(inc.rate = Newly.Infected/Population,
+         mort.rate = Died_from_HIV/Infected) %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected), color = 'green') + 
+  geom_line(mapping = aes(x = Year, y = Died_from_HIV), color = 'red') + 
+  facet_grid(cols = vars(Gender))
+```
+
 
 
 ## Mean age of new infected
@@ -1461,9 +1547,9 @@ p <- NewCases.by.Age %>%
   scale_color_manual(values = c("red", "blue"))
 
 p
-
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/mean_age_new_infections.pdf",
-       width = 6, height = 4, units = "in")
+# 
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/mean_age_new_infections.pdf",
+#        width = 6, height = 4, units = "in")
 
 ```
 
@@ -1680,6 +1766,7 @@ ggplot() +
   geom_line(mapping = aes(x = Year, y = Population, color = `IP_Key.Risk`)) +
   facet_grid(cols = vars(Gender))
 ```
+
 ```{r}
 sim.results %>% 
   group_by(Year, Gender, `IP_Key.Risk`, sim.ix) %>% 
@@ -1729,3 +1816,57 @@ h2 %>% group_by(Year, Gender, `IP_Key:Risk`) %>%
   filter(Year == 2015)
 ```
 
+# Aggregate for Kasturi
+
+Provide a table stratified by year, gender, age (single years), ART status
+
+```{r}
+# Test version 3
+results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test3_swz2024/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/"
+
+sim.results.v3 <- EMODAnalyzeR::read.simulation.results(
+  results_path = results_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.v3 %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
+
+sim.results.v3 <- sim.results.v3 %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+```{r}
+sim.results.v3.agg <- sim.results.v3 %>% 
+  mutate(Year = floor(Year)) %>% 
+  group_by(Year, Gender, Age, sim.ix) %>% 
+  summarize(Population = sum(Population * pop.scaling.factor),
+            Infected = sum(Infected * pop.scaling.factor),
+            On_ART = sum(On_ART * pop.scaling.factor),
+            Died = sum(Died * pop.scaling.factor),
+            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor),
+            Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+            Diagnosed = sum(Diagnosed * pop.scaling.factor)) %>% 
+  group_by(Year, Gender, Age) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected),
+            On_ART = mean(On_ART),
+            Died = mean(Died),
+            Died_from_HIV = mean(Died_from_HIV),
+            Newly.Infected = mean(Newly.Infected),
+            Diagnosed = mean(Diagnosed))
+
+sim.results.v3.agg %>% write_csv("SWZ_simulation_results_v3_aggregated_for_Kasturi.csv")
+```
