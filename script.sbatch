@@ -6,8 +6,8 @@
 
 #SBATCH --cpus-per-task=1
 
-#SBATCH --time=48:00:00
-#SBATCH --partition=cpu_short
+#SBATCH --time=02-00:00:00
+#SBATCH --partition=cpu_medium
 #SBATCH --mem=8GB
 
 #SBATCH --job-name=SWZ_EMOD
