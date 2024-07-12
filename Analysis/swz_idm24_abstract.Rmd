@@ -1,0 +1,600 @@
+---
+title: "swz_idm24_abstract"
+output: html_document
+date: "2024-05-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The purpose of this notebook is to compare the Swaziland model output against the calibration targets
+
+```{r Load Libraries, echo = FALSE}
+library(tidyverse)
+library(data.table)
+library(magrittr)
+library(ggplot2)
+library(devtools)
+library(readxl)
+library(spatstat)
+#devtools::install_github("BershteynLab/EMODAnalyzeR")
+```
+
+```{r}
+CENSUS_YEAR = 2017
+SWZ_CENSUS_POP = 1148000 # UN WPP 2019, according to SWZ national census 2017 1093238
+```
+## Import data
+
+```{r, echo=FALSE}
+
+# Test version 4
+#results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test4/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender"
+
+# Test version 3
+#results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test3_swz2024/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/"
+
+# Version 3, but with updated
+results_path = 
+
+sim.results <- EMODAnalyzeR::read.simulation.results(
+  results_path = results_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age", "IP_Key.Risk"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
+
+sim.results <- sim.results %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+
+```
+
+# Prevalence
+
+```{r, echo=FALSE}
+ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Data/calibration_ingest_form-Swaziland_ART_vars--UPDATED--2023-07.xlsm"
+
+obs.prev.sheet.base <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
+obs.prev.sheet.base <- obs.prev.sheet.base %>% filter(!is.na(AgeBin))
+
+# DHS data for adults 15-50
+# 2006
+# Female: 31.1 [29.3, 32.9]
+# Male: 19.7 [17.9, 21.5]
+
+# PHIA data for adults 15 +
+# 2016
+# Female: 32.5 [31,34]
+# Male: 20.4 [18.9, 21.9]
+
+# Note the differences in age brackets. Depending on whether we look at Adults 15-50 or Adults 15+ we will match one or the ohter dataset but not both.
+calib.targets.prev.all <- data.table(Year = c(2006, 2006, 2016, 2016),
+                                     Gender = c("Male", "Female", "Male", "Female"),
+                                     prev = c(19.7, 31.1, 20.4, 32.5),
+                                     lb = c(17.9, 29.3, 18.9, 31),
+                                     ub = c(21.5, 32.9, 21.9, 34))
+
+obs.prev.sheet.base %>% head
+```
+
+
+```{r}
+prev.15.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021),
+                         Gender = c("Female", "Male"),
+                         prev = c(31.36998255, 19.54469739, 38.79583333, 24.3101129, 34.67579541, 19.87162343, 32.01485259, 16.34463925)/100,
+                         #prev = c(0.38861021, 0.282294676, 0.462308369, 0.274811025, 0.421160235, 0.26133829, 0.384828736, 0.195259228),
+                         lb = c(30.02809341, 18.26093783, 37.83139223,23.39183621, 33.35133936,18.60315482,31.85041561, 16.21699044)/100,
+                         ub = c(32.73564238, 20.87807258, 39.76691062, 25.2464012, 36.01828845,21.18736119, 32.17962673, 16.4728948)/100)
+
+data <- EMODAnalyzeR::calculate.prevalence(
+  sim.results %>% filter(Age >=15, Age < 50),
+         stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"),
+         numerator = "Infected",
+         denominator = "Population")
+
+prev.data.mean <- data %>%
+    dplyr::group_by(Year, Gender, scenario_name) %>%
+    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep') %>% 
+  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+ggplot() +
+    geom_line(data= prev.data.mean %>% filter(Year > 1995),
+              aes(x=Year, y=Prevalence, group=scenario_name, color=Gender), linewidth=2, 
+               show.legend = FALSE)+
+    geom_point(data = prev.15.49,
+               mapping = aes(x = Year, y = prev),
+                show.legend = FALSE,
+               color = 'black', shape = 0,
+               size = 2) +
+    geom_errorbar(data = prev.15.49,
+                  mapping = aes(x = Year, ymin = lb, ymax = ub),
+                  show.legend = FALSE,
+                  color = 'black', size = .5)+
+    facet_wrap(~ Gender, ncol=2) +
+    xlab("Year")+
+    #xlim(c(date.start, date.end)) +
+    ylab("Prevalence") +
+    theme_bw(base_size=16) +
+    guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+    scale_x_continuous(breaks = seq(1980,2050,10)) +
+    scale_y_continuous(breaks = seq(0,.40,.10), 
+                       limits = c(0,.45),
+                       labels = scales::percent_format(accuracy = 1)) +
+    theme(legend.position="bottom") +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme(strip.background = element_rect(colour="black", fill="white")) +
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+    ylab("HIV Prevalence (%)") + 
+    scale_color_manual(values=c("blue", "red")) 
+
+
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/prev_adults.pdf",
+#       width = 8, height = 4, units = "in")
+```
+
+# Analysis
+
+## Reductions in prevalence
+```{r}
+
+data <- EMODAnalyzeR::calculate.prevalence(
+  sim.results %>% filter(Age >=15, Age < 100),
+         stratify_columns = c("Year", "sim.id", "scenario_name"),
+         numerator = "Infected",
+         denominator = "Population")
+
+prev.data.mean <- data %>%
+    dplyr::group_by(Year, scenario_name) %>%
+    dplyr::summarise(Prevalence = mean(Prevalence), .groups = 'keep')
+
+prev.data.mean %>% filter(Year %in% c(2004, 2024))
+```
+
+## Reductions in incidence
+
+
+```{r}
+# 2011 SHIMS
+# <https://www-ncbi-nlm-nih-gov.ezproxy.med.nyu.edu/pmc/articles/PMC5291824/>
+# 2016
+# <https://phia.icap.columbia.edu/wp-content/uploads/2019/05/SHIMS2_Final-Report_05.03.2019_forWEB.pdf>
+# 2021
+# <https://phia.icap.columbia.edu/wp-content/uploads/2023/12/241123_SHIMS_ENG_RR3_Final-1.pdf>
+# Ages 15-49
+incidence.data <- data.table(Year = c(2011, 2011, 2016, 2016, 2021, 2021),
+                                     Gender = c("Male", "Female"),
+                                     inc = c(1.7,3.1,.99, 1.99, .2, 1.45),
+                                     lb = c(1.3, 2.6, .032, 1.09, 0, 0.69 ),
+                                     ub = c(2.1,3.7, 1.66, 2.88, .48, 2.2))
+```
+
+Incidence ages 15-49?
+```{r}
+data <- sim.results %>% filter(Age >= 15, Age < 50)
+
+# Calculate incidence
+data$Year_Integer <- floor((data$Year-0.5))
+# Aggregate number of new infections each year, broken down by Year_Integer and Gender
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender + sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender + sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender", "sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+# Calculate mean incidence across all sim runs
+data.mean <- data %>%
+  dplyr::group_by(Year, Gender, scenario_name) %>%
+  dplyr::summarize(mean.Incidence = mean(incidence),
+                  sd.Incidence = sd(incidence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(upper = mean.Incidence + 2*sd.Incidence,
+                lower = case_when(mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+                         mean.Incidence - 2 * sd.Incidence <= 0 ~ 0)
+                )
+
+# Transform data
+data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+p <- data.mean %>%
+  ggplot() +
+  # plot means
+  geom_point(
+    mapping = aes(x = Year, y = mean.Incidence*100, color = Gender),
+    size=2,
+     show.legend = FALSE
+  ) +
+  geom_errorbar(
+    mapping = aes(x=Year, ymin=lower*100, ymax=upper*100, color=Gender),
+    width=.15, size=1,
+   show.legend = FALSE) +
+  geom_point(data = incidence.data, 
+             mapping = aes(x = Year, y = inc), color = 'black') + 
+  geom_errorbar(data = incidence.data, 
+    mapping = aes(x = Year, ymin = lb, ymax = ub), color = 'black') + 
+  facet_grid(cols = vars(Gender)) +
+  xlab("Age") +
+  ylab("Incidence (%)") +
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_continuous(breaks = c(1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025),
+                     limits = c(1975, 2025)) +
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_color_manual(values=c("blue", "red"))
+  
+p
+
+# ggsave(
+#   filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/incidence_all_1549.pdf",
+#        width = 12, height = 6, units = "in")
+
+```
+```{r}
+data.mean %>% filter(Year > 2000) %>% arrange(Gender, Year)
+
+# Peak incidence is 2005 for women
+# Peak incidence is 2004 for men
+```
+
+# Prevalence by age
+
+Estimating the peak 
+
+```{r, fig.width=10, fig.height=10}
+age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
+subset_years = c(2007, 2011, 2016, 2021)
+
+# Subset data on years
+data <- sim.results %>% filter(Year %in% subset_years)
+
+# Age bins
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+data <- data %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+
+# Calculate prevalence, grouping by age bin
+data.prev <- data %>% EMODAnalyzeR::calculate.prevalence(
+  stratify_columns = c("Year", "AgeBin_index", "AgeBin", "Gender", "scenario_name", "sim.id"),
+  numerator = "Infected",
+  denominator = "Population")
+
+# Calculate mean prevalence across all sim runs
+data.mean <- data.prev %>%
+  dplyr::group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>%
+  dplyr::summarize(mean.Prevalence = mean(Prevalence),
+            sd.Prevalence = sd(Prevalence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(upper = mean.Prevalence + 2*sd.Prevalence,
+                lower = case_when(mean.Prevalence - 2 * sd.Prevalence > 0 ~ mean.Prevalence - 2 * sd.Prevalence,
+                         mean.Prevalence - 2 * sd.Prevalence <= 0 ~ 0)
+                )
+
+# Transform data
+data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+# Reformat the prevalence data:
+obs.prev.sheet.base <- obs.prev.sheet.base %>% 
+  mutate(AgeBin_index = factor(obs.prev.sheet.base$AgeBin,labels = 1:length(age_labels)))
+
+p <- data.mean %>%
+  ggplot() +
+  geom_point(data = obs.prev.sheet.base,
+             mapping = aes(x = AgeBin_index, y = Prevalence), 
+             size = 3, color = 'black', shape = 0,
+             show.legend = FALSE) +
+  geom_errorbar(data = obs.prev.sheet.base,
+             mapping = aes(x = AgeBin_index, ymin = lb, ymax = ub),
+             size = 1, color = 'black',
+             show.legend = FALSE) +
+  # plot means
+  geom_point(
+    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = Gender),
+    size=2,
+     show.legend = FALSE
+  ) +
+  geom_line(
+    mapping = aes(x = AgeBin_index, y = mean.Prevalence, color = Gender),
+    size=1,
+    show.legend = FALSE,
+    group = 1
+  ) +
+  # geom_errorbar(
+  #   mapping = aes(x=AgeBin_index, ymin=lower, ymax=upper, color=Gender),
+  #   width=.15, size=1,
+  #  show.legend = FALSE) +
+  facet_grid(cols = vars(Gender), rows = vars(Year)) +
+  #xlab("Age") +
+  #ylab("Prevalence") +
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_discrete(
+    breaks = 1:length(age_labels),
+    labels = rep("",length(age_labels))
+    ) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) + 
+  #theme(legend.position="bottom") + 
+  theme(legend.position="bottom",
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        strip.text.x = element_blank(),
+        strip.text.y = element_blank()) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  scale_color_manual(values=c("blue", "red"))
+  
+p
+
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_age_prev.pdf",
+#        width = 12, height = 6, units = "in")
+```
+
+## Mean age of PLHIV
+
+```{r}
+Infected.by.age = sim.results %>% 
+  filter(Age >= 15, Age < 50 ) %>% 
+  group_by(Year, Gender, Age, scenario_name, sim.ix) %>% 
+  summarize(Infected = sum(Infected), .groups = 'keep') %>% 
+  group_by(Year, Gender, Age, scenario_name) %>% 
+  summarize(Infected = mean(Infected), .groups = 'keep') %>% 
+  ungroup()
+
+
+Infected.by.age <- Infected.by.age %>% 
+  merge(
+    Infected.by.age %>% 
+      group_by(Year, Gender, scenario_name) %>% 
+      summarize(Infected.total = sum(Infected)),
+    by = c("Year", "Gender", "scenario_name")
+) %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ Age * Infected,
+                          Infected.total == 0 ~ 0)
+         ) %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(mean.age = sum(prod), Infected.total = mean(Infected.total)) %>% 
+  ungroup() %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ mean.age/Infected.total,
+                          Infected.total == 0 ~ 0)
+       ) %>% 
+  arrange(Gender, Year)
+
+p <- Infected.by.age %>% 
+  filter(Year >= 2000) %>% 
+  mutate(Gender = factor(Gender, labels = c("Male", "Female")))  %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = prod, color = Gender), size = 2, show.legend = TRUE) + 
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_continuous(breaks = seq(2000,2050,5)) +
+  #scale_y_continuous(breaks = c(20,25,30,35)) + 
+  #ylim(25,40) + 
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  ylab("Mean Age of PLHIV (15-49)") + 
+  scale_color_manual(values = c("red", "blue"))
+
+p
+
+```
+
+```{r}
+Infected.by.age = sim.results %>% 
+  filter(Age >= 15, Age < 100 ) %>% 
+  group_by(Year, Gender, Age, scenario_name, sim.ix) %>% 
+  summarize(Infected = sum(Infected), .groups = 'keep') %>% 
+  group_by(Year, Gender, Age, scenario_name) %>% 
+  summarize(Infected = mean(Infected), .groups = 'keep') %>% 
+  ungroup()
+
+
+Infected.by.age <- Infected.by.age %>% 
+  merge(
+    Infected.by.age %>% 
+      group_by(Year, Gender, scenario_name) %>% 
+      summarize(Infected.total = sum(Infected)),
+    by = c("Year", "Gender", "scenario_name")
+) %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ Age * Infected,
+                          Infected.total == 0 ~ 0)
+         ) %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(mean.age = sum(prod), Infected.total = mean(Infected.total)) %>% 
+  ungroup() %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ mean.age/Infected.total,
+                          Infected.total == 0 ~ 0)
+       ) %>% 
+  arrange(Gender, Year)
+
+p <- Infected.by.age %>% 
+  filter(Year >= 2000) %>% 
+  mutate(Gender = factor(Gender, labels = c("Male", "Female")))  %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = prod, color = Gender), size = 2, show.legend = TRUE) + 
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_continuous(breaks = seq(2000,2050,5)) +
+  #scale_y_continuous(breaks = c(20,25,30,35)) + 
+  #ylim(25,40) + 
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  ylab("Mean Age of PLHIV (15-49)") + 
+  scale_color_manual(values = c("red", "blue"))
+
+p
+```
+
+
+```{r}
+
+Infected.by.age = sim.results %>% 
+  filter(Age >= 15, Age < 100 ) %>% 
+  group_by(Year, Age, scenario_name, sim.ix) %>% 
+  summarize(Infected = sum(Infected), .groups = 'keep') %>% 
+  group_by(Year, Age, scenario_name) %>% 
+  summarize(Infected = mean(Infected), .groups = 'keep') %>% 
+  ungroup()
+
+
+Infected.by.age <- Infected.by.age %>% 
+  merge(
+    Infected.by.age %>% 
+      group_by(Year, scenario_name) %>% 
+      summarize(Infected.total = sum(Infected)),
+    by = c("Year", "scenario_name")
+) %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ Age * Infected,
+                          Infected.total == 0 ~ 0)
+         ) %>% 
+  group_by(Year, scenario_name) %>% 
+  summarize(mean.age = sum(prod), Infected.total = mean(Infected.total)) %>% 
+  ungroup() %>% 
+  mutate(prod = case_when(Infected.total > 0 ~ mean.age/Infected.total,
+                          Infected.total == 0 ~ 0)
+       ) %>% 
+  arrange(Year)
+
+Infected.by.age %>% filter(Year %in% c(2004, 2024, 2050))
+```
+
+
+```{r}
+Infected.by.age %>% filter(Year %in% c(2004, 2024))
+```
+
+# New Cases by Age
+
+## How much has incidence changed in each age group?
+
+```{r}
+age_bins = c(15, 25, 30, 35, 40, 45, 50, 55, 60, 65,100)
+subset_years = c(2004, 2024) # c(2007, 2011, 2016, 2021, )
+
+# Subset data on years
+data <- sim.results %>% mutate(Year = ceiling(Year)) %>% filter(Year %in% subset_years)
+
+# Age bins
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
+
+# Label each age by its bin
+data <- data %>% mutate(
+  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+  ) %>%
+  filter(!is.na(AgeBin))
+data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+
+# Count HIV deaths
+cases.dat <- data %>% 
+  group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name, sim.ix) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected* pop.scaling.factor), .groups = 'keep') %>% 
+  group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>% 
+  summarize(sd.Newly.Infected = sd(Newly.Infected),
+            Newly.Infected = mean(Newly.Infected), 
+            .groups = "keep")  %>% 
+  ungroup() %>%
+  dplyr::mutate(upper = Newly.Infected + 2*sd.Newly.Infected,
+                lower = case_when(Newly.Infected - 2 * sd.Newly.Infected > 0 ~ Newly.Infected - 2 * sd.Newly.Infected,
+                         Newly.Infected - 2 * sd.Newly.Infected <= 0 ~ 0)
+                )
+
+# Transform data
+cases.dat <- cases.dat %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+
+cases.dat %>% arrange(Gender, AgeBin_index, Year) %>% 
+  pivot_wider(id_cols = c(AgeBin_index, AgeBin, Gender), values_from = Newly.Infected, names_from = Year ) %>% 
+  mutate(diff = `2024` - `2004`,
+         pct = (`2024` - `2004`)/`2004`) %>%
+  arrange(Gender, AgeBin_index)
+```
+
+
+## What is the mean age of new infections
+```{r}
+NewCases.by.Age = sim.results %>% 
+  group_by(Year, Gender, Age, scenario_name, sim.ix) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected), .groups = 'keep') %>% 
+  group_by(Year, Gender, Age, scenario_name) %>% 
+  summarize(Newly.Infected = mean(Newly.Infected), .groups = 'keep') %>% 
+  ungroup()
+
+NewCases.by.Age <- NewCases.by.Age %>% 
+  merge(
+    NewCases.by.Age %>% 
+      group_by(Year, Gender, scenario_name) %>% 
+      summarize(Newly.Infected.total = sum(Newly.Infected)),
+    by = c("Year", "Gender", "scenario_name")
+) %>% 
+  mutate(prod = case_when(Newly.Infected > 0 ~ Age * Newly.Infected,
+                          Newly.Infected == 0 ~ 0)
+         ) %>% 
+  group_by(Year, Gender, scenario_name) %>% 
+  summarize(mean.age = sum(prod), Newly.Infected.total = mean(Newly.Infected.total)) %>% 
+  ungroup() %>% 
+  mutate(prod = case_when(Newly.Infected.total > 0 ~ mean.age/Newly.Infected.total,
+                          Newly.Infected.total == 0 ~ 0)
+       ) %>% 
+  arrange(Gender, Year)
+
+p <- NewCases.by.Age %>% 
+  filter(Year >= 2000) %>% 
+  mutate(Gender = factor(Gender, labels = c("Male", "Female")))  %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = prod, color = Gender), size = 2,
+            show.legend = FALSE) + 
+  theme_bw(base_size=16) +
+  guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
+  scale_x_continuous(breaks = seq(2000,2050,5)) +
+  scale_y_continuous(breaks = c(20,25,30,35)) + 
+  ylim(20,45) + 
+  theme(legend.position="bottom") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(strip.background = element_rect(colour="black", fill="white")) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  ylab("Mean Age of New Infections") + 
+  scale_color_manual(values = c("red", "blue"))
+
+p
+```
+
+```{r}
+NewCases.by.Age %>% filter(Year %in% c(2004, 2024))
+```
+
