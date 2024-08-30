@@ -18,6 +18,18 @@
 
 ## Major Updates
 
+### 2024-08-30
+
+Problem: 
+
+* Incidence is too high among men post 2016
+* Leads to excess younger people (under age of 30) with HIV, age distribution peaks too low currently
+
+Solution:
+
+* Dial down HIGH risk population post-2010
+* Dial up ART distribution among young people
+
 ### 2024-07-07
 
 Updated ART coverage distribution to match SHIMS data.
