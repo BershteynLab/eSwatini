@@ -636,7 +636,7 @@
         },
         {
             "BEGIN": "Program VMMC",
-            "Event_Name": "VMMC targets for Males ages 10-14",
+            "Event_Name": "VMMC targets for Males ages 10-14, HIV-",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -684,17 +684,58 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2017,
+                        2021
                     ],
                     "Values": [
                         0.04,
-                        0.38
+                        0.169,
+                        0.404,
+                        0.747
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 15-19",
+            "Event_Name": "VMMC targets for Males ages 15-19, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 19.999999999,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2017,
+                        2021
+                    ],
+                    "Values": [
+                        0.04,
+                        0.22,
+                        0.20,
+                        0.642
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 15-19, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -717,17 +758,58 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.07,
-                        0.31
+                        0.192,
+                        0.322,
+                        0.624
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 20-24",
+            "Event_Name": "VMMC targets for Males ages 20-24, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 24.999999999,
+                "Target_Age_Min": 20,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.07,
+                        0.072,
+                        0.252,
+                        0.389
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 20-24, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -750,17 +832,58 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.08,
-                        0.28
+                        0.203,
+                        0.317,
+                        0.445
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 25-29",
+            "Event_Name": "VMMC targets for Males ages 25-29, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 29.999999999,
+                "Target_Age_Min": 25,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.08,
+                        0.116,
+                        0.113,
+                        0.303
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 25-29, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -783,17 +906,58 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.1,
-                        0.25
+                        0.226,
+                        0.303,
+                        0.386
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 30-34",
+            "Event_Name": "VMMC targets for Males ages 30-34, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 34.999999999,
+                "Target_Age_Min": 30,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.1,
+                        0.12,
+                        0.162,
+                        0.171
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 30-34, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -816,17 +980,58 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.2,
-                        0.27
+                        0.2,
+                        0.361,
+                        0.326
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 35039",
+            "Event_Name": "VMMC targets for Males ages 35-39, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 39.999999999,
+                "Target_Age_Min": 35,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.05,
+                        0.107,
+                        0.169,
+                        0.214
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 35-39, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -849,17 +1054,95 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.13,
-                        0.22
+                        0.15,
+                        0.268,
+                        0.427
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 40-44",
+            "Event_Name": "VMMC targets for Males ages 40-44, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 44.999999999,
+                "Target_Age_Min": 40,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.098,
+                        0.098,
+                        0.205,
+                        0.159
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 40-44, HIV+",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 49.999999999,
+                "Target_Age_Min": 45,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2011,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.12,
+                        0.140,
+                        0.127,
+                        0.209
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 45-49, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -882,17 +1165,54 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2011,
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.12,
-                        0.17
+                        0.140,
+                        0.249,
+                        0.263
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 45-49",
+            "Event_Name": "VMMC targets for Males ages 45-49, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 54.999999999,
+                "Target_Age_Min": 50,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2016
+                    ],
+                    "Values": [
+                        0.12,
+                        0.241
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 50-54, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -915,17 +1235,54 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.12,
-                        0.16
+                        0.17,
+                        0.330
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
-            "Event_Name": "VMMC targets for Males ages 50-54",
+            "Event_Name": "VMMC targets for Males ages 50-54, HIV-",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 0.0,
+                    "Distributed_Event_Trigger": "Program_VMMC",
+                    "Intervention_Name": "Medical_MC",
+                    "class": "MaleCircumcision"
+                },
+                "Target_Age_Max": 59.999999999,
+                "Target_Age_Min": 55,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2007,
+                        2016,
+                        2021
+                    ],
+                    "Values": [
+                        0.11,
+                        0.12,
+                        0.27
+                    ]
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            },
+            "Event_Name": "VMMC targets for Males ages 55-59, HIV+",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
@@ -948,18 +1305,20 @@
                 "Time_Value_Map": {
                     "Times": [
                         2007,
-                        2016
+                        2016,
+                        2021
                     ],
                     "Values": [
                         0.12,
-                        0.14
+                        0.153,
+                        0.229
                     ]
                 },
                 "Update_Period": 30.4166666666667,
                 "class": "ReferenceTrackingEventCoordinatorHIV"
             },
             "END": "VMMC",
-            "Event_Name": "VMMC targets for Males ages 55-59",
+            "Event_Name": "VMMC targets for Males ages 55-59, HIV-",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
