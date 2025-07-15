@@ -10,7 +10,7 @@
 #SBATCH --partition=cpu_medium
 #SBATCH --mem=8GB
 
-#SBATCH --job-name=SWZ_EMOD
+#SBATCH --job-name=SWZ_PEPFAR
 #SBATCH --chdir=/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/
 
 #SBATCH --mail-type=END
