@@ -17,6 +17,7 @@ SWZ_calib.code-workspace
 .Rhistory
 
 Analysis/*.pdf
+Analysis/*.csv
 __pycache__
 __pycache__/*
 DownloadAnalyzerTPI_cache

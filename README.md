@@ -18,6 +18,14 @@
 
 ## Major Updates
 
+### 2025-07-15
+
+* Now working on simulating how countries should plan for disruptions to their HIV services.
+* Is it more important to invest in preventative care or ART maintenance, given limited resources?
+
+Proposed changes
+* Add variable rates of EffectiveART vs. NonSuppressiveART, to match how viral load suppression rate outcomes grow with time, in order to bring down incidence among men in more recent years
+
 ### 2024-08-30
 
 Problem: 
