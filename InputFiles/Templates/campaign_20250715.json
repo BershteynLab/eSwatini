@@ -2062,7 +2062,7 @@
                         "NOTE1": "Threshold for adult vs child guidelines",
                         "Negative_Diagnosis_Event": "OnPreART3",
                         "New_Property_Value": "CascadeState:OnPreART",
-                        "Positive_Diagnosis_Event": "OnART0",
+                        "Positive_Diagnosis_Event": "OnART0_preart",
                         "class": "HIVARTStagingCD4AgnosticDiagnostic"
                     },
                     "Trigger_Condition_List": [
@@ -2137,7 +2137,7 @@
                         },
                         "Negative_Diagnosis_Event": "OnPreART0",
                         "New_Property_Value": "CascadeState:OnPreART",
-                        "Positive_Diagnosis_Event": "OnART0",
+                        "Positive_Diagnosis_Event": "OnART0_preart",
                         "Threshold": {
                             "Times": [
                                 2005.5,
@@ -2181,7 +2181,7 @@
                         "Female_Multiplier": 1.2,
                         "Negative_Diagnosis_Event": "HCTUptakePostDebut3",
                         "New_Property_Value": "CascadeState:LinkingToART",
-                        "Positive_Diagnosis_Event": "OnART0",
+                        "Positive_Diagnosis_Event": "OnART0_preart",
                         "Ramp_Max": 0.955011742,
                         "Ramp_MidYear": 2010.3955230000001,
                         "class": "HIVSigmoidByYearAndSexDiagnostic"
@@ -2201,109 +2201,7 @@
             "Start_Year": 1990,
             "class": "CampaignEventByYear"
         },
-        {
-            "BEGIN": "ART",
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "Intervention_List": [
-                            {
-                                "Target_Property_Key": "ARTstate",
-                                "Target_Property_Value": "OnARTPreVLS",
-                                "class": "PropertyValueChanger"
-                            },
-                            {
-                                "Broadcast_Event": "OnART1",
-                                "Delay_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
-                                "Delay_Period_Gaussian_Mean": 180,
-                                "Delay_Period_Gaussian_Std_Dev": 5,
-                                "Disqualifying_Properties": [
-                                    "CascadeState:LostForever"
-                                ],
-                                "Muxer_Name": "OnART",
-                                "New_Property_Value": "CascadeState:OnART",
-                                "class": "HIVMuxer"
-                            }
-                        ],
-                        "class": "MultiInterventionDistributor"
-                    },
-                    "Trigger_Condition_List": [
-                        "OnART0"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV"
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "OnART: state 0 (muxer and delay)",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
-            "Event_Name": "OnART: state 1 (run AntiretroviralTherapy)",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear",
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "Intervention_List": [
-                            {
-                                "Target_Property_Key": "ARTstate",
-                                "Target_Property_Value": "OnART",
-                                "class": "PropertyValueChanger"
-                            },
-                            {
-                                "Intervention_Name": "On_ART",
-                                "New_Property_Value": "CascadeState:OnART",
-                                "Viral_Suppression": 1,
-                                "class": "AntiretroviralTherapy"
-                            }
-                        ],
-                        "class": "MultiInterventionDistributor"
-                    },
-                    "Trigger_Condition_List": [
-                        "OnART1"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV"
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            }
-        },
-        {
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "Broadcast_Event": "OnART3",
-                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
-                        "Delay_Period_Exponential": 7300,
-                        "Disqualifying_Properties": [
-                            "CascadeState:LostForever"
-                        ],
-                        "Intervention_Name": "On_ART",
-                        "Muxer_Name": "ARTDropoutDelay",
-                        "New_Property_Value": "CascadeState:OnART",
-                        "class": "HIVMuxer"
-                    },
-                    "Trigger_Condition_List": [
-                        "OnART1"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV"
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            },
-            "Event_Name": "OnART: state 2 (delay to dropout)",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear"
-        },
-        {
+                {
             "BEGIN":"UTT scale-up ART",
             "Event_Name": "Swaziland UTT scale-up, Male ages 15-19",
             "Nodeset_Config": {
@@ -3468,6 +3366,1095 @@
             }
         },
         {
+            "BEGIN": "ART",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Intervention_List": [
+                            {
+                                "Target_Property_Key": "ARTStatus",
+                                "Target_Property_Value": "OnARTPreVLS",
+                                "class": "PropertyValueChanger"
+                            },
+                            {
+                                "Broadcast_Event": "OnART1",
+                                "Delay_Period_Distribution": "GAUSSIAN_DISTRIBUTION",
+                                "Delay_Period_Gaussian_Mean": 180,
+                                "Delay_Period_Gaussian_Std_Dev": 5,
+                                "Disqualifying_Properties": [
+                                    "CascadeState:LostForever"
+                                ],
+                                "Muxer_Name": "OnART",
+                                "New_Property_Value": "CascadeState:OnART",
+                                "class": "HIVMuxer"
+                            }
+                        ],
+                        "class": "MultiInterventionDistributor"
+                    },
+                    "Trigger_Condition_List": [
+                        "OnART0",
+                        "OnART0_preart"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "OnART: state 0 (muxer and delay)",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 15-20",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.832066327,
+                                0.898710333,
+                                0.898710333
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 15,
+                    "Target_Age_Max": 20,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 20-25",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.80524506,
+                                0.80524506,
+                                0.80524506,
+                                0.905580176,
+                                0.905580176
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 20,
+                    "Target_Age_Max": 25,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 25-30",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.89855891,
+                                0.903490755,
+                                0.903490755
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 25,
+                    "Target_Age_Max": 30,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 30-35",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.92375413,
+                                0.977192768,
+                                0.977192768
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 30,
+                    "Target_Age_Max": 35,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 35-40",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.93488714,
+                                0.956840435,
+                                0.956840435
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 35,
+                    "Target_Age_Max": 40,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 40-45",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.94528328,
+                                0.965992539,
+                                0.965992539
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 40,
+                    "Target_Age_Max": 45,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 45-50",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.94622461,
+                                0.973424967,
+                                0.973424967
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 45,
+                    "Target_Age_Max": 50,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+                {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Females, Ages 50-200",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Female",
+                    "Target_Age_Min": 50,
+                    "Target_Age_Max": 200,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 15-20",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.54481507,
+                                0.54481507,
+                                0.54481507,
+                                0.858661533,
+                                0.858661533
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 15,
+                    "Target_Age_Max": 20,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 20-25",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.62752255,
+                                0.62752255,
+                                0.62752255,
+                                0.871034926,
+                                0.871034926
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 20,
+                    "Target_Age_Max": 25,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 25-30",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.92836159,
+                                0.948679755,
+                                0.948679755
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 25,
+                    "Target_Age_Max": 30,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 30-35",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.81624679,
+                                0.965295603,
+                                0.965295603
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 30,
+                    "Target_Age_Max": 35,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 35-40",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.89033828,
+                                0.974757812,
+                                0.974757812
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 35,
+                    "Target_Age_Max": 40,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 40-45",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.93202767,
+                                0.969952916,
+                                0.969952916
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 40,
+                    "Target_Age_Max": 45,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 45-50",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                0.95907357,
+                                0.963947122,
+                                0.963947122
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 45,
+                    "Target_Age_Max": 50,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+                {
+            "Event_Name": "Random draw to initiate effective ART or non-suppressive therapy",
+            "COMMENT": "Males, Ages 50-200",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Event_Or_Config_": "Event",
+                        "Interpolation_Order": 1,
+                        "New_Property_Value": "CascadeState:OnART",
+                        "Positive_Diagnosis_Event": "EffectiveART",
+                        "Negative_Diagnosis_Event": "NonSuppressiveART",
+                        "Time_Value_Map": {
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2021,
+                                2200
+                            ],
+                            "Values": [
+                                0.81,
+                                0.81,
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        "class": "HIVPiecewiseByYearAndSexDiagnostic"
+                    },
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
+                    "Target_Gender": "Male",
+                    "Target_Age_Min": 50,
+                    "Target_Age_Max": 200,
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "Actual_IndividualIntervention_Config": {
+                    "Disqualifying_Properties": [],
+                    "Target_Property_Key": "ARTStatus",
+                    "Target_Property_Value": "OnEffectiveART",
+                    "class": "PropertyValueChanger"
+                },
+                "Trigger_Condition_List": [
+                    "EffectiveART"
+                ],
+                "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "Change intervention status for those initiating ART",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1980,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "Actual_IndividualIntervention_Config": {
+                    "Disqualifying_Properties": [],
+                    "Target_Property_Key": "ARTStatus",
+                    "Target_Property_Value": "OnNonSuppressiveART",
+                    "class": "PropertyValueChanger"
+                },
+                "Trigger_Condition_List": [
+                    "NonSuppressiveART"
+                ],
+                "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "Change intervention status for those initiating ART",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1980,
+            "class": "CampaignEventByYear"
+        },
+        {
+            "Event_Name": "Initiate effective ART: MALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "class": "NodeLevelHealthTriggeredIV",
+                "Trigger_Condition_List": [ "EffectiveART" ],
+                "Target_Demographic": "ExplicitGender",
+                "Target_Gender": "Male",
+                "Actual_IndividualIntervention_Config": {
+                    "class": "ARTMortalityTable",
+                    "Intervention_Name": "SuppressedOnART",
+                    "Cost_To_Consumer" : 1,
+                    "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
+                    "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                    "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                    "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                    "Age_Years_Bins": [25, 35, 45, 125],
+                    "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                    "MortalityTable": [
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175],
+                            [0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189],
+                            [0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.0945, 0.0945, 0.0529, 0.0293, 0.0146, 0.0067, 0.0044],
+                            [0.1021, 0.1021, 0.0572, 0.0316, 0.0158, 0.0073, 0.0047],
+                            [0.1102, 0.1102, 0.0617, 0.0342, 0.0171, 0.0079, 0.0051]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.0288, 0.0288, 0.0204, 0.0145, 0.0096, 0.0065, 0.0043],
+                            [0.0326, 0.0326, 0.0231, 0.0164, 0.0108, 0.0074, 0.0049],
+                            [0.0368, 0.0368, 0.0261, 0.0185, 0.0123, 0.0084, 0.0055]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.0186, 0.0186, 0.0131, 0.0093, 0.0062, 0.0042, 0.0042],
+                            [0.0210, 0.0210, 0.0148, 0.0106, 0.0070, 0.0048, 0.0048],
+                            [0.0237, 0.0237, 0.0168, 0.0119, 0.0079, 0.0054, 0.0054]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.0135, 0.0135, 0.0092, 0.0074, 0.0037, 0.0037, 0.0037],
+                            [0.0152, 0.0152, 0.0103, 0.0084, 0.0042, 0.0042, 0.0042],
+                            [0.0172, 0.0172, 0.0117, 0.0095, 0.0047, 0.0047, 0.0047]
+                        ]
+                    ]
+                }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate effective ART: FEMALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "class": "NodeLevelHealthTriggeredIV",
+                "Trigger_Condition_List": [ "EffectiveART" ],
+                "Target_Demographic": "ExplicitGender",
+                "Target_Gender": "Female",
+                "Actual_IndividualIntervention_Config": {
+                    "class": "ARTMortalityTable",
+                    "Intervention_Name": "SuppressedOnART",
+                    "Cost_To_Consumer" : 1,
+                    "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.04,
+                    "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                    "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                    "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                    "Age_Years_Bins": [25, 35, 45, 125],
+                    "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                    "MortalityTable": [
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.2156, 0.2156, 0.1062, 0.0554, 0.0277, 0.0183, 0.0144 ],
+                            [ 0.2307, 0.2307, 0.1137, 0.0593, 0.0296, 0.0196, 0.0154 ],
+                            [ 0.2468, 0.2468, 0.1216, 0.0634, 0.0317, 0.0209, 0.0165 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.0936, 0.0936, 0.0461, 0.0241, 0.0120, 0.0055, 0.0036 ],
+                            [ 0.1002, 0.1002, 0.0494, 0.0257, 0.0129, 0.0059, 0.0039 ],
+                            [ 0.1072, 0.1072, 0.0528, 0.0276, 0.0138, 0.0063, 0.0041 ]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [0.0262, 0.0262, 0.0181, 0.0147, 0.0073, 0.0048, 0.0048 ],
+                            [0.0286, 0.0286, 0.0197, 0.0160, 0.0080, 0.0052, 0.0052 ],
+                            [0.0312, 0.0312, 0.0215, 0.0175, 0.0087, 0.0057, 0.0057 ]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [0.0163, 0.0163, 0.0112, 0.0091, 0.0046, 0.0046, 0.0046 ],
+                            [0.0177, 0.0177, 0.0122, 0.0099, 0.0050, 0.0050, 0.0050 ],
+                            [0.0193, 0.0193, 0.0133, 0.0108, 0.0054, 0.0054, 0.0054 ]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [0.0092, 0.0092, 0.0062, 0.0051, 0.0025, 0.0025, 0.0025 ],
+                            [0.0100, 0.0100, 0.0068, 0.0055, 0.0028, 0.0028, 0.0028 ],
+                            [0.0109, 0.0109, 0.0074, 0.0060, 0.0030, 0.0030, 0.0030 ]
+                        ]
+                    ]
+                }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate non-suppressive ART: MALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "class": "NodeLevelHealthTriggeredIV",
+                "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                "Target_Demographic": "ExplicitGender",
+                "Target_Gender": "Male",
+                "Actual_IndividualIntervention_Config": {
+                    "class": "ARTMortalityTable",
+                    "Intervention_Name": "NotSuppressedOnART",
+                    "Cost_To_Consumer" : 1,
+                    "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.65,
+                    "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                    "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                    "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                    "Age_Years_Bins": [25, 35, 45, 125],
+                    "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                    "MortalityTable": [
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+                            [0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175],
+                            [0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189],
+                            [0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.1852, 0.1852, 0.6048, 0.3348, 0.1674, 0.0770, 0.0502 ],
+                            [ 0.2000, 0.2000, 0.6532, 0.3616, 0.1808, 0.0832, 0.0542 ],
+                            [ 0.2160, 0.2160, 0.7054, 0.3905, 0.1953, 0.0898, 0.0586 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.0601, 0.0601, 0.0409, 0.0331, 0.0193, 0.0131, 0.0107 ],
+                            [ 0.0679, 0.0679, 0.0462, 0.0374, 0.0218, 0.0148, 0.0121 ],
+                            [ 0.0768, 0.0768 ,0.0522, 0.0422, 0.0246, 0.0168, 0.0137 ]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [0.0379, 0.0379, 0.0258, 0.0208, 0.0122, 0.0083, 0.0068 ],
+                            [0.0428, 0.0428, 0.0291, 0.0235, 0.0137, 0.0094, 0.0076 ],
+                            [0.0484, 0.0484, 0.0329, 0.0266, 0.0155, 0.0106 ,0.0086 ]
+                        ],
+                        [
+                            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [0.0265, 0.0265, 0.0180, 0.0145, 0.0103, 0.0077, 0.0073 ],
+                            [0.0299, 0.0299, 0.0203, 0.0164, 0.0116, 0.0088, 0.0082 ],
+                            [0.0338, 0.0338, 0.0230, 0.0186, 0.0131, 0.0099, 0.0093 ]
+                        ]
+                    ]
+                }
+                }
+            }
+        },
+        {
+            "Event_Name": "Initiate non-suppressive ART: FEMALES",
+            "class": "CampaignEventByYear",
+            "Nodeset_Config": { "class": "NodeSetAll" },
+            "Start_Year": 1980,
+            "Event_Coordinator_Config": {
+                "class": "StandardInterventionDistributionEventCoordinator",
+                "Demographic_Coverage": 1,
+                "Intervention_Config": {
+                "class": "NodeLevelHealthTriggeredIV",
+                "Trigger_Condition_List": [ "NonSuppressiveART" ],
+                "Target_Demographic": "ExplicitGender",
+                "Target_Gender": "Female",
+                "Actual_IndividualIntervention_Config": {
+                    "class": "ARTMortalityTable",
+                    "Intervention_Name": "NotSuppressedOnART",
+                    "Cost_To_Consumer" : 1,
+                    "ART_Multiplier_On_Transmission_Prob_Per_Act"             : 0.65,
+                    "ART_Is_Active_Against_Mortality_And_Transmission"        : 1,
+                    "Days_To_Achieve_Viral_Suppression"                       : 183.0,
+                    "ART_Duration_Days_Bins": [182, 365, 730, 1095, 45625],
+                    "Age_Years_Bins": [25, 35, 45, 125],
+                    "CD4_Count_Bins": [0, 25, 74.5, 149.5, 274.5, 424.5, 624.5],
+                    "MortalityTable": [
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.2176, 0.2176, 0.1219, 0.0675, 0.0337, 0.0223, 0.0175 ],
+                            [ 0.2350, 0.2350, 0.1316, 0.0729, 0.0364, 0.0240, 0.0189 ],
+                            [ 0.2538, 0.2538, 0.1421, 0.0787, 0.0393, 0.0260, 0.0205 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.1965, 0.1965, 0.0904, 0.0472, 0.0236, 0.0108, 0.0071 ],
+                            [ 0.2103, 0.2103, 0.0967, 0.0505, 0.0252, 0.0116, 0.0076 ],
+                            [ 0.2250, 0.2250, 0.1035, 0.0540, 0.0270, 0.0124, 0.0081 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.0502, 0.0502, 0.0346, 0.0281, 0.0164, 0.0113, 0.0091 ],
+                            [ 0.0547, 0.0547, 0.0378, 0.0306, 0.0179, 0.0123, 0.0100 ],
+                            [ 0.0596, 0.0596, 0.0412, 0.0334, 0.0195, 0.0134, 0.0109 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.0311, 0.0311, 0.0215, 0.0174, 0.0124, 0.0094, 0.0087 ],
+                            [ 0.0339, 0.0339, 0.0234, 0.0190, 0.0135, 0.0102, 0.0095 ],
+                            [ 0.0370, 0.0370, 0.0255, 0.0207, 0.0147, 0.0111, 0.0104 ]
+                        ],
+                        [
+                            [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                            [ 0.0176, 0.0176, 0.0119, 0.0097, 0.0068, 0.0052, 0.0048 ],
+                            [ 0.0192, 0.0192, 0.0130, 0.0105, 0.0075, 0.0056, 0.0053 ],
+                            [ 0.0209, 0.0209, 0.0142, 0.0115, 0.0081, 0.0061, 0.0057 ]
+                        ]
+                    ]
+                }
+                }
+            }
+        },
+        {
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "Broadcast_Event": "OnART3",
+                        "Delay_Period_Distribution": "EXPONENTIAL_DISTRIBUTION",
+                        "Delay_Period_Exponential": 7300,
+                        "Disqualifying_Properties": [
+                            "CascadeState:LostForever"
+                        ],
+                        "Intervention_Name": "On_ART",
+                        "Muxer_Name": "ARTDropoutDelay",
+                        "class": "HIVMuxer"
+                    },
+                    "Trigger_Condition_List": [
+                        "OnART1"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            },
+            "Event_Name": "OnART: state 2 (delay to dropout)",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear"
+        },
+        {
             "Event_Name": "OnART: state 3 (run ARTDropout)",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -3479,7 +4466,7 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "Target_Property_Key": "ARTstate",
+                                "Target_Property_Key": "ARTStatus",
                                 "Target_Property_Value": "OffART",
                                 "class": "PropertyValueChanger"
                             },
@@ -3502,8 +4489,8 @@
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
-			"HCTUptakePostDebut3-NOTE": "This used to be HCTUptakePostDebut8, but nothing was listening for it. Connecting it to HCTUptakePostDebut3, which represents return to HCTUptake post-ART-dropout",
-			"LostForever0-NOTE": "This used to be LostForever9, but nothing was listening for it and nothing broadcasted LostForever0. Change back if appropriate and/or the probability for this choice could be > 0",
+			            "HCTUptakePostDebut3-NOTE": "This used to be HCTUptakePostDebut8, but nothing was listening for it. Connecting it to HCTUptakePostDebut3, which represents return to HCTUptake post-ART-dropout",
+			            "LostForever0-NOTE": "This used to be LostForever9, but nothing was listening for it and nothing broadcasted LostForever0. Change back if appropriate and/or the probability for this choice could be > 0",
                         "Choice_Names": [
                             "HCTUptakePostDebut3",
                             "LostForever0"

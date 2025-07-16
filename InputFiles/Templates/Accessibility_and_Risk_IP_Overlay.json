@@ -145,14 +145,16 @@
                   1,
                   0,
                   0,
+                  0,
                   0
                ],
-               "Property": "ARTstate",
+               "Property": "ARTStatus",
                "Transitions": [],
                "Values": [
                   "NeverOnART",
                   "OnARTPreVLS",
-                  "OnART",
+                  "OnEffectiveART",
+                  "OnNonSuppressiveART",
                   "OffART"
                ]
             }

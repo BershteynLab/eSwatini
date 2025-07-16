@@ -59,6 +59,7 @@
             "NoTrigger",
             "Non_Program_MMC",
             "OnART0",
+            "OnART0_preart",
             "OnART1",
             "OnART3",
             "OnPreART0",
@@ -169,6 +170,13 @@
         "Report_HIV_ByAgeAndGender_Collect_Age_Bins_Data": [
             0,
             15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
             99
         ],
         "Report_HIV_ByAgeAndGender_Collect_Circumcision_Data": 1,
@@ -176,11 +184,17 @@
         "Report_HIV_ByAgeAndGender_Collect_HIV_Data": 0,
         "Report_HIV_ByAgeAndGender_Collect_HIV_Stage_Data": 0,
         "Report_HIV_ByAgeAndGender_Collect_IP_Data": [
-            "Risk"
+            "ARTStatus"
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
-        "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
+        "Report_HIV_ByAgeAndGender_Event_Counter_List": [
+            "OnART0",
+            "OnART0_preart",
+            "OnART1",
+            "EffectiveART",
+            "NonSuppressiveART"
+        ],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 1960,
         "Report_HIV_ByAgeAndGender_Stop_Year": 2040,
@@ -204,7 +218,7 @@
         "Sexual_Debut_Age_Male_Weibull_Heterogeneity": 0.043005807,
         "Sexual_Debut_Age_Male_Weibull_Scale": 17.36956881,
         "Sexual_Debut_Age_Min": 13,
-        "Simulation_Duration": 29200,
+        "Simulation_Duration": 27375,
         "Simulation_Timestep": 30.4166666666667,
         "Simulation_Type": "HIV_SIM",
         "Start_Time": 0,
