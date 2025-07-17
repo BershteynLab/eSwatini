@@ -2209,7 +2209,7 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "Target_Property_Key": "ARTstate",
+                                "Target_Property_Key": "ARTStatus",
                                 "Target_Property_Value": "OnARTPreVLS",
                                 "class": "PropertyValueChanger"
                             },
@@ -2254,7 +2254,7 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "Target_Property_Key": "ARTstate",
+                                "Target_Property_Key": "ARTStatus",
                                 "Target_Property_Value": "OnART",
                                 "class": "PropertyValueChanger"
                             },
@@ -3438,7 +3438,7 @@
                     "Actual_IndividualIntervention_Config": {
                         "Intervention_List": [
                             {
-                                "Target_Property_Key": "ARTstate",
+                                "Target_Property_Key": "ARTStatus",
                                 "Target_Property_Value": "OffART",
                                 "class": "PropertyValueChanger"
                             },
