@@ -2255,7 +2255,7 @@
                         "Intervention_List": [
                             {
                                 "Target_Property_Key": "ARTStatus",
-                                "Target_Property_Value": "OnART",
+                                "Target_Property_Value": "OnEffectiveART",
                                 "class": "PropertyValueChanger"
                             },
                             {
