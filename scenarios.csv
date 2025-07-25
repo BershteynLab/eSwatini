@@ -1,4 +1,4 @@
 Scenario,Campaign,Acquisition_Multiplier__KP_CMD_increase_incidence
-test_carf_50,campaign_20250715.json,0.5
-test_carf_75,campaign_20250715.json,0.75
+test_carf_85,campaign_20250715.json,0.85
 test_carf_90,campaign_20250715.json,0.90
+test_carf_95,campaign_20250715.json,0.95
