@@ -39,6 +39,34 @@
             "class": "CampaignEvent"
         },
         {
+            "Event_Name": "Adjust transmission risk at sexual debut",
+            "COMMENT": "SWZ model has too high incidence, let's adjust it",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "class": "CampaignEvent",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"CoitalActRiskFactors",
+                        "Acquisition_Multiplier":1.0,
+                        "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                        "Transmission_Multiplier":1.0,
+                        "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                        "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Expiration_Constant": 365000,
+                        "Disqualifying_Properties": [
+                        ]
+                    },
+                    "Trigger_Condition_List": [
+                        "STIDebut"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
