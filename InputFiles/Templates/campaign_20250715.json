@@ -39,7 +39,7 @@
             "class": "CampaignEvent"
         },
         {
-            "Event_Name": "Adjust transmission risk at sexual debut",
+            "Event_Name": "Adjust transmission risk at sexual debut, males",
             "COMMENT": "SWZ model has too high incidence, let's adjust it",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
@@ -50,7 +50,7 @@
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
                         "Acquisition_Multiplier":1.0,
-                        "Acquisition_Multiplier__KP_CMD_increase_incidence":"<== marker", 
+                        "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<== marker", 
                         "Transmission_Multiplier":1.0,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
@@ -58,6 +58,38 @@
                         "Disqualifying_Properties": [
                         ]
                     },
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Male",
+                    "Trigger_Condition_List": [
+                        "STIDebut"
+                    ],
+                    "class": "NodeLevelHealthTriggeredIV"
+                },
+                "class": "StandardInterventionDistributionEventCoordinator"
+            }
+        },
+        {
+            "Event_Name": "Adjust transmission risk at sexual debut, females",
+            "COMMENT": "SWZ model has too high incidence, let's adjust it",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "class": "CampaignEvent",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Actual_IndividualIntervention_Config": {
+                        "class":"CoitalActRiskFactors",
+                        "Acquisition_Multiplier":1.0,
+                        "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<== marker", 
+                        "Transmission_Multiplier":1.0,
+                        "Transmission_Multiplier__KP_CMD_increase_transmission":"<== marker",
+                        "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
+                        "Expiration_Constant": 365000,
+                        "Disqualifying_Properties": [
+                        ]
+                    },
+                    "Target_Demographic": "ExplicitGender",
+                    "Target_Gender": "Female",
                     "Trigger_Condition_List": [
                         "STIDebut"
                     ],
@@ -3452,21 +3484,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.832066327,
@@ -3505,21 +3537,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.80524506,
                                 0.80524506,
                                 0.80524506,
@@ -3558,21 +3590,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.89855891,
@@ -3611,21 +3643,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.92375413,
@@ -3664,21 +3696,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.93488714,
@@ -3717,21 +3749,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.94528328,
@@ -3770,21 +3802,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.94622461,
@@ -3823,21 +3855,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 1,
@@ -3876,21 +3908,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.54481507,
                                 0.54481507,
                                 0.54481507,
@@ -3929,21 +3961,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.62752255,
                                 0.62752255,
                                 0.62752255,
@@ -3982,21 +4014,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2017,
+                                2018,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.92836159,
@@ -4035,21 +4067,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.81624679,
@@ -4088,21 +4120,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.89033828,
@@ -4141,21 +4173,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.93202767,
@@ -4194,21 +4226,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 0.95907357,
@@ -4248,21 +4280,21 @@
                         "Positive_Diagnosis_Event": "EffectiveART",
                         "Negative_Diagnosis_Event": "NonSuppressiveART",
                         "Time_Value_Map": {
-                            "Times": [
+                            ".Times": [
                                 1990,
                                 2004,
                                 2017,
                                 2021,
                                 2200
                             ],
-                            "Values": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
+                            "Times": [
+                                1990,
+                                2004,
+                                2018,
+                                2021,
+                                2200
                             ],
-                            ".Values": [
+                            "Values": [
                                 0.81,
                                 0.81,
                                 1,

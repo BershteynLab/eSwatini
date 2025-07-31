@@ -1,4 +1,10 @@
-Scenario,Campaign,Acquisition_Multiplier__KP_CMD_increase_incidence
-test_carf_85,campaign_20250715.json,0.85
-test_carf_90,campaign_20250715.json,0.90
-test_carf_95,campaign_20250715.json,0.95
+Scenario,Campaign,Acquisition_Multiplier__KP_CMD_increase_incidence_males,Acquisition_Multiplier__KP_CMD_increase_incidence_females
+carf_m90_f90,campaign_20250715.json,0.85,0.90
+carf_m90_f95,campaign_20250715.json,0.85,0.95
+carf_m90_f100,campaign_20250715.json,0.90,1.0
+carf_m95_f90,campaign_20250715.json,0.95,0.90
+carf_m95_f95,campaign_20250715.json,0.95,0.95
+carf_m95_f100,campaign_20250715.json,0.95,1.0
+carf_m100_f90,campaign_20250715.json,1.0,0.90
+carf_m100_f95,campaign_20250715.json,1.0,0.95
+carf_m100_f100,campaign_20250715.json,1.0,1.0

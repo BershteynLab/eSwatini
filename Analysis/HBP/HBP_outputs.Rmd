@@ -1,0 +1,69 @@
+---
+title: "HBP_Eswatini_Outputs"
+output: html_document
+date: "2025-07-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction
+
+* Produce a slide deck and series of outputs illustrating the new and improved calibrated model.
+* Produce aggregated tables
+
+# Aggregate for Kasturi
+
+Provide a table stratified by year, gender, age (single years), ART status
+
+```{r}
+# Test version 3
+results_path = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/test3_swz2024/Baseline-campaign_20231113-baseline/ReportHIVByAgeAndGender/"
+
+sim.results.v3 <- EMODAnalyzeR::read.simulation.results(
+  results_path = results_path,
+  scenario_name = 'baseline',
+  summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV",
+                        "Newly.Infected","Diagnosed"),
+  stratify_columns = c("Year", "Gender", "Age"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- sim.results.v3 %>% 
+      filter(Year == CENSUS_YEAR) %>%
+      group_by(sim.id) %>%
+      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+      mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
+
+sim.results.v3 <- sim.results.v3 %>% 
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.id")
+  )
+```
+
+```{r}
+sim.results.v3.agg <- sim.results.v3 %>% 
+  mutate(Year = floor(Year)) %>% 
+  group_by(Year, Gender, Age, sim.ix) %>% 
+  summarize(Population = sum(Population * pop.scaling.factor),
+            Infected = sum(Infected * pop.scaling.factor),
+            On_ART = sum(On_ART * pop.scaling.factor),
+            Died = sum(Died * pop.scaling.factor),
+            Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor),
+            Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
+            Diagnosed = sum(Diagnosed * pop.scaling.factor)) %>% 
+  group_by(Year, Gender, Age) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected),
+            On_ART = mean(On_ART),
+            Died = mean(Died),
+            Died_from_HIV = mean(Died_from_HIV),
+            Newly.Infected = mean(Newly.Infected),
+            Diagnosed = mean(Diagnosed))
+
+sim.results.v3.agg %>% write_csv("SWZ_simulation_results_v3_aggregated_for_Kasturi.csv")
+```
