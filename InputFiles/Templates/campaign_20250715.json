@@ -44,7 +44,8 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "class": "CampaignEvent",
+            "Start_Year":2010,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -74,7 +75,8 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "class": "CampaignEvent",
+            "Start_Year":2010,
+            "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
@@ -3551,12 +3553,19 @@
                                 2018,
                                 2200
                             ],
-                            "Values": [
+                            ".Values": [
                                 0.80524506,
                                 0.80524506,
                                 0.80524506,
                                 0.905580176,
                                 0.905580176
+                            ],
+                            "Values": [
+                                0.9,
+                                0.9,
+                                0.9,
+                                0.95,
+                                0.95
                             ]
                         },
                         "class": "HIVPiecewiseByYearAndSexDiagnostic"
@@ -3604,12 +3613,19 @@
                                 2018,
                                 2200
                             ],
-                            "Values": [
+                            ".Values": [
                                 0.81,
                                 0.81,
                                 0.89855891,
                                 0.903490755,
                                 0.903490755
+                            ],
+                            "Values": [
+                                0.9,
+                                0.9,
+                                0.95,
+                                1.0,
+                                1.0
                             ]
                         },
                         "class": "HIVPiecewiseByYearAndSexDiagnostic"

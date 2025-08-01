@@ -116,6 +116,20 @@ carf95.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f100_VLStest___2025_08_01_17_14_48_341941/"
+
+vls.test.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf95",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.hbp <- rbind(test.results, vls.test.results, carf.m90.f100)
 # Advance VLS ramp up by 4 years, so it happens faster
 #experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-test_VLSadvance__2025_07_17_17_42_07_716958"
 
@@ -140,6 +154,155 @@ sim.results.hbp <- sim.results.hbp %>%
     by = c("sim.ix", "scenario_name")
   )
 ```
+
+### Optimize CARF
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f100___2025_07_31_12_08_30_679971/"
+
+carf.m100.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m100.f100",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f95___2025_07_31_12_07_15_617410/"
+
+carf.m100.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m100.f95",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f90___2025_07_31_12_06_01_095036/"
+
+carf.m100.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m100.f90",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f100___2025_07_31_12_04_46_034578/"
+
+carf.m95.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m95.f100",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f95___2025_07_31_12_03_28_142137/"
+
+carf.m95.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m95.f95",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f90___2025_07_31_12_02_07_723748/"
+
+carf.m95.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m95.f90",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f100___2025_07_31_12_00_44_569827/"
+
+carf.m90.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m90.f100",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f95___2025_07_31_11_59_24_631841/"
+
+carf.m90.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m90.f95",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f90___2025_07_31_11_57_38_617568/"
+
+carf.m90.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m90.f90",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.hbp <- rbind(
+  test.results,
+  carf.m100.f100,
+  carf.m100.f95,
+  carf.m100.f90,
+  carf.m95.f100,
+  carf.m95.f95,
+  carf.m95.f90,
+  carf.m90.f100,
+  carf.m90.f95,
+  carf.m90.f90,
+  carf85.results
+)
+
+sim.results.pop.scaling <- sim.results.hbp %>%
+  filter(Year == SWZ_CENSUS_YEAR) %>%
+  group_by(sim.ix, scenario_name) %>%
+  summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+  mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+sim.results.hbp <- sim.results.hbp %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+
+```
+
 
 # Plots
 
@@ -378,20 +541,30 @@ VLS.data <- VLS.data %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 VLS.data$Year = as.numeric(VLS.data$Year)
 
-sim.results.hbp %>% #filter(scenario_name == 'test') %>% 
-  filter(Year >= 2004, Age >= 15, Age <= 65) %>% 
-  dplyr::group_by(Year, Age, Gender, scenario_name, IP_Key.ARTStatus, sim.ix) %>% 
-  dplyr::summarize(On_ART = sum(On_ART * pop_scaling_factor), 
-                   .groups = "keep") %>% 
-  ungroup() %>% 
+
+VLS.cov.by.age <- merge(
+  sim.results.hbp %>% #filter(scenario_name == 'test') %>% 
+    filter(Year >= 2004, Age >= 15, Age <= 65, IP_Key.ARTStatus == "OnEffectiveART") %>% 
+    dplyr::group_by(Year, Age, Gender, scenario_name, sim.ix) %>% 
+    dplyr::summarize(OnEffectiveART = sum(On_ART * pop_scaling_factor), 
+                     .groups = "drop_last") %>% 
+    group_by(Year, Age, Gender, scenario_name) %>% 
+    summarize(OnEffectiveART = mean(OnEffectiveART), .groups = 'drop_last'),
+  sim.results.hbp %>% #filter(scenario_name == 'test') %>% 
+    filter(Year >= 2004, Age >= 15, Age <= 65, IP_Key.ARTStatus == "OnNonSuppressiveART") %>% 
+    dplyr::group_by(Year, Age, Gender, scenario_name, sim.ix) %>% 
+    dplyr::summarize(OnNonSuppressiveART = sum(On_ART * pop_scaling_factor), 
+                     .groups = "drop_last") %>% 
+    group_by(Year, Age, Gender, scenario_name) %>% 
+    summarize(OnNonSuppressiveART = mean(OnNonSuppressiveART), .groups = 'drop_last'),
+  by = c("Year", "Age", "Gender", "scenario_name")
+) %>%
   mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female")) %>%
-  group_by(Year, Age, Gender, scenario_name, IP_Key.ARTStatus) %>% 
-  summarize(On_ART = mean(On_ART), .groups = 'drop_last') %>% 
-  pivot_wider(id_cols = c(Year, Age, Gender, scenario_name), 
-              names_from = IP_Key.ARTStatus,
-              values_from = On_ART) %>% 
-  mutate(Total = NeverOnART + OffART + OnARTPreVLS+ OnEffectiveART + OnNonSuppressiveART) %>% 
-  mutate(VLS = OnEffectiveART/Total) %>% #arrange(Age, Gender, Year) %>% View()
+  mutate(Total = OnEffectiveART + OnNonSuppressiveART) %>% 
+  mutate(VLS = OnEffectiveART/Total)
+
+
+VLS.cov.by.age %>% 
   mutate(Age_factor = factor(Age)) %>%
   ggplot() + 
   geom_point(mapping = aes(x = Year, y = VLS, color = scenario_name)) + 
@@ -552,8 +725,8 @@ ageprev.data.mean$scenario_name <- as.factor(ageprev.data.mean$scenario_name)
 
 ### Plot
 
-```{r, fig.width= 10}
-p.ageprev <- ageprev.data.mean %>% filter(scenario_name %in% c("carf90", "test")) %>% 
+```{r, fig.width= 12}
+p.ageprev <- ageprev.data.mean %>% #filter(scenario_name %in% c("carf90", "test", "old")) %>% 
   mutate(scenario_name = as.factor(scenario_name)) %>% 
   ggplot() +
   geom_point(data = obs.prev.sheet.base,
@@ -603,6 +776,48 @@ p.ageprev <- ageprev.data.mean %>% filter(scenario_name %in% c("carf90", "test")
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 p.ageprev
+```
+```{r}
+ageprev.data.mean %>% filter(Year >2010) %>%
+  merge(
+    obs.prev.sheet.base %>% select(Year,Gender, AgeBin_index, Prevalence),
+    by = c("Year", "AgeBin_index", "Gender")
+  )  %>% 
+  mutate(distance = (mean.Prevalence - Prevalence)**2/(sd.Prevalence)/(sd.Prevalence)) %>% 
+  group_by(scenario_name) %>% 
+  summarize(distance = sum(distance))
+
+
+ageprev.data.mean %>% filter(Year >2010) %>%
+  merge(
+    obs.prev.sheet.base %>% select(Year,Gender, AgeBin_index, Prevalence),
+    by = c("Year", "AgeBin_index", "Gender")
+  )  %>% 
+  mutate(distance = (mean.Prevalence - Prevalence)**2/(sd.Prevalence)/(sd.Prevalence)) %>% 
+  group_by(scenario_name, Gender) %>% 
+  summarize(distance = sum(distance))
+
+```
+
+```{r}
+ageprev.data.mean %>% 
+  merge(
+    obs.prev.sheet.base %>% filter(Year > 2010) %>% select(Year,Gender, AgeBin_index, Prevalence),
+    by = c("Year", "AgeBin_index", "Gender")
+  )  %>% 
+  mutate(distance = (mean.Prevalence - Prevalence)**2/(sd.Prevalence)/(sd.Prevalence)) %>% 
+  group_by(scenario_name) %>% 
+  summarize(distance = sum(distance))
+
+
+ageprev.data.mean %>% 
+  merge(
+    obs.prev.sheet.base  %>% filter(Year > 2010) %>% select(Year,Gender, AgeBin_index, Prevalence),
+    by = c("Year", "AgeBin_index", "Gender")
+  )  %>% 
+  mutate(distance = (mean.Prevalence - Prevalence)**2/(sd.Prevalence)/(sd.Prevalence)) %>% 
+  group_by(scenario_name, Gender) %>% 
+  summarize(distance = sum(distance))
 ```
 
 
@@ -660,7 +875,7 @@ inc.data.mean <- inc.data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male",
 ```
 
 ### Plot 
-```{r, fig.width=10}
+```{r, fig.height=10}
 p.inc <- inc.data.mean %>%
   ggplot() +
   # plot means
@@ -683,8 +898,8 @@ p.inc <- inc.data.mean %>%
   ylab("Incidence (%)") +
   theme_bw(base_size=16) +
   guides(fill = guide_legend(keywidth = 2, keyheight = 1)) +
-  scale_x_continuous(breaks = c(1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2025),
-                     limits = c(1975, 2025)) +
+  scale_x_continuous(breaks = c(2005, 2010, 2015, 2020, 2025),
+                     limits = c(2005, 2025)) +
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
@@ -693,64 +908,79 @@ p.inc <- inc.data.mean %>%
 p.inc
 ```
 
+```{r}
+inc.data.mean %>% filter(Year %in% c(2011, 2016, 2021)) %>% 
+  merge(incidence.data, by = c("Year", "Gender")) %>% 
+  mutate(distance = (mean.Incidence*100 - inc)**2/(sd.Incidence*100)/(sd.Incidence*100)) %>% 
+  group_by(scenario_name) %>% 
+  summarize(distance = sum(distance))
+```
+```{r}
+inc.data.mean %>% filter(Year %in% c(2011, 2016, 2021)) %>% 
+  merge(incidence.data, by = c("Year", "Gender")) %>% 
+  mutate(distance = (mean.Incidence*100 - inc)**2/(sd.Incidence*100)/(sd.Incidence*100)) %>% 
+  group_by(scenario_name, Gender) %>% 
+  summarize(distance = sum(distance))
+```
+
+
 
 ### By Age
 
 ```{r, fig.width=10}
-age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
-subset_years = c(2007, 2007.5, 2011, 2011.5, 2016, 2016.5, 2021, 2021.5)
-
-# Subset data on years
-data <- sim.results.hbp %>% filter(Year %in% subset_years)
-
-# Age bins
-age_labels = c()
-for (i in 1:(length(age_bins) - 1)){
-  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
-}
-# Label each age by its bin
-data <- data %>% mutate(
-  AgeBin = cut(Age, breaks = age_bins, right = FALSE)
-  ) %>%
-  filter(!is.na(AgeBin))
-data$AgeBin_index = factor(data$AgeBin,labels = 1:9)#length(age_labels))
-
-# Calculate incidence
-data$Year_Integer <- floor((data$Year-0.5))
-# Aggregate number of new infections each year, broken down by Year_Integer and Gender
-trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data,FUN=sum)
-#Make the denominator as HIV-negative individuals
-trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data, FUN=sum)
-trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
-#remove second instance of duplicate rows
-trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name")]),]
-trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
-trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name"))
-trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
-data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
-
-# Calculate mean prevalence across all sim runs
-data.mean <- data %>%
-  dplyr::group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>%
-  dplyr::summarize(mean.Incidence = mean(incidence),
-                  sd.Incidence = sd(incidence),
-            .groups = 'keep') %>%
-  ungroup() %>%
-  dplyr::mutate(upper = mean.Incidence + 2*sd.Incidence,
-                lower = case_when(mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
-                         mean.Incidence - 2 * sd.Incidence <= 0 ~ 0)
-                )
-
-# Transform data
-data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+# age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
+# subset_years = c(2007, 2007.5, 2011, 2011.5, 2016, 2016.5, 2021, 2021.5)
+# 
+# # Subset data on years
+# data <- sim.results.hbp %>% filter(Year %in% subset_years)
+# 
+# # Age bins
+# age_labels = c()
+# for (i in 1:(length(age_bins) - 1)){
+#   age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+# }
+# # Label each age by its bin
+# data <- data %>% mutate(
+#   AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+#   ) %>%
+#   filter(!is.na(AgeBin))
+# data$AgeBin_index = factor(data$AgeBin,labels = 1:11)#length(age_labels))
+# 
+# # Calculate incidence
+# data$Year_Integer <- floor((data$Year-0.5))
+# # Aggregate number of new infections each year, broken down by Year_Integer and Gender
+# trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data,FUN=sum)
+# #Make the denominator as HIV-negative individuals
+# trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+AgeBin_index + AgeBin + sim.id+scenario_name, data=data, FUN=sum)
+# trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+# #remove second instance of duplicate rows
+# trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name")]),]
+# trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+# trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","AgeBin_index", "AgeBin", "sim.id","scenario_name"))
+# trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+# data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+# 
+# # Calculate mean prevalence across all sim runs
+# data.mean <- data %>%
+#   dplyr::group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>%
+#   dplyr::summarize(mean.Incidence = mean(incidence),
+#                   sd.Incidence = sd(incidence),
+#             .groups = 'keep') %>%
+#   ungroup() %>%
+#   dplyr::mutate(upper = mean.Incidence + 2*sd.Incidence,
+#                 lower = case_when(mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+#                          mean.Incidence - 2 * sd.Incidence <= 0 ~ 0)
+#                 )
+# 
+# # Transform data
+# inc.age.data.mean <- data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
 
 
 ```
 
 ### Plot
-
 ```{r}
-p <- data.mean %>% filter(Year %in% c(2007, 2011, 2016, 2021)) %>% 
+p <- inc.age.data.mean %>% filter(Year %in% c(2007, 2011, 2016, 2021)) %>% 
   ggplot() +
   # plot means
   geom_point(
@@ -791,6 +1021,7 @@ p <- data.mean %>% filter(Year %in% c(2007, 2011, 2016, 2021)) %>%
   
 p
 ```
+
 # Incidence by age
 
 ### Incidence comparison with SHIMS report
@@ -849,7 +1080,7 @@ data <- data %>% mutate(
 data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
 
 # Calculate mean incidence across all sim runs
-data.mean <- data %>%
+inc.age.data.mean <- data %>%
   dplyr::group_by(Year, AgeBin_index, AgeBin, Gender, scenario_name) %>%
   dplyr::summarize(mean.Incidence = mean(incidence),
                   sd.Incidence = sd(incidence),
@@ -865,7 +1096,7 @@ data.mean <- data %>%
 
 ### Plot
 ```{r, fig.width=10}
-p.inc.age <- data.mean %>% filter(Year == 2016) %>% 
+p.inc.age <- inc.age.data.mean %>% filter(Year == 2016) %>% 
   ggplot() +
   # plot means
   geom_point(
@@ -929,3 +1160,5 @@ sim.results.hbp %>%
   summari
 ```
 
+
+## Testing what is going on with 
