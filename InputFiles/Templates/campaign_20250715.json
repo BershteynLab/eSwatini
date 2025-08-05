@@ -44,7 +44,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2010,
+            "Start_Year":2005,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -59,8 +59,10 @@
                         "Disqualifying_Properties": [
                         ]
                     },
-                    "Target_Demographic": "ExplicitGender",
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Male",
+                    "Target_Age_Max": 35,
+                    "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
                     ],
@@ -75,7 +77,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2010,
+            "Start_Year":2005,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -90,8 +92,10 @@
                         "Disqualifying_Properties": [
                         ]
                     },
-                    "Target_Demographic": "ExplicitGender",
+                    "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Female",
+                    "Target_Age_Max": 35,
+                    "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
                     ],

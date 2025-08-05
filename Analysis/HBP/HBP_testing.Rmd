@@ -158,7 +158,8 @@ sim.results.hbp <- sim.results.hbp %>%
 ### Optimize CARF
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f100___2025_07_31_12_08_30_679971/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f100___2025_07_31_12_08_30_679971/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f100___2025_08_01_18_48_57_420873/"
 
 carf.m100.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -171,7 +172,8 @@ carf.m100.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f95___2025_07_31_12_07_15_617410/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f95___2025_07_31_12_07_15_617410/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f95___2025_08_01_18_47_34_863660/"
 
 carf.m100.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -184,7 +186,8 @@ carf.m100.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f90___2025_07_31_12_06_01_095036/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f90___2025_07_31_12_06_01_095036/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m100_f90___2025_08_01_18_45_49_412024/"
 
 carf.m100.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -197,7 +200,8 @@ carf.m100.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f100___2025_07_31_12_04_46_034578/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f100___2025_07_31_12_04_46_034578/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f100___2025_08_01_18_44_30_843303/"
 
 carf.m95.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -210,7 +214,8 @@ carf.m95.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f95___2025_07_31_12_03_28_142137/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f95___2025_07_31_12_03_28_142137/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f95___2025_08_01_18_42_46_170137/"
 
 carf.m95.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -223,7 +228,7 @@ carf.m95.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f90___2025_07_31_12_02_07_723748/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m95_f90___2025_08_01_18_41_27_601817/"
 
 carf.m95.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -236,7 +241,7 @@ carf.m95.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f100___2025_07_31_12_00_44_569827/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f100___2025_08_01_18_39_41_945374/"
 
 carf.m90.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -249,7 +254,8 @@ carf.m90.f100 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f95___2025_07_31_11_59_24_631841/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f95___2025_07_31_11_59_24_631841/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f95___2025_08_01_18_38_20_939369"
 
 carf.m90.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -262,11 +268,24 @@ carf.m90.f95 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f90___2025_07_31_11_57_38_617568/"
-
+# experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f90___2025_07_31_11_57_38_617568/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m90_f90___2025_08_01_18_36_42_861991"
 carf.m90.f90 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "carf.m90.f90",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV",
+                      "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/HBP/Baseline-campaign_20250715-carf_m85_f85___2025_08_01_18_34_54_703179"
+
+carf.m85.f85 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "carf.m85.f85",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV",
                       "Newly.Infected","Diagnosed","OnART0","OnART0_preart","OnART1","EffectiveART","NonSuppressiveART"),
@@ -286,7 +305,7 @@ sim.results.hbp <- rbind(
   carf.m90.f100,
   carf.m90.f95,
   carf.m90.f90,
-  carf85.results
+  carf.m85.f85
 )
 
 sim.results.pop.scaling <- sim.results.hbp %>%
@@ -723,10 +742,18 @@ ageprev.data.mean <- ageprev.data.mean[order(ageprev.data.mean$scenario_name), ]
 ageprev.data.mean$scenario_name <- as.factor(ageprev.data.mean$scenario_name)
 ```
 
+```{r}
+ageprev.data.mean %>% filter(scenario_name %in% c("carf.m100.f90", "carf.m85.f85")) %>% 
+  filter(AgeBin_index %in% c(2,3,4,5), 
+         Year %in% c(2016, 2021)) %>% 
+  arrange(scenario_name, Gender, Year)
+```
+
+
 ### Plot
 
 ```{r, fig.width= 12}
-p.ageprev <- ageprev.data.mean %>% #filter(scenario_name %in% c("carf90", "test", "old")) %>% 
+p.ageprev <- ageprev.data.mean %>% filter(scenario_name %in% c("carf.m100.f90", "carf.m85.f85")) %>% 
   mutate(scenario_name = as.factor(scenario_name)) %>% 
   ggplot() +
   geom_point(data = obs.prev.sheet.base,
@@ -777,6 +804,8 @@ p.ageprev <- ageprev.data.mean %>% #filter(scenario_name %in% c("carf90", "test"
 
 p.ageprev
 ```
+
+
 ```{r}
 ageprev.data.mean %>% filter(Year >2010) %>%
   merge(
@@ -875,7 +904,7 @@ inc.data.mean <- inc.data.mean %>% mutate(Gender = case_when(Gender==0 ~ "Male",
 ```
 
 ### Plot 
-```{r, fig.height=10}
+```{r, fig.height=12}
 p.inc <- inc.data.mean %>%
   ggplot() +
   # plot means
@@ -923,6 +952,31 @@ inc.data.mean %>% filter(Year %in% c(2011, 2016, 2021)) %>%
   summarize(distance = sum(distance))
 ```
 
+### Combining metrics for comparison
+
+```{r}
+
+merge(
+  inc.data.mean %>% filter(Year %in% c(2011, 2016, 2021)) %>% 
+    merge(incidence.data, by = c("Year", "Gender")) %>% 
+    mutate(distance = (mean.Incidence*100 - inc)**2/(sd.Incidence*100)/(sd.Incidence*100)) %>% 
+    group_by(scenario_name) %>% 
+    summarize(distance = sum(distance)),
+  ageprev.data.mean %>% filter(Year >2010) %>%
+    merge(
+      obs.prev.sheet.base %>% select(Year,Gender, AgeBin_index, Prevalence),
+      by = c("Year", "AgeBin_index", "Gender")
+    )  %>% 
+    mutate(distance = (mean.Prevalence - Prevalence)**2/(sd.Prevalence)/(sd.Prevalence)) %>% 
+    group_by(scenario_name) %>% 
+    summarize(distance = sum(distance)),
+  by = c("scenario_name")
+) %>% 
+  mutate(distance = distance.x + distance.y) %>% 
+  arrange(distance) %>% 
+  head(11)
+
+```
 
 
 ### By Age
@@ -1096,7 +1150,7 @@ inc.age.data.mean <- data %>%
 
 ### Plot
 ```{r, fig.width=10}
-p.inc.age <- inc.age.data.mean %>% filter(Year == 2016) %>% 
+p.inc.age <- inc.age.data.mean %>% filter(Year == 2016) %>%  filter(scenario_name %in% c("test", "carf.m85.f85")) %>% 
   ggplot() +
   # plot means
   geom_point(
@@ -1133,9 +1187,6 @@ p.inc.age <- inc.age.data.mean %>% filter(Year == 2016) %>%
   scale_color_manual(values=c("blue", "red"))
   
 p.inc.age
-
-# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/hiv_incidence_shims2_2016.pdf",
-#        width = 8, height = 4, units = "in")
 ```
 
 ## New HIV Infections
@@ -1161,4 +1212,4 @@ sim.results.hbp %>%
 ```
 
 
-## Testing what is going on with 
+
