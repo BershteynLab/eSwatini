@@ -18,6 +18,26 @@
 
 ## Major Updates
 
+### 2025-07-15
+
+* Now working on simulating how countries should plan for disruptions to their HIV services.
+* Is it more important to invest in preventative care or ART maintenance, given limited resources?
+
+Proposed changes
+* Add variable rates of EffectiveART vs. NonSuppressiveART, to match how viral load suppression rate outcomes grow with time, in order to bring down incidence among men in more recent years
+
+### 2024-08-30
+
+Problem: 
+
+* Incidence is too high among men post 2016
+* Leads to excess younger people (under age of 30) with HIV, age distribution peaks too low currently
+
+Solution:
+
+* Dial down HIGH risk population post-2010
+* Dial up ART distribution among young people
+
 ### 2024-07-07
 
 Updated ART coverage distribution to match SHIMS data.

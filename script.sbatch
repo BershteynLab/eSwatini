@@ -21,4 +21,6 @@
 
 # python optim_script.py
 
-python run_scenarios.py -c optim_script.py --resample-method roulette --nsamples 250 --output-dir test3_swz2024 --suite-name test3_swz2024 --table scenarios.csv --calib-dir Swaziland--0.1--rep3--test3
+#python run_scenarios.py -c optim_script.py --resample-method roulette --nsamples 250 --output-dir pepfar_swz --suite-name pepfar_swz --table scenarios.csv --calib-dir Swaziland--0.1--rep3--test3
+
+python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir hbp --suite-name hbp --table scenarios.csv
