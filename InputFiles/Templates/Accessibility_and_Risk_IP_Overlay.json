@@ -75,6 +75,7 @@
                   0,
                   0,
                   0,
+                  0,
                   0
                ],
                "Property": "CascadeState",
@@ -92,8 +93,15 @@
                   "HCTUptakePostDebut",
                   "TestingOnChild6w",
                   "TestingOnSymptomatic",
-                  "LostForever"
+                  "LostForever",
+                  "LostForever_PEPFAR_cancelled"
                ]
+            },
+            {
+               "Property": "OnPrEP",
+               "Values": ["False", "True"],
+               "Initial_Distribution": [1, 0],
+               "Transitions": []
             },
             {
                "Initial_Distribution": [

@@ -61,6 +61,8 @@
             "OnART0",
             "OnART0_preart",
             "OnART1",
+            "OnART1_initiate",
+            "OnART1_initiate_FAILURE",
             "EffectiveART",
             "NonSuppressiveART",
             "OnART3",
@@ -71,7 +73,14 @@
             "OnPreART4",
             "Program_VMMC",
             "Ready_For_TMC",
-            "Schedued_To_Get_TMC"
+            "Schedued_To_Get_TMC",
+            "Initiate_PrEP",
+            "PrEP_Expired",
+            "Initiate_LAPrEP",
+            "LAPrEP_Expired",
+            "NoARTAccess",
+            "PEPFAR_ARTDropout_Yes",
+            "PEPFAR_ARTDropout_No"            
         ],
         "Custom_Node_Events": [
             "OnPreART1",
@@ -189,17 +198,19 @@
         "Report_HIV_ByAgeAndGender_Collect_HIV_Data": 0,
         "Report_HIV_ByAgeAndGender_Collect_HIV_Stage_Data": 0,
         "Report_HIV_ByAgeAndGender_Collect_IP_Data": [
-            "ARTStatus"
+            "ARTStatus",
+            "OnPrEP"
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
-            "OnART0",
-            "OnART0_preart",
-            "OnART1",
-            "EffectiveART",
-            "NonSuppressiveART",
-            "OnART3"
+            "Initiate_PrEP",
+            "Initiate_LAPrEP",
+            "Program_VMMC",
+            "PEPFAR_ARTDropout_Yes",
+            "PEPFAR_ARTDropout_No",
+            "OnART1_initiate",
+            "OnART1_initiate_FAILURE"
         ],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 2005,
@@ -224,7 +235,7 @@
         "Sexual_Debut_Age_Male_Weibull_Heterogeneity": 0.043005807,
         "Sexual_Debut_Age_Male_Weibull_Scale": 17.36956881,
         "Sexual_Debut_Age_Min": 13,
-        "Simulation_Duration": 27375,
+        "Simulation_Duration": 25915,
         "Simulation_Timestep": 30.4166666666667,
         "Simulation_Type": "HIV_SIM",
         "Start_Time": 0,
