@@ -3813,37 +3813,7 @@
             "Start_Year": 1990,
             "class": "CampaignEventByYear"
         },
-        {
-            "BEGIN": "Blocking ART initiation",
-            "Event_Name": "Do not block ART initiation until 2025",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Year": 1990,
-            "class": "CampaignEventByYear",
-            "Event_Coordinator_Config": {
-                "Intervention_Config": {
-                    "Actual_IndividualIntervention_Config": {
-                        "class": "HIVRandomChoice",
-                        "Choice_Names": [
-                            "OnART1_initiate",
-                            "OnART1_initiate_FAILURE"
-                        ],
-                        "Choice_Probabilities": [
-                            1.0,
-                            0.0
-                        ],
-                    },
-                    "Trigger_Condition_List": [
-                        "OnART1",
-                        "OnART0_preart"
-                    ],
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Duration":12775
-                },
-                "class": "StandardInterventionDistributionEventCoordinator"
-            }
-        },
+
         {
             "Event_Name": "Block ART initiation in 2025",
             "Nodeset_Config": {
@@ -3895,7 +3865,7 @@
                             1.0,
                             0.0
                         ],
-                        "Choice_Probabilities__KP__ART_Initiation": 
+                        "Choice_Probabilities__KP__ART_Initiation": "<-- MARKER"
                     },
                     "Trigger_Condition_List": [
                         "OnART1",
@@ -5076,7 +5046,7 @@
                     1.0
                 ],
                 "Choice_Probabilities__KP__ARTDropout_Affected": "Marker",
-                "New_Property_Value": "PEPFAR_ARTDropout:Yes",
+                ".New_Property_Value": "PEPFAR_ARTDropout:Yes",
                 "class": "HIVRandomChoice"
                 },
                 "Targeting_Config": {
