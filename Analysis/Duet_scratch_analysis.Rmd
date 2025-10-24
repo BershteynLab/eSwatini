@@ -39,14 +39,15 @@ The purpose here will be to make sure that certain events are firing as intended
 ## Read in data
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_14_17_35_198267/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_16_47_43_353533/"
 
 results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "baseline",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
-                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
@@ -54,28 +55,30 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_11_09_20_025717/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_16_48_14_037578/"
 
 results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "cut.perm",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
-                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_11_09_22_274048/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_16_48_16_372521/"
 
 results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "cut.2025",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
-                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
@@ -84,28 +87,30 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_24_11_09_24_417511/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_24_16_48_18_683696/"
 
 results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "cut.la",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
-                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_24_11_09_26_606239/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_24_16_48_20_987872/"
 
 results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "cut.perm.max",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
-                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
   stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
@@ -136,19 +141,6 @@ duet.results <- duet.results %>%
 
 ## Checks
 
-```{r}
-duet.results  %>% 
-  group_by(sim.ix, scenario_name, Year) %>% 
-  summarize(
-    On_ART = sum(On_ART * pop_scaling_factor)
-  ) %>% 
-  group_by(scenario_name, Year) %>% 
-  summarize(
-    On_ART = mean(On_ART)
-  ) 
-```
-
-
 ### Check on ART dropout
 
 ```{r}
@@ -168,6 +160,11 @@ dat <- duet.results %>%
 dat %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = PEPFAR_ARTDropout_No , color = scenario_name))
+
+
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = PEPFAR_ARTDropout_Yes , color = scenario_name))
 
 dat %>% filter(Year == 2025.5)
 ```
@@ -257,4 +254,8 @@ dat %>%
 
 
 ### VMMC Distribution
+
+```{r}
+
+```
 

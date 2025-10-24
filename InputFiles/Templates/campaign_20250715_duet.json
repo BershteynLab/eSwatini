@@ -1081,7 +1081,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2025,
+            "Start_Year": 2026,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -1096,8 +1096,7 @@
                     "Trigger_Condition_List": [
                         "Program_VMMC_Uptake"
                     ],
-                    "class": "NodeLevelHealthTriggeredIV",
-                    "Duration":365
+                    "class": "NodeLevelHealthTriggeredIV"
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
