@@ -1,0 +1,260 @@
+---
+title: "Modeling Duet"
+output: html_document
+date: "2025-10-24"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Introduction
+
+* Produce a slide deck and series of outputs illustrating the new and improved calibrated model.
+* Produce aggregated tables
+
+# Libraries 
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(data.table))
+library(magrittr)
+library(rsample)
+library(patchwork)
+```
+
+
+## Constants
+```{r}
+SWZ_CENSUS_YEAR = 2017
+SWZ_CENSUS_POP = 1148000 # UN WPP 2019, according to SWZ national census 2017 1093238
+
+current_date <- Sys.Date()
+date_string_ymd <- format(current_date, format = "%Y%m%d")
+```
+
+
+# Preliminary checks
+
+The purpose here will be to make sure that certain events are firing as intended, that the interventions are going out as designed
+
+## Read in data
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_14_17_35_198267/"
+
+results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "baseline",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_11_09_20_025717/"
+
+results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.perm",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_11_09_22_274048/"
+
+results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.2025",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_24_11_09_24_417511/"
+
+results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.la",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_24_11_09_26_606239/"
+
+results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.perm.max",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC","PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+duet.results <- rbind(
+  results.baseline,
+  results.cut.perm,
+  results.cut.2025,
+  results.cut.la,
+  results.cut.perm.max
+)
+
+sim.results.pop.scaling <- duet.results %>%
+  filter(Year == SWZ_CENSUS_YEAR) %>%
+  group_by(sim.ix, scenario_name) %>%
+  summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+  mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+duet.results <- duet.results %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+
+```
+
+## Checks
+
+```{r}
+duet.results  %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    On_ART = sum(On_ART * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    On_ART = mean(On_ART)
+  ) 
+```
+
+
+### Check on ART dropout
+
+```{r}
+dat <- duet.results %>% 
+  filter(Year > 2020) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    PEPFAR_ARTDropout_Yes = sum(PEPFAR_ARTDropout_Yes * pop_scaling_factor),
+    PEPFAR_ARTDropout_No = sum(PEPFAR_ARTDropout_No * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    PEPFAR_ARTDropout_Yes = mean(PEPFAR_ARTDropout_Yes), 
+    PEPFAR_ARTDropout_No = mean(PEPFAR_ARTDropout_No)
+  ) 
+
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = PEPFAR_ARTDropout_No , color = scenario_name))
+
+dat %>% filter(Year == 2025.5)
+```
+
+
+### Check on ART initiation rates
+
+```{r}
+dat <- duet.results %>% 
+  filter(Year > 2020) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    OnART1_initiate = sum(OnART1_initiate * pop_scaling_factor),
+    OnART1_initiate_FAILURE = sum(OnART1_initiate_FAILURE * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    OnART1_initiate = mean(OnART1_initiate), 
+    OnART1_initiate_FAILURE = mean(OnART1_initiate_FAILURE)
+  ) %>% 
+  mutate(rate = OnART1_initiate/(OnART1_initiate_FAILURE + OnART1_initiate))
+
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = OnART1_initiate_FAILURE , color = scenario_name))
+
+
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = rate , color = scenario_name))
+
+
+```
+
+### PrEP Distribution
+
+Both oral and LA
+
+```{r}
+dat <- duet.results %>% 
+  filter(Year > 2020) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP), 
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  ) 
+
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_PrEP , color = scenario_name))
+```
+
+```{r}
+dat %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_LAPrEP , color = scenario_name))
+```
+
+### PrEP coverage
+
+```{r}
+dat <- duet.results %>% 
+  filter(Year > 2020) %>% 
+  group_by(sim.ix, scenario_name, Year, IP_Key.OnPrEP) %>% 
+  summarize(
+    Population = sum(Population * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year,IP_Key.OnPrEP) %>% 
+  summarize(
+    Population = mean(Population)
+  ) 
+
+dat %>% 
+  pivot_wider(id_cols = c(scenario_name, Year),
+              values_from = Population,
+              names_from = IP_Key.OnPrEP) %>% 
+  mutate(PrEP_cov = `TRUE`/(`FALSE` + `TRUE`)) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = PrEP_cov, color = scenario_name)) 
+
+```
+
+
+### VMMC Distribution
+

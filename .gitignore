@@ -16,7 +16,6 @@ SWZ_calib.code-workspace
 .RData
 .Rhistory
 
-Analysis
 Analysis/HBP/*.pdf
 Analysis/HBP/*.csv
 Analysis/*.pdf

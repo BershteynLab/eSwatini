@@ -206,6 +206,7 @@
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
             "Initiate_PrEP",
             "Initiate_LAPrEP",
+            "Program_VMMC_Uptake",
             "Program_VMMC",
             "PEPFAR_ARTDropout_Yes",
             "PEPFAR_ARTDropout_No",
