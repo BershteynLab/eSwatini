@@ -256,6 +256,250 @@ dat %>%
 ### VMMC Distribution
 
 ```{r}
+dat <- duet.results %>% 
+  filter(Year > 2020) %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Program_VMMC = sum(Program_VMMC * pop_scaling_factor),
+    Program_VMMC_Uptake = sum(Program_VMMC_Uptake * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Program_VMMC = mean(Program_VMMC),
+    Program_VMMC_Uptake = mean(Program_VMMC_Uptake)
+  ) %>% 
+  mutate(
+    rate = case_when(Program_VMMC_Uptake == 0 ~ 0,
+                     Program_VMMC_Uptake > 0 ~ Program_VMMC/Program_VMMC_Uptake)
+  )
+
+dat %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Program_VMMC, color = scenario_name))
+
+
+dat %>%
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = rate, color = scenario_name))
 
 ```
 
+# Produce results
+
+## PLHIV
+
+```{r}
+dat <- duet.results %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Infected = mean(Infected)
+  )
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name))
+```
+
+
+## New HIV Infections
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected)
+  )
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected, color = scenario_name))
+```
+
+```{r}
+dat %>% 
+  filter(Year >=2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected)) %>% 
+  mutate(
+    Newly.Infected.baseline = rep(
+  dat %>% 
+    filter(Year >=2025) %>% 
+    group_by(scenario_name) %>% 
+    summarize(Newly.Infected.baseline = sum(Newly.Infected)) %>% 
+    filter(scenario_name == 'baseline') %>% .$Newly.Infected.baseline,
+  5)
+  ) %>% 
+  mutate(
+    diff = Newly.Infected - Newly.Infected.baseline
+  ) %>% 
+  mutate(
+    pct = diff/Newly.Infected.baseline
+  )
+
+```
+
+
+## HIV-related deaths
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Died_from_HIV = mean(Died_from_HIV)
+  )
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Died_from_HIV, color = scenario_name))
+```
+
+
+```{r}
+dat %>% 
+  filter(Year >=2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(Died_from_HIV = sum(Died_from_HIV)) %>% 
+  mutate(
+    Died_from_HIV.baseline = rep(
+  dat %>% 
+    filter(Year >=2025) %>% 
+    group_by(scenario_name) %>% 
+    summarize(Died_from_HIV.baseline = sum(Died_from_HIV)) %>% 
+    filter(scenario_name == 'baseline') %>% .$Died_from_HIV.baseline,
+  5)
+  ) %>% 
+  mutate(
+    diff = Died_from_HIV - Died_from_HIV.baseline
+  ) %>% 
+  mutate(
+    pct = diff/Died_from_HIV.baseline
+  )
+```
+
+
+## ART initiations
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    OnART1_initiate = sum(OnART1_initiate * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    OnART1_initiate = mean(OnART1_initiate)
+  )
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = OnART1_initiate, color = scenario_name))
+```
+
+
+```{r}
+dat %>% 
+  filter(Year >=2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(OnART1_initiate = sum(OnART1_initiate)) %>% 
+  mutate(
+    OnART1_initiate.baseline = rep(
+  dat %>% 
+    filter(Year >=2025) %>% 
+    group_by(scenario_name) %>% 
+    summarize(OnART1_initiate.baseline = sum(OnART1_initiate)) %>% 
+    filter(scenario_name == 'baseline') %>% .$OnART1_initiate.baseline,
+  5)
+  ) %>% 
+  mutate(
+    diff = OnART1_initiate - OnART1_initiate.baseline
+  ) %>% 
+  mutate(
+    pct = diff/OnART1_initiate.baseline
+  )
+```
+
+What is the excess in ART initiations beyond baseline?
+```{r}
+dat %>% 
+  filter(Year >= 2025) %>% 
+  arrange(Year)
+```
+
+
+```{r}
+# What percentage of people are on ART in the baseline, at the start of 2026?
+dat <- duet.results %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    On_ART = sum(On_ART * pop_scaling_factor),
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    On_ART = mean(On_ART),
+    Infected = mean(Infected)
+  ) %>% 
+  ungroup() %>% 
+  mutate(ARTCov = On_ART/Infected)
+
+dat %>% filter(Year == 2026)
+```
+
+
+## PrEP initiations
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP),
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  )
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_PrEP, color = scenario_name))
+```
+
+
+```{r}
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_LAPrEP, color = scenario_name))
+```
+
+
+
+## VMMC distributed

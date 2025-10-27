@@ -1,6 +1,6 @@
 Scenario,Campaign,Num_Targeted_Females__KP__PrEP_Interrupt_F_2025,Num_Targeted_Males__KP__PrEP_Interrupt_M_2025,Num_Targeted_Females__KP__PrEP_Interrupt_F,Num_Targeted_Males__KP__PrEP_Interrupt_M,Num_Targeted_Females__KP__LA_Interrupt_F_2025,Num_Targeted_Males__KP__LA_Interrupt_M_2025,Num_Targeted_Females__KP__LA_Interrupt_F,Num_Targeted_Males__KP__LA_Interrupt_M,Choice_Probabilities__KP__ART_Initiation_2025,Choice_Probabilities__KP__ART_Initiation,Choice_Probabilities__KP__ARTDropout_Affected,Start_Year__KP__ARTDropout_Proceed,Demographic_Coverage__KP__VMMC_2025,Demographic_Coverage__KP__VMMC
 baseline,campaign_20250715_duet.json,[1994],[1994],[9972],[9972],[182],[182],[909],[909],"[1.0,0.0]","[1.0,0.0]","[0.0,1.0]",2075,1.0,1.0
 cut_perm,campaign_20250715_duet.json,[1551],[1551],[7758],[7758],[182],[182],[909],[909],"[0.5,0.5]","[0.5,0.5]","[0.03,0.97]",2025,0.53,0.53
-cut_2025,campaign_20250715_duet.json,[1551],[1551],[9972],[9972],[182],[182],[909],[909],"[0.5,0.5]","[1.0,0.0]","[0.03,0.97]",2025,0.53,1.0
-cut_2025_la,campaign_20250715_duet.json,[1551],[1551],[1],[1],[182],[182],[10881],[10881],"[0.5,0.5]","[1.0,0.0]","[0.03,0.97]",2025,0.53,1.0
+cut_2025,campaign_20250715_duet.json,[1551],[1551],[9972],[9972],[182],[182],[909],[909],"[0.5,0.5]","[0.6838174,0.3161826]","[0.03,0.97]",2025,0.53,1.0
+cut_2025_la,campaign_20250715_duet.json,[1551],[1551],[1],[1],[182],[182],[2175],[2175],"[0.5,0.5]","[0.6838174,0.3161826]","[0.03,0.97]",2025,0.53,1.0
 cut_perm_max,campaign_20250715_duet.json,[1],[1],[1],[1],[1],[1],[1],[1],"[0.5,0.5]","[0.5,0.5]","[0.10,0.90]",2025,0.53,0.53
