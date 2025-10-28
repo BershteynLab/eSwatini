@@ -41,7 +41,7 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -57,12 +57,13 @@ results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_18_11_20_780711/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_18_11_20_780711/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_27_16_34_42_475341"
 
 results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -72,12 +73,13 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_15_37_08_008150/"
+#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_15_37_08_008150/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_16_36_35_521083"
 
 results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -87,7 +89,7 @@ results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -102,7 +104,7 @@ results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -133,22 +135,295 @@ duet.results <- duet.results %>%
 
 # Tables
 
+## New Acquisitions
 ```{r}
 dat <- duet.results %>% 
   mutate(Year = floor(Year - .5)) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
-    Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+    Newly.Infected = sum(Newly.Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected)
+  )
+
+dat %>% 
+  filter(Year >=2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected)) %>% 
+  mutate(
+    Newly.Infected.baseline = rep(
+  dat %>% 
+    filter(Year >=2025) %>% 
+    group_by(scenario_name) %>% 
+    summarize(Newly.Infected.baseline = sum(Newly.Infected)) %>% 
+    filter(scenario_name == 'baseline') %>% .$Newly.Infected.baseline,
+  5)
+  ) %>% 
+  mutate(
+    diff = Newly.Infected - Newly.Infected.baseline
+  ) %>% 
+  mutate(
+    pct = diff/Newly.Infected.baseline
+  )
+```
+
+## HIV deaths
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
     Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor)
   ) %>% 
   group_by(scenario_name, Year) %>% 
   summarize(
-    Newly.Infected = mean(Newly.Infected),
     Died_from_HIV = mean(Died_from_HIV)
   )
+
+dat %>% 
+  filter(Year >=2025) %>% 
+  group_by(scenario_name) %>% 
+  summarize(Died_from_HIV = sum(Died_from_HIV)) %>% 
+  mutate(
+    Died_from_HIV.baseline = rep(
+  dat %>% 
+    filter(Year >=2025) %>% 
+    group_by(scenario_name) %>% 
+    summarize(Died_from_HIV.baseline = sum(Died_from_HIV)) %>% 
+    filter(scenario_name == 'baseline') %>% .$Died_from_HIV.baseline,
+  5)
+  ) %>% 
+  mutate(
+    diff = Died_from_HIV - Died_from_HIV.baseline
+  ) %>% 
+  mutate(
+    pct = diff/Died_from_HIV.baseline
+  )
+```
+
+## ART Coverage
+
+```{r}
+dat <- duet.results %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    On_ART = sum(On_ART * pop_scaling_factor),
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    On_ART = mean(On_ART),
+    Infected = mean(Infected)
+  ) %>% 
+  ungroup() %>% 
+  mutate(ARTCov = On_ART/Infected)
+
+dat %>% filter(Year == 2025)
 ```
 
 
 # Plots
 
+## PLHIV Populations
+
+```{r}
+dat <- duet.results %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Infected = mean(Infected)
+  )
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name)) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("PLHIV") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+```
+
+## HIV Acquisitions
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = sum(Newly.Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Newly.Infected = mean(Newly.Infected)
+  )
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected, color = scenario_name),
+            linewidth = 1) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("HIV Acquisitions") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+```
+
+
+## HIV-related Deaths
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Died_from_HIV = mean(Died_from_HIV)
+  )
+
+
+dat %>% 
+  filter(Year >= 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Died_from_HIV, color = scenario_name),
+            linewidth = 1) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("HIV Acquisitions") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+```
+
+
+## ART Coverage
+
+```{r}
+# What percentage of people are on ART in the baseline, at the start of 2026?
+dat <- duet.results %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    On_ART = sum(On_ART * pop_scaling_factor),
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    On_ART = mean(On_ART),
+    Infected = mean(Infected)
+  ) %>% 
+  ungroup() %>% 
+  mutate(ARTCov = On_ART/Infected)
+
+dat %>% 
+  filter(Year >= 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = ARTCov, color = scenario_name),
+            linewidth = 1) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("ART Coverage") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+
+
+```
+## PrEP Coverage
+
+```{r}
+dat <- duet.results %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP),
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  )
+
+dat %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  filter(Year >= 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_PrEP, color = scenario_name),
+            linewidth = 1) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("PrEP Initiations") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+
+```
+
+```{r}
+dat %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  filter(Year >= 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Initiate_LAPrEP, color = scenario_name),
+            linewidth = 1) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  scale_y_continuous("PrEP Initiations") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+```
 

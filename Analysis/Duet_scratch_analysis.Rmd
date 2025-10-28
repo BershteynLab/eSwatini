@@ -49,7 +49,7 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -65,7 +65,7 @@ results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -80,12 +80,10 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender",  "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
-
-
 
 experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_24_16_48_18_683696/"
 
@@ -97,7 +95,7 @@ results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -112,7 +110,7 @@ results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
                       "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
                       ),
-  stratify_columns = c("Year", "Age", "Gender", "IP_Key.ARTStatus", "IP_Key.OnPrEP"),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
   min_age_inclusive = 0,
   max_age_inclusive = 99
 )
@@ -405,11 +403,13 @@ dat <- duet.results %>%
   mutate(Year = floor(Year - .5)) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
-    OnART1_initiate = sum(OnART1_initiate * pop_scaling_factor)
+    OnART1_initiate = sum(OnART1_initiate * pop_scaling_factor),
+    OnART1_initiate_FAILURE = sum(OnART1_initiate_FAILURE * pop_scaling_factor)
   ) %>% 
   group_by(scenario_name, Year) %>% 
   summarize(
-    OnART1_initiate = mean(OnART1_initiate)
+    OnART1_initiate = mean(OnART1_initiate),
+    OnART1_initiate_FAILURE = mean(OnART1_initiate_FAILURE)
   )
 
 
@@ -417,6 +417,12 @@ dat %>%
   filter(Year > 2020) %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = OnART1_initiate, color = scenario_name))
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = OnART1_initiate_FAILURE, color = scenario_name))
 ```
 
 
@@ -450,24 +456,7 @@ dat %>%
 ```
 
 
-```{r}
-# What percentage of people are on ART in the baseline, at the start of 2026?
-dat <- duet.results %>% 
-  group_by(sim.ix, scenario_name, Year) %>% 
-  summarize(
-    On_ART = sum(On_ART * pop_scaling_factor),
-    Infected = sum(Infected * pop_scaling_factor)
-  ) %>% 
-  group_by(scenario_name, Year) %>% 
-  summarize(
-    On_ART = mean(On_ART),
-    Infected = mean(Infected)
-  ) %>% 
-  ungroup() %>% 
-  mutate(ARTCov = On_ART/Infected)
 
-dat %>% filter(Year == 2026)
-```
 
 
 ## PrEP initiations
@@ -500,6 +489,61 @@ dat %>%
   geom_line(mapping = aes(x = Year, y = Initiate_LAPrEP, color = scenario_name))
 ```
 
-
-
 ## VMMC distributed
+
+```{r}
+dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Program_VMMC = sum(Program_VMMC * pop_scaling_factor),
+    Program_VMMC_Uptake = sum(Program_VMMC_Uptake * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Program_VMMC = mean(Program_VMMC),
+    Program_VMMC_Uptake = mean(Program_VMMC_Uptake)
+  )
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Program_VMMC, color = scenario_name))
+
+
+dat %>% 
+  filter(Year > 2020) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Program_VMMC_Uptake, color = scenario_name))
+```
+
+```{r}
+dat %>% 
+  filter(Year >= 2020)
+```
+
+```{r}
+results.cut.2025 %>% 
+  filter(Year >= 2025) %>% 
+  group_by(
+  scenario_name, sim.ix, Year) %>% 
+  summarize(Died_from_HIV = sum(Died_from_HIV),
+            Newly.Infected = sum(Newly.Infected)) %>%
+  group_by(scenario_name, Year) %>% 
+  summarize(Died_from_HIV = mean(Died_from_HIV),
+            Newly.Infected = mean(Newly.Infected))
+
+```
+
+```{r}
+results.cut.la %>% 
+  filter(Year >= 2025) %>% 
+  group_by(
+  scenario_name, sim.ix, Year) %>% 
+  summarize(Died_from_HIV = sum(Died_from_HIV),
+            Newly.Infected = sum(Newly.Infected)) %>%
+  group_by(scenario_name, Year) %>% 
+  summarize(Died_from_HIV = mean(Died_from_HIV),
+            Newly.Infected = mean(Newly.Infected))
+```
+
