@@ -135,6 +135,31 @@ duet.results <- duet.results %>%
 
 # Tables
 
+## PLHIV
+
+```{r}
+dat <- duet.results %>% 
+  filter(Age >= 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Infected = mean(Infected)
+  )
+
+
+
+dat %>% filter(Year == 2031) %>% 
+  mutate(
+    Infected.baseline = dat %>% filter(Year == 2031, scenario_name == 'baseline') %>% .$Infected
+    ) %>% 
+  mutate(diff = Infected - Infected.baseline) %>% 
+  mutate(pct = diff/Infected.baseline)
+```
+
+
 ## New Acquisitions
 ```{r}
 dat <- duet.results %>% 
@@ -243,21 +268,29 @@ dat <- duet.results %>%
   )
 
 dat %>% 
-  filter(Year > 2020) %>% 
+  filter(Year > 2024) %>% 
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 
-  geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name)) +
+  geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name),
+            linewidth = 1,
+            show.legend = TRUE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
-  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
-  scale_y_continuous("PLHIV") +
+  scale_x_continuous("Year", breaks = c(2025, 2027, 2029, 2031)) +
+  scale_y_continuous("PLHIV (thousands)", limits = c(230000,260000), labels = c("230,000","240,000","250,000","260,000"), breaks = c(230000, 240000, 250000, 260000)) +
+  #scale_y_continuous("") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
         #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
         #plot.title = element_text(hjust = 0.5),
         text = element_text(family = "sans"),
         axis.text = element_text(size = 14),
-        axis.title= element_text(size = 16))
+        axis.title= element_text(size = 16)
+        #axis.text.y = element_text(angle = 45, hjust = .5, vjust = 1)
+        )
+
+ggsave("Duet_figures/PLHIV_time_series.pdf", height = 4, width = 5, units = "in")
 ```
 
 ## HIV Acquisitions
@@ -276,22 +309,26 @@ dat <- duet.results %>%
 
 
 dat %>% 
-  filter(Year > 2020) %>% 
+  filter(Year >= 2020) %>% 
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = Newly.Infected, color = scenario_name),
-            linewidth = 1) +
+            linewidth = 1, show.legend = FALSE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
-  scale_y_continuous("HIV Acquisitions") +
+  #scale_y_continuous("HIV Acquisitions") +
+  scale_y_continuous("") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
         #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
         #plot.title = element_text(hjust = 0.5),
         text = element_text(family = "sans"),
         axis.text = element_text(size = 14),
         axis.title= element_text(size = 16))
+
+ggsave("Duet_figures/HIVAcquisitions_time_series.pdf", height = 4, width = 5, units = "in")
 ```
 
 
@@ -315,18 +352,23 @@ dat %>%
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = Died_from_HIV, color = scenario_name),
-            linewidth = 1) +
+            linewidth = 1, show.legend = FALSE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
-  scale_y_continuous("HIV Acquisitions") +
+  #scale_y_continuous("HIV Deaths") +
+  scale_y_continuous("") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
         #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
         #plot.title = element_text(hjust = 0.5),
         text = element_text(family = "sans"),
         axis.text = element_text(size = 14),
         axis.title= element_text(size = 16))
+
+ggsave("Duet_figures/HIVDeaths_time_series.pdf", height = 4, width = 5, units = "in")
+
 ```
 
 
@@ -354,25 +396,29 @@ dat %>%
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = ARTCov, color = scenario_name),
-            linewidth = 1) +
+            linewidth = 1, show.legend = FALSE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
-  scale_y_continuous("ART Coverage") +
+  #scale_y_continuous("ART Coverage") +
+  scale_y_continuous("") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
         #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
         #plot.title = element_text(hjust = 0.5),
         text = element_text(family = "sans"),
         axis.text = element_text(size = 14),
         axis.title= element_text(size = 16))
 
+ggsave("Duet_figures/ARTCoverage_time_series.pdf", height = 4, width = 5, units = "in")
 
 ```
 ## PrEP Coverage
 
 ```{r}
 dat <- duet.results %>% 
+  mutate(Year = floor(Year - .5)) %>% 
   filter(Age > 15) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
@@ -386,7 +432,6 @@ dat <- duet.results %>%
   )
 
 dat %>% 
-  mutate(Year = floor(Year - .5)) %>% 
   filter(Year >= 2020) %>% 
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 
@@ -408,7 +453,6 @@ dat %>%
 
 ```{r}
 dat %>% 
-  mutate(Year = floor(Year - .5)) %>% 
   filter(Year >= 2020) %>% 
   filter(scenario_name != "cut.perm.max") %>% 
   ggplot() + 

@@ -519,7 +519,8 @@ dat %>%
 
 ```{r}
 dat %>% 
-  filter(Year >= 2020)
+  filter(Year >= 2020) %>% 
+  mutate(ratio = Program_VMMC/Program_VMMC_Uptake) %>% View
 ```
 
 ```{r}
