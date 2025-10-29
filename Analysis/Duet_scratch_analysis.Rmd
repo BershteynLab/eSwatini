@@ -39,7 +39,7 @@ The purpose here will be to make sure that certain events are firing as intended
 ## Read in data
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_16_47_43_353533/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_29_12_15_02_503307/"
 
 results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -55,7 +55,23 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_16_48_14_037578/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_18_07_58_215192/"
+
+results.baseline.current <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "baseline.current",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+ experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_16_48_14_037578/"
 
 results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -117,10 +133,12 @@ results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
 
 duet.results <- rbind(
   results.baseline,
-  results.cut.perm,
-  results.cut.2025,
-  results.cut.la,
-  results.cut.perm.max
+  results.baseline.current
+  # ,
+  # results.cut.perm,
+  # results.cut.2025,
+  # results.cut.la,
+  # results.cut.perm.max
 )
 
 sim.results.pop.scaling <- duet.results %>%
@@ -196,6 +214,47 @@ dat %>%
 
 
 ```
+
+
+### Check on ART Coverage
+
+```{r}
+dat <- duet.results %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    On_ART = sum(On_ART * pop_scaling_factor),
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    On_ART = mean(On_ART),
+    Infected = mean(Infected)
+  ) %>% 
+  ungroup() %>% 
+  mutate(ARTCov = On_ART/Infected)
+
+dat %>% 
+  filter(Year >= 2020) %>% 
+  filter(scenario_name != "cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = ARTCov, color = scenario_name),
+            linewidth = 1, show.legend = TRUE) +
+  #scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  #scale_y_continuous("ART Coverage") +
+  scale_y_continuous("") +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
+```
+
 
 ### PrEP Distribution
 
@@ -511,11 +570,16 @@ dat %>%
   geom_line(mapping = aes(x = Year, y = Program_VMMC, color = scenario_name))
 
 
+```
+
+```{r}
 dat %>% 
   filter(Year > 2020) %>% 
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = Program_VMMC_Uptake, color = scenario_name))
+
 ```
+
 
 ```{r}
 dat %>% 
