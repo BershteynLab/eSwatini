@@ -1045,7 +1045,7 @@
                         "Program_VMMC_Uptake"
                     ],
                     "class": "NodeLevelHealthTriggeredIV",
-                    ".Duration":12775
+                    "Duration":12805
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
@@ -1055,7 +1055,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2200,
+            "Start_Year": 2024.92,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -1071,7 +1071,7 @@
                         "Program_VMMC_Uptake"
                     ],
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Duration":365
+                    ".Duration":365
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
@@ -3904,7 +3904,7 @@
                         "OnART0_preart"
                     ],
                     "class": "NodeLevelHealthTriggeredIV",
-                    ".Duration":12775
+                    "Duration":12805
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
@@ -3914,7 +3914,7 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year": 2200,
+            "Start_Year": 2024.92,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
@@ -3935,7 +3935,7 @@
                         "OnART0_preart"
                     ],
                     "class": "NodeLevelHealthTriggeredIV",
-                    "Duration":365
+                    ".Duration":365
                 },
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
