@@ -31,7 +31,7 @@ date_string_ymd <- format(current_date, format = "%Y%m%d")
 # Read in data
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_24_18_07_58_215192/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_29_17_20_05_919018/"
 
 results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -47,7 +47,7 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_24_18_09_52_797463/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_29_17_22_07_581813/"
 
 results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -63,7 +63,7 @@ results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 #experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_18_11_20_780711/"
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_27_16_34_42_475341"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_29_17_23_37_266308/"
 
 results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -79,7 +79,7 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 #experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_15_37_08_008150/"
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_16_36_35_521083"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_29_17_25_08_021693/"
 
 results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -94,7 +94,7 @@ results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_24_18_14_12_817963/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_29_17_26_37_598824/"
 
 results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -273,7 +273,7 @@ dat %>%
   ggplot() + 
   geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name),
             linewidth = 1,
-            show.legend = TRUE) +
+            show.legend = FALSE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2025, 2027, 2029, 2031)) +
   scale_y_continuous("PLHIV (thousands)", limits = c(230000,260000), labels = c("230,000","240,000","250,000","260,000"), breaks = c(230000, 240000, 250000, 260000)) +
