@@ -33,6 +33,21 @@ date_string_ymd <- format(current_date, format = "%Y%m%d")
 ```{r}
 experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_29_17_20_05_919018/"
 
+results.baseline.2 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "baseline.2",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline___2025_10_31_16_27_37_257804/"
+
 results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
   scenario_name =  "baseline",
@@ -47,7 +62,7 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_29_17_22_07_581813/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm___2025_10_31_16_29_27_340721/"
 
 results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -62,8 +77,8 @@ results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_24_18_11_20_780711/"
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_29_17_23_37_266308/"
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025___2025_10_31_16_30_47_764181/"
 
 results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -78,8 +93,8 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-#experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_27_15_37_08_008150/"
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_29_17_25_08_021693/"
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la___2025_10_31_16_32_08_943774/"
 
 results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -94,7 +109,7 @@ results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_29_17_26_37_598824/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_max___2025_10_31_16_33_30_132823/"
 
 results.cut.perm.max <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -247,7 +262,9 @@ dat <- duet.results %>%
   ungroup() %>% 
   mutate(ARTCov = On_ART/Infected)
 
-dat %>% filter(Year == 2025)
+dat %>% filter(Year == 2026)
+
+dat %>% filter(Year == 2031)
 ```
 
 
@@ -276,7 +293,7 @@ dat %>%
             show.legend = FALSE) +
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2025, 2027, 2029, 2031)) +
-  scale_y_continuous("PLHIV (thousands)", limits = c(230000,260000), labels = c("230,000","240,000","250,000","260,000"), breaks = c(230000, 240000, 250000, 260000)) +
+  scale_y_continuous("PLHIV (thousands)", limits = c(220000,260000), labels = c("220,000","230,000","240,000","250,000","260,000"), breaks = c(220000, 230000, 240000, 250000, 260000)) +
   #scale_y_continuous("") +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
@@ -400,7 +417,7 @@ dat %>%
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
   #scale_y_continuous("ART Coverage") +
-  scale_y_continuous("") +
+  scale_y_continuous("", breaks = seq(.8,.9,.02)) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
