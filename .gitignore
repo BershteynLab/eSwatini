@@ -24,3 +24,5 @@ __pycache__
 __pycache__/*
 DownloadAnalyzerTPI_cache
 DownloadAnalyzerTPI_cache/*
+Analysis/Duet_figures/*.pdf
+Analysis/Duet_figures/*.csv
