@@ -83,7 +83,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":1.0,
+                        "Acquisition_Multiplier":0.85,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
                         "Transmission_Multiplier":1.0,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",

@@ -728,7 +728,7 @@ results.cut.la %>%
 ## Prevalence by age
 
 ```{r}
-lowinc.results %>% 
+lowerinc.results %>% 
   filter(Year >= 2004, Age >= 15, Age <= 30) %>%  #65) %>% 
   dplyr::group_by(Year, Age, Gender, scenario_name, sim.ix) %>% 
   dplyr::summarize(Infected = sum(Infected * pop_scaling_factor), 
@@ -751,7 +751,7 @@ age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
 subset_years = c(2007, 2011, 2016, 2021)
 
 # Subset data on years
-data <- lowinc.results %>% filter(Year %in% subset_years)
+data <- lowerinc.results %>% filter(Year %in% subset_years)
 
 # Age bins
 age_labels = c()
@@ -981,7 +981,7 @@ p.inc.age
 
 Incience in 2021
 ```{r}
-lowinc.results %>% 
+lowerinc.results %>% 
   mutate(Year = floor(Year - .5)) %>% 
   filter(Age > 15) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
