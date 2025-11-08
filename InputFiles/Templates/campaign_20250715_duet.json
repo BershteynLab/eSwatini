@@ -77,15 +77,15 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2005,
+            "Start_Year":2015,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.85,
+                        "Acquisition_Multiplier":0.75,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
-                        "Transmission_Multiplier":1.0,
+                        "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                         "Expiration_Constant": 365000,
