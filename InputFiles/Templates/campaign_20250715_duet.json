@@ -50,7 +50,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.25,
+                        "Acquisition_Multiplier":0.15,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
@@ -61,7 +61,7 @@
                     },
                     "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Male",
-                    "Target_Age_Max": 50,
+                    "Target_Age_Max": 99,
                     "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
@@ -77,13 +77,13 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2015,
+            "Start_Year":2005,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.75,
+                        "Acquisition_Multiplier":0.55,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
@@ -94,7 +94,7 @@
                     },
                     "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Female",
-                    "Target_Age_Max": 35,
+                    "Target_Age_Max": 50,
                     "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
