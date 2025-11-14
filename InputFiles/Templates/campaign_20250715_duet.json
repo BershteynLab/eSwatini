@@ -44,13 +44,13 @@
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2000,
+            "Start_Year":2005,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.10,
+                        "Acquisition_Multiplier":0.15,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
@@ -82,9 +82,9 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.05,
+                        "Acquisition_Multiplier":0.10,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
-                        "Transmission_Multiplier":0.5,
+                        "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                         "Expiration_Constant": 365000,
@@ -132,7 +132,7 @@
                         "STIDebut"
                     ],
                     "class": "NodeLevelHealthTriggeredIV"
-                },
+                }, 
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
         },
@@ -148,9 +148,9 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.15,
+                        "Acquisition_Multiplier":0.05,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
-                        "Transmission_Multiplier":0.50,
+                        "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
                         "Expiration_Constant": 365000,
