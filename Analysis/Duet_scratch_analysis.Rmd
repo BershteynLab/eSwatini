@@ -1076,7 +1076,7 @@ age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
 subset_years = c(2007, 2011, 2016, 2021)
 
 # Subset data on years
-data <- lowerinc.results.3 %>% filter(Year %in% subset_years)
+data <- test %>% filter(Year %in% subset_years)
 
 # Age bins
 age_labels = c()
@@ -1178,4 +1178,255 @@ p.ageprev
 
 ggsave("Duet_figures/AgePrevCurves_lowinc_v4.pdf", height = 8, width = 16, units = "in")
 
+```
+
+
+# teast nput
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_lowerinc_test___2025_11_14_17_59_33_540340/"
+
+test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "lowerinc.baseline",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- test %>%
+  filter(Year == SWZ_CENSUS_YEAR) %>%
+  group_by(sim.ix, scenario_name) %>%
+  summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+  mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+test <- test %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
+#### Incidence in 2021
+```{r}
+test %>% 
+  mutate(Year = floor(Year - .5)) %>%
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+            Population = sum(Population * pop_scaling_factor),
+            Infected = sum(Infected * pop_scaling_factor)) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(sd.Newly.Infected = sd(Newly.Infected),
+            Newly.Infected = mean(Newly.Infected), 
+            Population = mean(Population), 
+            Infected = mean(Infected))  %>% 
+  ungroup() %>% 
+  mutate(Susc = Population - Infected) %>% 
+  mutate(rate = Newly.Infected/Susc)
+```
+#### All Ages, No Gender
+
+```{r}
+data <- test %>% filter(Age >= 15) %>% 
+  mutate(Newly.Infected = Newly.Infected * pop_scaling_factor,
+         Population = Population * pop_scaling_factor,
+         Infected = Infected * pop_scaling_factor)
+data$Year_Integer <- floor((data$Year-0.5))
+
+# Aggregate number of new infections each year, broken down by Year_Integer a
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+# Calculate mean incidence across all sim runs
+inc.age.data.mean.A15 <- data %>%
+  dplyr::group_by(Year , scenario_name) %>%
+  dplyr::summarize(
+    sd.Newly.Infected = sd(Newly.Infected),
+    Newly.Infected = mean(Newly.Infected),
+    Susc = mean(`Population - Infected`),
+    mean.Incidence = mean(incidence),
+    sd.Incidence = sd(incidence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(
+    upper.Newly.Infected = Newly.Infected + 2*sd.Newly.Infected,
+    lower.Newly.Infected = case_when(
+      Newly.Infected - 2 * sd.Newly.Infected > 0 ~ Newly.Infected - 2 * sd.Newly.Infected,
+      Newly.Infected - 2 * sd.Newly.Infected <= 0 ~ 0),
+    upper = mean.Incidence + 2*sd.Incidence,
+    lower = case_when(
+      mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+      mean.Incidence - 2 * sd.Incidence <= 0 ~ 0))
+
+inc.age.data.mean.A15 %>% 
+  filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+  select(Year, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+         mean.Incidence, lower, upper)
+```
+
+#### All Ages, Gender
+```{r}
+data <- test %>% filter(Age >= 15) %>% 
+  mutate(Newly.Infected = Newly.Infected * pop_scaling_factor,
+         Population = Population * pop_scaling_factor,
+         Infected = Infected * pop_scaling_factor)
+data$Year_Integer <- floor((data$Year-0.5))
+
+# Aggregate number of new infections each year, broken down by Year_Integer and Gender
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+# Calculate mean incidence across all sim runs
+inc.age.data.mean.MF15.test <- data %>%
+  dplyr::group_by(Year,Gender , scenario_name) %>%
+  dplyr::summarize(
+    sd.Newly.Infected = sd(Newly.Infected),
+    Newly.Infected = mean(Newly.Infected),
+    Susc = mean(`Population - Infected`),
+    mean.Incidence = mean(incidence),
+    sd.Incidence = sd(incidence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(
+    upper.Newly.Infected = Newly.Infected + 2*sd.Newly.Infected,
+    lower.Newly.Infected = case_when(
+      Newly.Infected - 2 * sd.Newly.Infected > 0 ~ Newly.Infected - 2 * sd.Newly.Infected,
+      Newly.Infected - 2 * sd.Newly.Infected <= 0 ~ 0),
+    upper = mean.Incidence + 2*sd.Incidence,
+    lower = case_when(
+      mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+      mean.Incidence - 2 * sd.Incidence <= 0 ~ 0))
+
+inc.age.data.mean.MF15.test %>% 
+  filter(Year == 2005, scenario_name == "lowerinc.baseline") %>% 
+  select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+         mean.Incidence, lower, upper)
+```
+
+```{r}
+inc.age.data.mean.MF15 %>% 
+  filter(Year == 2005, scenario_name == "lowerinc.baseline") %>% 
+  select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+         mean.Incidence, lower, upper)
+```
+
+
+#### Ages 35-50, Gender
+```{r}
+data <- test %>% filter(Age >= 35, Age < 50) %>% 
+  mutate(Newly.Infected = Newly.Infected * pop_scaling_factor,
+         Population = Population * pop_scaling_factor,
+         Infected = Infected * pop_scaling_factor)
+data$Year_Integer <- floor((data$Year-0.5))
+
+# Aggregate number of new infections each year, broken down by Year_Integer and Gender
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+# Calculate mean incidence across all sim runs
+inc.age.data.mean.MF35.50 <- data %>%
+  dplyr::group_by(Year,Gender , scenario_name) %>%
+  dplyr::summarize(
+    sd.Newly.Infected = sd(Newly.Infected),
+    Newly.Infected = mean(Newly.Infected),
+    Susc = mean(`Population - Infected`),
+    mean.Incidence = mean(incidence),
+    sd.Incidence = sd(incidence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(
+    upper.Newly.Infected = Newly.Infected + 2*sd.Newly.Infected,
+    lower.Newly.Infected = case_when(
+      Newly.Infected - 2 * sd.Newly.Infected > 0 ~ Newly.Infected - 2 * sd.Newly.Infected,
+      Newly.Infected - 2 * sd.Newly.Infected <= 0 ~ 0),
+    upper = mean.Incidence + 2*sd.Incidence,
+    lower = case_when(
+      mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+      mean.Incidence - 2 * sd.Incidence <= 0 ~ 0))
+
+inc.age.data.mean.MF35.50 %>% 
+  filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+  select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+         mean.Incidence, lower, upper)
+```
+
+
+####  Ages 50+, Gender
+```{r}
+data <- test %>% filter(Age >= 50) %>% 
+  mutate(Newly.Infected = Newly.Infected * pop_scaling_factor,
+         Population = Population * pop_scaling_factor,
+         Infected = Infected * pop_scaling_factor)
+data$Year_Integer <- floor((data$Year-0.5))
+
+# Aggregate number of new infections each year, broken down by Year_Integer and Gender
+trajectories_IR.1a <- aggregate(Newly.Infected ~ Year_Integer+Gender+sim.id+scenario_name, data=data,FUN=sum)
+#Make the denominator as HIV-negative individuals
+trajectories_IR.2 <- aggregate(Population - Infected ~ Year+Gender+sim.id+scenario_name, data=data, FUN=sum)
+trajectories_IR.2$Year_Integer <- floor(trajectories_IR.2$Year-0.5)
+#remove second instance of duplicate rows
+trajectories_IR.2 <- trajectories_IR.2[!duplicated(trajectories_IR.2[c("Year_Integer","Gender","sim.id","scenario_name")]),]
+trajectories_IR.2 <- trajectories_IR.2[-match("Year",names(trajectories_IR.2))]
+trajectories_IRoverall <- merge(trajectories_IR.1a, trajectories_IR.2, by=c("Year_Integer","Gender","sim.id","scenario_name"))
+trajectories_IRoverall$incidence <- trajectories_IRoverall$Newly.Infected / (trajectories_IRoverall$Population)
+
+data <- trajectories_IRoverall %>% dplyr::rename(Year = Year_Integer)
+
+# Calculate mean incidence across all sim runs
+inc.age.data.mean.MF50 <- data %>%
+  dplyr::group_by(Year,Gender , scenario_name) %>%
+  dplyr::summarize(
+    sd.Newly.Infected = sd(Newly.Infected),
+    Newly.Infected = mean(Newly.Infected),
+    Susc = mean(`Population - Infected`),
+    mean.Incidence = mean(incidence),
+    sd.Incidence = sd(incidence),
+            .groups = 'keep') %>%
+  ungroup() %>%
+  dplyr::mutate(
+    upper.Newly.Infected = Newly.Infected + 2*sd.Newly.Infected,
+    lower.Newly.Infected = case_when(
+      Newly.Infected - 2 * sd.Newly.Infected > 0 ~ Newly.Infected - 2 * sd.Newly.Infected,
+      Newly.Infected - 2 * sd.Newly.Infected <= 0 ~ 0),
+    upper = mean.Incidence + 2*sd.Incidence,
+    lower = case_when(
+      mean.Incidence - 2 * sd.Incidence > 0 ~ mean.Incidence - 2 * sd.Incidence,
+      mean.Incidence - 2 * sd.Incidence <= 0 ~ 0))
+
+inc.age.data.mean.MF50 %>% 
+  filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+  select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+         mean.Incidence, lower, upper)
 ```

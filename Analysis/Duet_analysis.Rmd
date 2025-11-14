@@ -1409,7 +1409,9 @@ dat %>%
 ## Read in Data
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_lowerinc_5___2025_11_13_17_58_05_317877/"
+
+# experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_lowerinc_6___2025_11_14_13_15_54_844807/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_lowerinc_5___2025_11_13_22_39_42_541776/"
 
 lowerinc.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1424,7 +1426,8 @@ lowerinc.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_lowerinc_5___2025_11_13_18_00_11_234289/"
+# experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_lowerinc_6___2025_11_14_13_17_51_656988/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_lowerinc_5___2025_11_13_22_41_37_748044/"
 
 lowerinc.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1439,8 +1442,8 @@ lowerinc.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_lowerinc_5___2025_11_13_18_02_21_422828/"
+# experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_lowerinc_6___2025_11_14_13_19_24_154748/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_lowerinc_5___2025_11_13_22_43_30_089022/"
 
 lowerinc.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1456,7 +1459,8 @@ lowerinc.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la_lowerinc_5___2025_11_13_18_04_03_375077/"
+# experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la_lowerinc_6___2025_11_14_13_20_53_557511/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la_lowerinc_5___2025_11_13_22_44_52_193634/"
 
 lowerinc.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1641,7 +1645,7 @@ dat %>% filter(Year == 2031)
 ### PLHIV Populations
 
 ```{r}
-dat <- lowerinc.results.5 %>% 
+dat <- lowerinc.results.6 %>% 
   #mutate(Year = floor(Year - .5)) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
@@ -1854,19 +1858,6 @@ inc.age.data.mean.MF15 %>%
          mean.Incidence, lower, upper)
 ```
 
-```{r}
-# incidence.calc.MF <- lowerinc.results.4 %>% 
-#   filter(Age > 15) %>% 
-#   EMODAnalyzeR::calculate.incidence(gender.breakdown = TRUE, debug = FALSE) %>% 
-#   group_by(scenario_name, Year, Gender) %>% 
-#   summarize(Newly.Infected = mean(Newly.Infected),
-#             Susc = mean(`Population - Infected`),
-#             Incidence = mean(incidence)) %>% ungroup()
-# 
-# incidence.calc.MF %>% 
-#   filter(scenario_name == "lowerinc.baseline",
-#          Year == 2021)
-```
 
 ## All Ages, No Gender
 
@@ -1916,6 +1907,7 @@ inc.age.data.mean.A15 %>%
   select(Year, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
          mean.Incidence, lower, upper)
 ```
+
 ## Ages 15-25, Gender
 ```{r}
 data <- lowerinc.results.5 %>% filter(Age >= 15, Age < 25) %>% 
@@ -2211,7 +2203,7 @@ inc.age.data.mean.A35.50 %>%
 
 ## Ages 15-50, Gender
 ```{r}
-data <- lowerinc.results.4 %>% filter(Age >= 15, Age < 50) %>% 
+data <- lowerinc.results.5 %>% filter(Age >= 15, Age < 50) %>% 
   mutate(Newly.Infected = Newly.Infected * pop_scaling_factor,
          Population = Population * pop_scaling_factor,
          Infected = Infected * pop_scaling_factor)
@@ -2403,3 +2395,72 @@ inc.age.data.mean.A50 %>%
   select(Year, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
          mean.Incidence, lower, upper)
 ```
+
+## Collate 
+```{r}
+dat <- rbind(
+  inc.age.data.mean.A15 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF15 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.A15.50 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF15.50 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.A15.25 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF15.25 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.A25.35 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF25.35 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.A35.50 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF35.50 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.A50 %>% 
+    mutate(Gender = "All") %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper),
+  inc.age.data.mean.MF50 %>% 
+    filter(Year == 2021, scenario_name == "lowerinc.baseline") %>% 
+    select(Year, Gender, Newly.Infected, lower.Newly.Infected, upper.Newly.Infected,
+           mean.Incidence, lower, upper)
+) %>% mutate(Version = 6)
+
+write_csv(dat, "Duet_figures/incidence_by_age_v5.csv")
+```
+
+```{r}
+dat.v6 <- read_csv("Duet_figures/incidence_by_age_v6.csv")
+
+dat.v5 <- read_csv("Duet_figures/incidence_by_age_v5.csv")
+```
+
