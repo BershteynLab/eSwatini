@@ -82,7 +82,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.10,
+                        "Acquisition_Multiplier":0.05,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
@@ -148,7 +148,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.05,
+                        "Acquisition_Multiplier":0.025,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
