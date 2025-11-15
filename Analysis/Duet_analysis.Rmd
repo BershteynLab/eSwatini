@@ -609,8 +609,6 @@ dat <- lowinc.results %>%
     Infected = mean(Infected)
   )
 
-
-
 dat %>% filter(Year == 2031) %>% 
   mutate(
     Infected.baseline = dat %>% filter(Year == 2031, scenario_name == 'lowinc.baseline') %>% .$Infected
@@ -1718,6 +1716,27 @@ dat %>%
         axis.title= element_text(size = 16))
 
 ggsave("Duet_figures/HIVAcquisitions_time_seriess_lowinc_v4.pdf", height = 4, width = 5, units = "in")
+```
+```{r}
+dat %>% 
+  filter(Year >= 2005) %>% 
+  filter(scenario_name != "lowinc.cut.perm.max") %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Newly.Infected, color = scenario_name),
+            linewidth = 1, show.legend = FALSE) +
+  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  #scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
+  #scale_y_continuous("HIV Acquisitions") +
+  scale_y_continuous("", limits = c(4000, 20000)) +
+  theme_minimal() + theme_bw() +
+  theme(panel.grid = element_blank(),
+        #axis.title.x = element_blank(),
+        #axis.text.x = element_blank(),
+        axis.title.y = element_blank(),
+        #plot.title = element_text(hjust = 0.5),
+        text = element_text(family = "sans"),
+        axis.text = element_text(size = 14),
+        axis.title= element_text(size = 16))
 ```
 
 

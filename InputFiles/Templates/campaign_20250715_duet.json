@@ -50,8 +50,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.10,
-                        "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
+                        "Acquisition_Multiplier":0.15,
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
@@ -62,7 +61,7 @@
                     "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Male",
                     "Target_Age_Max": 35,
-                    "Target_Age_Min":0,
+                    "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
                     ],
@@ -72,18 +71,18 @@
             }
         },
         {
-            "Event_Name": "Adjust transmission risk at sexual debut, males over 35",
+            "Event_Name": "Adjust transmission risk, males over 35",
             "COMMENT": "SWZ model has too high incidence, let's adjust it",
             "Nodeset_Config": {
                 "class": "NodeSetAll"
             },
-            "Start_Year":2200,
+            "Start_Year":2005,
             "class": "CampaignEventByYear",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.05,
+                        "Acquisition_Multiplier":0.5,
                         "Acquisition_Multiplier__KP_CMD_increase_incidence_males":"<-- MARKER", 
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
@@ -117,8 +116,7 @@
                 "Intervention_Config": {
                     "Actual_IndividualIntervention_Config": {
                         "class":"CoitalActRiskFactors",
-                        "Acquisition_Multiplier":0.75,
-                        "Acquisition_Multiplier__KP_CMD_increase_incidence_females":"<-- MARKER", 
+                        "Acquisition_Multiplier":0.85,
                         "Transmission_Multiplier":0.85,
                         "Transmission_Multiplier__KP_CMD_increase_transmission":"<-- MARKER",
                         "Expiration_Distribution": "CONSTANT_DISTRIBUTION",
@@ -129,7 +127,7 @@
                     "Target_Demographic": "ExplicitAgeRangesAndGender",
                     "Target_Gender": "Female",
                     "Target_Age_Max": 35,
-                    "Target_Age_Min":0,
+                    "Target_Age_Min":15,
                     "Trigger_Condition_List": [
                         "STIDebut"
                     ],
@@ -139,12 +137,13 @@
             }
         },
         {
-        "Event_Name": "Adjust transmission risk at sexual debut, females over 35",
+        "Event_Name": "Adjust transmission risk, females over 35",
         "COMMENT": "SWZ model has too high incidence, let's adjust it",
         "Nodeset_Config": {
             "class": "NodeSetAll"
         },
-        "Start_Year":2200,
+        "Start_Year":2005,
+        "Start_Year__KP__CARF_Start": "<-- MARKER", 
         "class": "CampaignEventByYear",
         "Event_Coordinator_Config": {
             "Intervention_Config": {
