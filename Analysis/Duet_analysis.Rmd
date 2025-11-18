@@ -768,7 +768,7 @@ dat %>%
         #axis.text.y = element_text(angle = 45, hjust = .5, vjust = 1)
         )
 
-ggsave("Duet_figures/PLHIV_time_series_lowinc.pdf", height = 4, width = 5, units = "in")
+#ggsave("Duet_figures/PLHIV_time_series_lowinc.pdf", height = 4, width = 5, units = "in")
 ```
 
 ### HIV Acquisitions
@@ -806,7 +806,7 @@ dat %>%
         axis.text = element_text(size = 14),
         axis.title= element_text(size = 16))
 
-ggsave("Duet_figures/HIVAcquisitions_time_seriess_lowinc.pdf", height = 4, width = 5, units = "in")
+#ggsave("Duet_figures/HIVAcquisitions_time_seriess_lowinc.pdf", height = 4, width = 5, units = "in")
 ```
 
 
@@ -845,7 +845,7 @@ dat %>%
         axis.text = element_text(size = 14),
         axis.title= element_text(size = 16))
 
-ggsave("Duet_figures/HIVDeaths_time_seriess_lowinc.pdf", height = 4, width = 5, units = "in")
+#ggsave("Duet_figures/HIVDeaths_time_seriess_lowinc.pdf", height = 4, width = 5, units = "in")
 
 ```
 
