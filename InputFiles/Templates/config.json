@@ -206,8 +206,7 @@
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
         "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
-        "Report_HIV_ByAgeAndGender_Event_Counter_List": [],
-        ".Report_HIV_ByAgeAndGender_Event_Counter_List": [
+        "Report_HIV_ByAgeAndGender_Event_Counter_List": [
             "Initiate_PrEP",
             "Initiate_LAPrEP",
             "Program_VMMC_Uptake",
