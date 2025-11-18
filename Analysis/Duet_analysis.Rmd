@@ -734,7 +734,7 @@ dat %>% filter(Year == 2031)
 ### PLHIV Populations
 
 ```{r}
-dat <- lowinc.results %>% 
+dat <- test.list %>% filter(scenario_name %in% c("test.2020.95.95", "test.2020.90.95", "test.2020.85.95")) %>% 
   #mutate(Year = floor(Year - .5)) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
@@ -752,7 +752,7 @@ dat %>%
   geom_line(mapping = aes(x = Year, y = Infected, color = scenario_name),
             linewidth = 1,
             show.legend = FALSE) +
-  scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
+  #scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2025, 2027, 2029, 2031)) +
   #scale_y_continuous("PLHIV (thousands)", limits = c(220000,260000), labels = c("220,000","230,000","240,000","250,000","260,000"), breaks = c(220000, 230000, 240000, 250000, 260000)) +
   #scale_y_continuous("") +
@@ -1617,7 +1617,7 @@ dat %>%
 ### ART Coverage
 
 ```{r}
-dat <- lowerinc.results.4 %>% 
+dat <- lowerinc.results.5 %>% 
   filter(Age > 15) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(
@@ -1636,6 +1636,70 @@ dat %>% filter(Year == 2026)
 
 dat %>% filter(Year == 2031)
 ```
+
+### PrEP initiations
+
+```{r}
+lowerinc.results.5 %>% filter(Age > 15, Age < 35) %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(Population = sum(Population),
+            Infected = sum(Infected)) %>% 
+  group_by(scenario_name,Year) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected)) %>% 
+  filter(Year == 2025)
+
+```
+
+
+```{r}
+dat <- lowerinc.results.5 %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP),
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  ) %>% 
+  ungroup()
+
+dat %>% filter(Year == 2021)
+
+dat %>% filter(Year == 2027)
+```
+
+### PrEP coverage
+
+```{r}
+dat <- lowerinc.results.5 %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  filter(Age > 15) %>% 
+  group_by(sim.ix, scenario_name, Year, IP_Key.OnPrEP) %>% 
+  summarize(
+    Population = sum(Population * pop_scaling_factor),
+    Infected = sum(Infected * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year,  IP_Key.OnPrEP) %>% 
+  summarize(
+    Population = mean(Population),
+    Infected = mean(Infected)
+  )
+
+dat %>% filter(Year == 2020)
+
+dat %>% filter(Year == 2020.5)
+
+
+dat %>% filter(Year == 2026.5)
+
+```
+
 
 ## Plots
 

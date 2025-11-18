@@ -1180,6 +1180,101 @@ p.ageprev
 
 ```
 
+# PrEP testing
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_risk_test___2025_11_18_15_17_51_608858/"
+
+test <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "risk.test",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.Risk", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sim.results.pop.scaling <- test %>%
+  filter(Year == SWZ_CENSUS_YEAR) %>%
+  group_by(sim.ix, scenario_name) %>%
+  summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+  mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+test <- test %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
+## PrEP initiations
+
+```{r}
+pop.dat <- test %>% filter(Age > 15, Age < 35) %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year, IP_Key.Risk) %>% 
+  summarize(Population = sum(Population),
+            Infected = sum(Infected)) %>% 
+  group_by(scenario_name,Year, IP_Key.Risk) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected)) %>% ungroup()
+
+pop.dat %>% filter(Year== 2025)
+
+
+pop.dat <- test %>% filter(Age > 15) %>% 
+  #mutate(Year = floor(Year - .5)) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(Population = sum(Population),
+            Infected = sum(Infected)) %>% 
+  group_by(scenario_name,Year) %>% 
+  summarize(Population = mean(Population),
+            Infected = mean(Infected)) %>% ungroup()
+
+
+pop.dat %>% filter(Year== 2025)
+```
+
+
+```{r}
+dat <- test %>% 
+  mutate(Year = floor(Year - .5)) %>% 
+  filter(Age >= 15) %>% 
+  group_by(sim.ix, scenario_name, Year, IP_Key.Risk) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year, IP_Key.Risk) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP),
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  ) %>% 
+  ungroup()
+
+dat %>% filter(Year == 2027)
+```
+
+```{r}
+test %>% 
+  filter(Year >= 2020.5, Year <= 2025) %>% 
+  filter(Age >= 15) %>% 
+  group_by(sim.ix, scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+  ) %>% 
+  group_by(scenario_name, Year) %>% 
+  summarize(
+    Initiate_PrEP = mean(Initiate_PrEP),
+    Initiate_LAPrEP = mean(Initiate_LAPrEP)
+  )
+```
+
 
 # Test input
 ```{r}
