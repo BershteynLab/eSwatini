@@ -1167,115 +1167,9 @@
                 "class": "StandardInterventionDistributionEventCoordinator"
             }
         },
-        {  
-            "BEGIN": "PrEP Distribution - Oral and LA",
-            "Event_Name": "NChooser to implement specified number of PrEP uptake",
-            "Nodeset_Config": {
-                "class": "NodeSetAll"
-            },
-            "Start_Day":1,
-            "Start_Day__KP_PREP_ON_OFF": "<-- MARKER",
-            "class": "CampaignEvent",
+        {
+            "BEGIN": "Prep Distribution - Oral, using RTEC",
             "Event_Coordinator_Config": {
-                "Distributions": [
-                    {
-                        "Age_Ranges_Years": [
-                            {
-                                "Max": 35,
-                                "Min": 15
-                            }
-                        ],
-                        "End_Year": 2025,
-                        "Num_Targeted_Females": [
-                            103600
-                        ],
-                        "Num_Targeted_Males": [
-                            103600
-                        ],
-                        "Property_Restrictions_Within_Node": [
-                            {
-                                "Risk": "HIGH"
-                            },
-                            {
-                                "Risk": "MEDIUM"
-                            }
-                        ],
-                        "Start_Year": 2020,
-                        "Target_Disease_State": [
-                            [
-                                "HIV_Negative",
-                                "Not_Have_Intervention"
-                            ]
-                        ],
-                        "Target_Disease_State_Has_Intervention_Name": "PrEP"
-                    },
-                    {
-                        "Age_Ranges_Years": [
-                            {
-                                "Max": 35,
-                                "Min": 15
-                            }
-                        ],
-                        "End_Year": 2026,
-                        "Num_Targeted_Females": [
-                            20720
-                        ],
-                        "Num_Targeted_Females__KP__PrEP_Interrupt_F_2025": "<-- MARKER",
-                        "Num_Targeted_Males": [
-                            20720
-                        ],
-                        "Num_Targeted_Males__KP__PrEP_Interrupt_M_2025": "<-- MARKER",
-                        "Property_Restrictions_Within_Node": [
-                            {
-                                "Risk": "HIGH"
-                            },
-                            {
-                                "Risk": "MEDIUM"
-                            }
-                        ],
-                        "Start_Year": 2025,
-                        "Target_Disease_State": [
-                            [
-                                "HIV_Negative",
-                                "Not_Have_Intervention"
-                            ]
-                        ],
-                        "Target_Disease_State_Has_Intervention_Name": "PrEP"
-                    },
-                    {
-                        "Age_Ranges_Years": [
-                            {
-                                "Max": 35,
-                                "Min": 15
-                            }
-                        ],
-                        "End_Year": 2031,
-                        "Num_Targeted_Females": [
-                            103600
-                        ],
-                        "Num_Targeted_Females__KP__PrEP_Interrupt_F": "<-- MARKER",
-                        "Num_Targeted_Males": [
-                            103600
-                        ],
-                        "Num_Targeted_Males__KP__PrEP_Interrupt_M": "<-- MARKER",
-                        "Property_Restrictions_Within_Node": [
-                            {
-                                "Risk": "HIGH"
-                            },
-                            {
-                                "Risk": "MEDIUM"
-                            }
-                        ],
-                        "Start_Year": 2026,
-                        "Target_Disease_State": [
-                            [
-                                "HIV_Negative",
-                                "Not_Have_Intervention"
-                            ]
-                        ],
-                        "Target_Disease_State_Has_Intervention_Name": "PrEP"
-                    }
-                ],
                 "Intervention_Config": {
                     "Cost_To_Consumer": 1.0,
                     "Intervention_Name": "PrEP",
@@ -1304,8 +1198,248 @@
                     "Waning_Config__KP_PrEP_HIGH_Waning": "<-- MARKER",
                     "class": "ControlledVaccine"
                 },
-                "class": "NChooserEventCoordinatorHIV"
-            }
+                "Target_Age_Max": 99,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Negative",
+                "Target_Gender": "Male",
+                "Targeting_Config": {
+                    "class": "HasIP",
+                    "Is_Equal_To": 0,
+                    "IP_Key_Value": "Risk:LOW"
+                },
+                "Time_Value_Map": {
+                    "Times": [
+                        2020,
+                        2024.999,
+                        2025,
+                        2025.999,
+                        2026,
+                        2050
+                    ],
+                    "Values": [
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1
+                    ],
+                    "Values__KP__Oral_PrEP_Males": "<-- MARKER"
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinator"
+            },
+            "Event_Name": "10% Coverage for oral PrEP",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Start_Year__KP__Enable_VMMC_Program_RefTracker_Data_by_Setting_to_2022": "<==JUST A MARKER",
+            "class": "CampaignEventByYear"
+        },
+        {
+            "END": "Prep Distribution - Oral, using RTEC",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 1.0,
+                    "Intervention_Name": "PrEP",
+                    "Vaccine_Take": 1,
+                    "Vaccine_Type": "AcquisitionBlocking",
+                    "Waning_Config": {
+                        "Durability_Map": {
+                            "Times": [
+                                0,
+                                90,
+                                91
+                            ],
+                            "Values": [
+                                1,
+                                1,
+                                0
+                            ]
+                        },
+                        "Expire_At_Durability_Map_End": 1,
+                        "Initial_Effect": 0.75,
+                        "class": "WaningEffectMapLinear",
+                        "source": "doi/full/10.1056/NEJMoa1108524"
+                    },
+                    "Distributed_Event_Trigger": "Initiate_PrEP",
+                    "Expired_Event_Trigger": "PrEP_Expired",
+                    "Waning_Config__KP_PrEP_HIGH_Waning": "<-- MARKER",
+                    "class": "ControlledVaccine"
+                },
+                "Target_Age_Max": 99,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Negative",
+                "Target_Gender": "Female",
+                "Targeting_Config": {
+                    "class": "HasIP",
+                    "Is_Equal_To": 0,
+                    "IP_Key_Value": "Risk:LOW"
+                },
+                "Time_Value_Map": {
+                    "Times": [
+                        2020,
+                        2024.999,
+                        2025,
+                        2025.999,
+                        2026,
+                        2050
+                    ],
+                    "Values": [
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1,
+                        0.1
+                    ],
+                    "Values__KP__Oral_PrEP_Females": "<-- MARKER"
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinator"
+            },
+            "Event_Name": "10% Coverage for oral PrEP in women",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2020,
+            "Start_Year__KP__Enable_VMMC_Program_RefTracker_Data_by_Setting_to_2022": "<==JUST A MARKER",
+            "class": "CampaignEventByYear"
+        },
+        {
+            "END": "Prep Distribution - CAB-LA, using RTEC",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 1.0,
+                    "Intervention_Name": "PrEP",
+                    "Vaccine_Take": 1,
+                    "Vaccine_Type": "AcquisitionBlocking",
+                    "Waning_Config": {
+                        "Durability_Map": {
+                            "Times": [
+                                0,
+                                364,
+                                365
+                            ],
+                            "Values": [
+                                1,
+                                1,
+                                0
+                            ]
+                        },
+                        "Expire_At_Durability_Map_End": 1,
+                        "Initial_Effect": 0.92,
+                        "class": "WaningEffectMapLinear",
+                        "source": "doi/full/10.1056/NEJMoa1108524"
+                    },
+                    "Distributed_Event_Trigger": "Initiate_LAPrEP",
+                    "Expired_Event_Trigger": "LAPrEP_Expired",
+                    "Waning_Config__KP_PrEP_HIGH_Waning": "<-- MARKER",
+                    "class": "ControlledVaccine"
+                },
+                "Target_Age_Max": 99,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Negative",
+                "Target_Gender": "Male",
+                "Targeting_Config": {
+                    "class": "HasIP",
+                    "Is_Equal_To": 0,
+                    "IP_Key_Value": "Risk:LOW"
+                },
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2050
+                    ],
+                    "Values": [
+                        0.0,
+                        0.0
+                    ],
+                    "Values__KP__LA_PrEP_Males": "<-- MARKER"
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinator"
+            },
+            "Event_Name": "10% Coverage for LA PrEP in women",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Start_Year__KP__Enable_VMMC_Program_RefTracker_Data_by_Setting_to_2022": "<==JUST A MARKER",
+            "class": "CampaignEventByYear"
+        },
+        {
+            "END": "Prep Distribution - CAB-LA, using RTEC",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Cost_To_Consumer": 1.0,
+                    "Intervention_Name": "PrEP",
+                    "Vaccine_Take": 1,
+                    "Vaccine_Type": "AcquisitionBlocking",
+                    "Waning_Config": {
+                        "Durability_Map": {
+                            "Times": [
+                                0,
+                                364,
+                                365
+                            ],
+                            "Values": [
+                                1,
+                                1,
+                                0
+                            ]
+                        },
+                        "Expire_At_Durability_Map_End": 1,
+                        "Initial_Effect": 0.92,
+                        "class": "WaningEffectMapLinear",
+                        "source": "doi/full/10.1056/NEJMoa1108524"
+                    },
+                    "Distributed_Event_Trigger": "Initiate_LAPrEP",
+                    "Expired_Event_Trigger": "LAPrEP_Expired",
+                    "Waning_Config__KP_PrEP_HIGH_Waning": "<-- MARKER",
+                    "class": "ControlledVaccine"
+                },
+                "Target_Age_Max": 99,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Negative",
+                "Target_Gender": "Male",
+                "Targeting_Config": {
+                    "Logic": [
+                        [
+                            {
+                                "class": "HasIP",
+                                "Is_Equal_To": 0,
+                                "IP_Key_Value": "Risk:LOW"
+                            }
+                        ]
+                    ]
+                },
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2050
+                    ],
+                    "Values": [
+                        0.0,
+                        0.0
+                    ],
+                    "Values__KP__LA_PrEP_Females": "<-- MARKER"
+                },
+                "Update_Period": 30.4166666666667,
+                "class": "ReferenceTrackingEventCoordinator"
+            },
+            "Event_Name": "10% Coverage for LA PrEP in women",
+            "Nodeset_Config": {
+                "class": "NodeSetAll"
+            },
+            "Start_Year": 2025,
+            "Start_Year__KP__Enable_VMMC_Program_RefTracker_Data_by_Setting_to_2022": "<==JUST A MARKER",
+            "class": "CampaignEventByYear"
         },
         {  
             "Event_Name": "NChooser to implement specified number of LA-PrEP uptake",
@@ -2698,7 +2832,7 @@
             "Start_Year": 1990,
             "class": "CampaignEventByYear"
         },
-                {
+        {
             "BEGIN":"UTT scale-up ART",
             "Event_Name": "Swaziland UTT scale-up, Male ages 15-19",
             "Nodeset_Config": {
