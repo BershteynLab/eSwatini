@@ -1076,7 +1076,7 @@ age_bins = c(15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65,99)
 subset_years = c(2007, 2011, 2016, 2021)
 
 # Subset data on years
-data <- test.list %>% filter(Year %in% subset_years) %>% filter(scenario_name == "test.2020.85.75")
+data <- duet.results %>% filter(Year %in% subset_years)
 
 # Age bins
 age_labels = c()
@@ -1246,8 +1246,8 @@ dat <- test %>%
   filter(Age >= 15) %>% 
   group_by(sim.ix, scenario_name, Year, IP_Key.Risk) %>% 
   summarize(
-    Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
-    Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor)
+    Initiate_PrEP = sum(Initiate_PrEP),
+    Initiate_LAPrEP = sum(Initiate_LAPrEP)
   ) %>% 
   group_by(scenario_name, Year, IP_Key.Risk) %>% 
   summarize(
@@ -1255,6 +1255,8 @@ dat <- test %>%
     Initiate_LAPrEP = mean(Initiate_LAPrEP)
   ) %>% 
   ungroup()
+
+dat %>% filter(Year == 2021)
 
 dat %>% filter(Year == 2027)
 ```
