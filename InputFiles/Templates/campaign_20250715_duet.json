@@ -1189,9 +1189,11 @@
                         "Num_Targeted_Females": [
                             103600
                         ],
+                        "Num_Targeted_Females__KP__PrEP_F_2020": "<-- MARKER",
                         "Num_Targeted_Males": [
                             103600
                         ],
+                        "Num_Targeted_Males__KP__PrEP_M_2020": "<-- MARKER",
                         "Property_Restrictions_Within_Node": [
                             {
                                 "Risk": "HIGH"

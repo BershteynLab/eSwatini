@@ -1407,17 +1407,11 @@
                 "Target_Age_Min": 15,
                 "Target_Demographic": "ExplicitAgeRangesAndGender",
                 "Target_Disease_State": "HIV_Negative",
-                "Target_Gender": "Male",
+                "Target_Gender": "Female",
                 "Targeting_Config": {
-                    "Logic": [
-                        [
-                            {
-                                "class": "HasIP",
-                                "Is_Equal_To": 0,
-                                "IP_Key_Value": "Risk:LOW"
-                            }
-                        ]
-                    ]
+                    "class": "HasIP",
+                    "Is_Equal_To": 0,
+                    "IP_Key_Value": "Risk:LOW"
                 },
                 "Time_Value_Map": {
                     "Times": [
