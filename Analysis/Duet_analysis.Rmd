@@ -1053,7 +1053,26 @@ dat %>%
 # Read in data - High PrEP
 
 ```{r}
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_v5_highprep___2025_11_21_12_12_16_745828/"
+file_path <- experiment.path  # Replace with the directory you want to search
+simulation_dirs <- list.dirs(file_path, full.names = TRUE, recursive = FALSE)
+simulation_dirs <- simulation_dirs[grepl("^Simulation_[a-zA-Z0-9]+$", basename(simulation_dirs))]
+missing_output_dirs <- simulation_dirs[!file.exists(file.path(simulation_dirs, "output"))]
+cat("Directories with `Simulation_[hash]` format missing `output/` sub-folder:\n")
+print(missing_output_dirs)
+
+if (length(missing_output_dirs) > 0) {
+  for (dir in missing_output_dirs) {
+    unlink(dir, recursive = TRUE)  # Remove the directory and its contents
+    cat("Deleted:", dir, "\n")
+  }
+} else {
+  cat("No directories missing `output/` were found.\n")
+}
+```
+
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-baseline_v5_highprep___2025_11_21_17_36_09_369014/"
 
 results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1069,7 +1088,7 @@ results.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_v5_highprep___2025_11_21_12_14_19_944625/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_perm_v5_highprep___2025_11_21_17_37_34_239768/"
 
 results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1085,7 +1104,7 @@ results.cut.perm <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_v5_highprep___2025_11_21_12_16_24_419850/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_v5_highprep___2025_11_21_17_38_57_618873/"
 
 results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1101,7 +1120,7 @@ results.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
 )
 
 
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la_v5_highprep___2025_11_21_12_18_27_248352/"
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-cut_2025_la_v5_highprep___2025_11_21_17_40_20_858477/"
 
 results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
@@ -1153,9 +1172,9 @@ duet.results.highprep <- duet.results.highprep %>%
 ```
 
 
-# Tables
+## Tables
 
-## PLHIV
+### PLHIV
 
 ```{r}
 dat <- duet.results.highprep %>% 
@@ -1180,7 +1199,7 @@ dat %>% filter(Year == 2031) %>%
 ```
 
 
-## New Acquisitions
+### New Acquisitions
 ```{r}
 dat <- duet.results.highprep %>% 
   filter(Age >= 15) %>% 
@@ -1215,7 +1234,7 @@ dat %>%
   )
 ```
 
-### Incidence in 2021
+#### Incidence in 2021
 ```{r}
 duet.results.highprep %>% 
   mutate(Year = floor(Year - .5)) %>% 
@@ -1233,7 +1252,7 @@ duet.results.highprep %>%
   mutate(rate = Newly.Infected/Susc) %>% arrange(Year)
 ```
 
-## HIV deaths
+### HIV deaths
 
 ```{r}
 dat <- duet.results.highprep %>% 
@@ -1269,7 +1288,7 @@ dat %>%
   )
 ```
 
-### When are deaths occurring
+#### When are deaths occurring
 
 ```{r}
 duet.results.highprep %>% 
@@ -1289,7 +1308,7 @@ duet.results.highprep %>%
   arrange(Year)
 ```
 
-## ART Coverage
+### ART Coverage
 
 ```{r}
 dat <- duet.results.highprep %>% 
@@ -1312,9 +1331,9 @@ dat %>% filter(Year == 2026)
 dat %>% filter(Year == 2031)
 ```
 
-## PrEP
+### PrEP
 
-### PrEP initiations
+#### PrEP initiations
 
 ```{r}
 duet.results.highprep %>% filter(Age >= 15) %>% 
@@ -1352,7 +1371,7 @@ dat %>% filter(Year == 2021)
 dat %>% filter(Year == 2027)
 ```
 
-### PrEP coverage
+#### PrEP coverage
 
 ```{r}
 dat <- duet.results.highprep %>% 
@@ -1446,7 +1465,7 @@ dat %>%
   scale_color_manual(values = c( "black", "#C41000", "#E69F00", "#0072B2")) +
   scale_x_continuous("Year", breaks = c(2020, 2025, 2030)) +
   #scale_y_continuous("HIV Acquisitions") +
-  scale_y_continuous("") +
+  scale_y_continuous("", breaks = c(3750, 4250, 4750)) +
   theme_minimal() + theme_bw() +
   theme(panel.grid = element_blank(),
         #axis.title.x = element_blank(),
