@@ -25,4 +25,4 @@
 
 #python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir hbp --suite-name hbp --table scenarios.csv
 
-python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets.csv --output-dir hbp --suite-name hbp --table scenarios_duet.csv
+python run_scenarios.py -c optim_script.py --resample-method provided --samples resampled_parameter_sets_short.csv --output-dir hbp --suite-name hbp --table scenarios_duet.csv
