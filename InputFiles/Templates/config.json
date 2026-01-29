@@ -205,7 +205,7 @@
             "OnPrEP"
         ],
         "Report_HIV_ByAgeAndGender_Collect_Intervention_Data": [],
-        "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 0,
+        "Report_HIV_ByAgeAndGender_Collect_On_Art_Data": 1,
         "Report_HIV_ByAgeAndGender_Event_Counter_List": [
             "Initiate_PrEP",
             "Initiate_LAPrEP",
@@ -214,7 +214,8 @@
             "PEPFAR_ARTDropout_Yes",
             "PEPFAR_ARTDropout_No",
             "OnART1_initiate",
-            "OnART1_initiate_FAILURE"
+            "OnART1_initiate_FAILURE",
+            "OnART3"
         ],
         "Report_HIV_ByAgeAndGender_Has_Intervention_With_Name": "",
         "Report_HIV_ByAgeAndGender_Start_Year": 2005,
