@@ -3901,6 +3901,1048 @@
             }
         },
         {
+            "BEGIN":"UTT scale-up ART - beginning 2026",
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 15-19 ",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 19.99999,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.9406002,
+                        0.9406002
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 20-24",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 24.99999,
+                "Target_Age_Min": 20,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.86085217,
+                        0.86085217
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 25-29",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 29.99999,
+                "Target_Age_Min": 25,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.868129678,
+                        0.868129678
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 30-34",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 34.99999,
+                "Target_Age_Min": 30,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.923170344,
+                        0.923170344
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 35-39",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 39.99999,
+                "Target_Age_Min": 35,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.952035346,
+                        0.952035346
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 40-44",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 44.99999,
+                "Target_Age_Min": 40,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.964714844,
+                        0.964714844
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 45-49",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 49.99999,
+                "Target_Age_Min": 45,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.970526749,
+                        0.970526749
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 50-55",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 54.99999,
+                "Target_Age_Min": 50,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.973898116,
+                        0.973898116
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 55-59",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 59.99999,
+                "Target_Age_Min": 55,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.968268466,
+                        0.968268466
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 60-64",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 64.99999,
+                "Target_Age_Min": 60,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.971176044,
+                        0.971176044
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 65-69",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 69.99999,
+                "Target_Age_Min": 65,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.971426108,
+                        0.971426108
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 70-74",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 74.99999,
+                "Target_Age_Min": 70,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.978434772,
+                        0.978434772
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Male ages 75+",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 200,
+                "Target_Age_Min": 75,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Male",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 15-19",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 19.99999,
+                "Target_Age_Min": 15,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.943720096,
+                        0.943720096
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 20-24",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 24.99999,
+                "Target_Age_Min": 20,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.914021716,
+                        0.914021716
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 25-29",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 29.99999,
+                "Target_Age_Min": 25,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.917580092,
+                        0.917580092
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 30-34",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 34.99999,
+                "Target_Age_Min": 30,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.94770007,
+                        0.94770007
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 35-39",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 39.99999,
+                "Target_Age_Min": 35,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.967605377,
+                        0.967605377
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 40-44",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 44.99999,
+                "Target_Age_Min": 40,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.97767109,
+                        0.97767109
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 45-49",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 49.99999,
+                "Target_Age_Min": 45,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.9880374,
+                        0.9880374
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 50-55",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 54.99999,
+                "Target_Age_Min": 50,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.9880586,
+                        0.9880586
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 55-59",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 59.99999,
+                "Target_Age_Min": 55,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.979976387,
+                        0.979976387
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 60-64",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 64.99999,
+                "Target_Age_Min": 60,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.98325203,
+                        0.98325203
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 65-69",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 69.99999,
+                "Target_Age_Min": 65,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 70-74",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 74.99999,
+                "Target_Age_Min": 70,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        0.987034494,
+                        0.987034494
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
+            "END":"UTT scale-up ART - post 2026",
+            "Event_Name": "2026 Swaziland UTT scale-up, Female ages 75+",
+            "Nodeset_Config": {
+                "Node_List": [
+                    1
+                ],
+                "class": "NodeSetNodeList"
+            },
+            "Start_Year": 1990,
+            "class": "CampaignEventByYear",
+            "Event_Coordinator_Config": {
+                "Intervention_Config": {
+                    "Broadcast_Event": "OnART0",
+                    "Event_Or_Config": "Event",
+                    "Intervention_Name": "On_ART",
+                    "New_Property_Value": "CascadeState:OnART",
+                    "Disqualifying_Properties": [
+                        "CascadeState:LostForever"
+                    ],
+                    "class": "BroadcastEvent"
+                },
+                "Target_Age_Max": 200,
+                "Target_Age_Min": 75,
+                "Target_Demographic": "ExplicitAgeRangesAndGender",
+                "Target_Disease_State": "HIV_Positive",
+                "Target_Gender": "Female",
+                "Time_Value_Map": {
+                    "Times": [
+                        2026,
+                        2200
+                    ],
+                    "Values": [
+                        1.0,
+                        1.0
+                    ]
+                },
+                "Update_Period": 182.5,
+                "class": "ReferenceTrackingEventCoordinatorHIV"
+            }
+        },
+        {
             "BEGIN": "ART",
             "Event_Coordinator_Config": {
                 "Intervention_Config": {
