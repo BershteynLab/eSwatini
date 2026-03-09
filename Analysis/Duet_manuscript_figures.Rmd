@@ -26,6 +26,14 @@ SWZ_CENSUS_POP = 1148000 # UN WPP 2019, according to SWZ national census 2017 10
 
 current_date <- Sys.Date()
 date_string_ymd <- format(current_date, format = "%Y%m%d")
+
+
+# Age bins
+age_bins = c(0, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 99)
+age_labels = c()
+for (i in 1:(length(age_bins) - 1)){
+  age_labels <- append(age_labels, paste0("[",age_bins[i],":",age_bins[i + 1],")"))
+}
 ```
 
 ## Functions
@@ -143,6 +151,92 @@ duet.results.highprep.v7 <- duet.results.highprep.v7 %>%
   )
 
 ```
+# Read in data - version 8 instead of version 7
+
+```{r}
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-baseline_v8___2026_01_29_17_35_34_190939/"
+
+results.baseline.v8 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "baseline",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-cut_perm_v8___2026_01_29_17_36_44_578070/"
+
+results.cut.perm.v8 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.perm",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-cut_2025_v8___2026_01_29_17_37_39_598580/"
+
+results.cut.2025.v8 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.2025",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+
+experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-cut_2025_la_v8___2026_01_29_17_38_17_972239/"
+
+results.cut.la.v8 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name =  "cut.la",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+duet.results.v8 <- rbind(
+  results.baseline.v8,
+  results.cut.perm.v8,
+  results.cut.2025.v8,
+  results.cut.la.v8
+)
+
+sim.results.pop.scaling <- duet.results.v8 %>%
+  filter(Year == SWZ_CENSUS_YEAR) %>%
+  group_by(sim.ix, scenario_name) %>%
+  summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+  mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+duet.results.v8 <- duet.results.v8 %>%
+  inner_join(
+    sim.results.pop.scaling,
+    by = c("sim.ix", "scenario_name")
+  )
+```
+
 
 # Generate Tables
 
@@ -593,5 +687,431 @@ data.metrics.by.year %>%
         axis.title= element_text(size = 16))
 
 ggsave("Duet_figures/PrEP_LA_time_series_longprep_v7.pdf", height = 4, width = 5, units = "in")
+```
+
+# Sensitivity Analysis
+
+I want to avoid reading 28 entire tables into R at the same time, so I am going to loop over each directory individually to save a sub-table, then recover those subtables and bind them together
+
+## Define list of sensitivity analyses
+```{r}
+sa.dt <- data.table(
+  
+  scenario_names = c(
+  # ART cut size
+    "sa_art_10_cut_perm", "sa_art_10_cut_2025", "sa_art_10_cut_2025_la", 
+    "sa_art_25_cut_perm", "sa_art_25_cut_2025", "sa_art_25_cut_2025_la",
+  # PrEP cut size
+    "sa_prep_50_cut_perm", "sa_prep_50_cut_2025", "sa_prep_50_cut_2025_la",
+    "sa_prep_200_cut_perm", "sa_prep_200_cut_2025", "sa_prep_200_cut_2025_la",
+  # Oral PrEP efficacy
+    "sa_prep_eff_50_baseline", "sa_prep_eff_50_cut_perm", "sa_prep_eff_50_cut_2025", "sa_prep_eff_50_cut_2025_la",
+    "sa_prep_eff_100_baseline", "sa_prep_eff_100_cut_perm", "sa_prep_eff_100_cut_2025" , "sa_prep_eff_100_cut_2025_la",
+  # PrEP duration - short
+    "sa_prep_shortprep_baseline", "sa_prep_shortprep_cut_perm", "sa_prep_shortprep_cut_2025", "sa_prep_shortprep_cut_2025_la",
+  # ART timing - 
+  "sa_art_timing_cut_2025", "sa_art_timing_cut_2025_la"
+  ),
+  baseline_scenario_names = c(
+      # ART cut size
+        "cut_perm", "cut_2025", "cut_2025_la", 
+        "cut_perm", "cut_2025", "cut_2025_la",
+      # PrEP cut size
+        "cut_perm", "cut_2025", "cut_2025_la",
+        "cut_perm", "cut_2025", "cut_2025_la",
+      # Oral PrEP efficacy
+        "baseline", "cut_perm", "cut_2025", "cut_2025_la",
+        "baseline", "cut_perm", "cut_2025" , "cut_2025_la",
+      # PrEP duration - short
+        "baseline", "cut_perm", "cut_2025", "cut_2025_la",
+      # ART timing - 
+      "cut_2025", "cut_2025_la"
+  ),
+  
+  sa_subgroup = c(
+    "ART.cut.size","ART.cut.size","ART.cut.size","ART.cut.size","ART.cut.size","ART.cut.size",
+    "PrEP.cut.size","PrEP.cut.size","PrEP.cut.size","PrEP.cut.size","PrEP.cut.size","PrEP.cut.size",
+    "Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff","Oral.PrEP.eff",
+    "PrEP.duration","PrEP.duration","PrEP.duration","PrEP.duration",
+    "ART.timing","ART.timing"
+  ),
+  
+  dir = c(
+  # ART cut
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_perm___2026_02_18_18_07_39_069490/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025___2026_02_18_18_08_38_060677",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025_la___2026_02_18_18_09_12_100725/",
+      "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_perm___2026_02_18_18_09_47_634297/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025___2026_02_18_18_10_21_837179/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025_la___2026_02_18_18_10_57_012973/",
+  # PrEP cut size
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_perm___2026_02_18_18_11_31_192251/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025___2026_02_18_18_12_06_028478/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025_la___2026_02_18_18_12_40_419912/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_perm___2026_02_18_18_13_21_884650/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025___2026_02_18_18_13_55_859500/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025_la___2026_02_18_18_14_30_307922/",
+  # PrEP efficacy
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_baseline___2026_02_18_18_15_03_191812",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_perm___2026_02_18_18_15_36_480825/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025___2026_02_18_18_16_09_658655/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025_la___2026_02_18_18_16_42_481039/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_baseline___2026_02_18_18_17_15_602045/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_perm___2026_02_18_18_17_48_322905/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025___2026_02_18_18_18_21_300039/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025_la___2026_02_18_18_18_56_362883/",
+  
+  # PrEP Duration
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_baseline___2026_02_18_18_19_29_152170",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_perm___2026_02_18_18_20_02_584145/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025___2026_02_18_18_20_34_467197/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025_la___2026_02_18_18_21_07_973275/",
+  # ART Timing
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025___2026_03_05_16_46_18_259337/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025_la_v8___2026_03_05_16_47_32_654805/"
+  )
+)
+
+nrow(sa.dt)
+```
+
+```{r}
+metrics.names = c("Population", "Infected", "On_ART", 
+                  "Newly.Infected", "Died_from_HIV", 
+                  "Initiate_PrEP", "Initiate_LAPrEP")
+age.bin.list =  c("[0,15)", "[15,20)", "[20,25)", "[25,30)", 
+                  "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
+                  "[50,55)", "[55,60)", "[60,99)", "[15,99)")
+years.list = c(2020:2029)
+
+for (ix in 25:26) { #1:nrow(sa.dt)) { 
+  sim.results <- NULL
+
+  scenario_name = sa.dt[ix,]$scenario_names
+  sa_subgroup = sa.dt[ix,]$sa_subgroup
+  experiment.path = sa.dt[ix,]$dir
+  
+  print(c(scenario_name, sa_subgroup, experiment.path))
+  
+  sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+    experiment_path = experiment.path,
+    scenario_name =  scenario_name,
+    summarize_columns = c("Population","Infected", "On_ART",
+                        "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                        "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                        "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                        ),
+    stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+    min_age_inclusive = 0,
+    max_age_inclusive = 99
+  )
+
+  sim.results.pop.scaling <- sim.results %>%
+    filter(Year == SWZ_CENSUS_YEAR) %>%
+    group_by(sim.ix, scenario_name) %>%
+    summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
+    mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
+
+  sim.results <- sim.results %>%
+    inner_join(
+      sim.results.pop.scaling,
+      by = c("sim.ix", "scenario_name")
+    )
+  
+  # Label each age by its bin
+  data <- sim.results %>% mutate(
+    AgeBin = cut(Age, breaks = age_bins, right = FALSE)
+    ) %>%
+    filter(!is.na(AgeBin))
+  data$AgeBin_index = factor(data$AgeBin,labels = 1:length(age_labels))
+
+  # Annual data
+  data.staging <- data %>%
+    mutate(Year = floor(Year )) %>%
+    group_by(Year, AgeBin, scenario_name, sim.ix) %>%
+    summarize(
+      Population = sum(Population * pop_scaling_factor/2),
+      Infected = sum(Infected * pop_scaling_factor/2),
+      On_ART = sum(On_ART * pop_scaling_factor/2),
+      Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+      Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+      Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+      Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor),
+      .groups = "drop_last"
+    )  %>% ungroup()
+
+  data.staging <- rbind(
+    data.staging,
+    data %>%
+      mutate(Year = floor(Year)) %>%
+      filter(Age >= 15) %>%
+      mutate(AgeBin = "[15,99)") %>%
+      group_by(Year, AgeBin, scenario_name, sim.ix) %>%
+      summarize(
+        Population = sum(Population * pop_scaling_factor/2),
+        Infected = sum(Infected * pop_scaling_factor/2),
+        On_ART = sum(On_ART * pop_scaling_factor/2),
+        Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+        Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+        Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor),
+        Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor),
+        .groups = "drop_last"
+      ) %>% ungroup()
+  )
+
+  metrics.by.year = data.frame()
+
+  for (j in years.list) {
+    for(k in age.bin.list) {
+      for(l in metrics.names){
+        #print(c(j,k,l))
+        h <- calculate.CI.by.metric(
+          data = data.staging %>% filter(Year == j, AgeBin == k),
+          scenario.name = scenario_name,
+          metric = l)
+
+        h$Year = j
+        h$Age = k
+
+        metrics.by.year = rbind(metrics.by.year, h)
+      }
+    }
+  }
+
+  # Write out metrics by year
+  metrics.by.year %>%
+    mutate(Model = "EMOD") %>%
+    select(
+      Model,
+      Scenario = scenario_name, Year,
+      Age,
+      Metric = metric, Mean = metric.mean, Lower.Bound = metric.lb, Upper.Bound = metric.ub) %>%
+    mutate(SA_subgroup = sa_subgroup) %>%
+    write_csv(paste0("Duet_figures/Duet_Metrics_by_Year_",scenario_name,".csv"))
+ 
+  # Aggregated metrics
+  data.staging <- data %>% 
+    mutate(Year = floor(Year)) %>% 
+    filter(Age >= 15) %>% 
+    filter(Year %in% c(2025, 2026, 2027, 2028, 2029)) %>% 
+    group_by(scenario_name, sim.ix) %>% 
+    summarize(
+      Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+      Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+      Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor), 
+      Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor),
+      .groups = "drop_last"
+    ) %>% ungroup()
+
+  metrics.aggregated = data.frame()
+  
+  for (j in metrics.names[c(-1,-2, -3)]){
+    for(l in c("[15,99)")){
+      print(c(j,l))
+      h <- calculate.CI.by.metric(
+        data = data.staging,
+        scenario.name = scenario_name,
+        metric = j)
+
+      h$Age = l
+      
+      metrics.aggregated = rbind(metrics.aggregated, h) 
+    }
+  }
+  
+  metrics.aggregated %>% 
+    mutate(Model = "EMOD") %>%
+    select(
+      Model,
+      Scenario=  scenario_name,
+      Age,
+      Metric = metric, Mean = metric.mean, Lower.Bound = metric.lb, Upper.Bound = metric.ub) %>% 
+    mutate(SA_subgroup = sa_subgroup) %>% 
+    write_csv(paste0("Duet_figures/SA_Duet_Metrics_Aggregated_",scenario_name,".csv"))
+
+}
+```
+
+## Gather all results
+
+```{r}
+dir_path <- "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures"
+
+# File prefix (start of the file name)
+prefix <- "Duet_Metrics_by_Year_sa"
+
+# List all files in the directory that start with the prefix
+files <- list.files(
+  path = dir_path,
+  pattern = paste0("^", prefix),
+  full.names = TRUE
+)
+
+# Check what was found (optional)
+print(files)
+
+# Read and combine files
+# Adjust read.csv to readr::read_csv or data.table::fread if you prefer
+SA_Duet_Metrics_by_Year <- do.call(
+  rbind,
+  lapply(files, function(f) {
+    df <- read.csv(f, stringsAsFactors = FALSE)
+    df$source_file <- basename(f)  # optional: keep track of which file each row came from
+    df
+  })
+)
+
+SA_Duet_Metrics_by_Year %>% write_csv(paste0(dir_path,"/SA_Duet_Metrics_by_Year.csv"))
+```
+
+```{r}
+dir_path <- "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures/"
+
+# File prefix (start of the file name)
+prefix <- "SA_Duet_Metrics_Aggregated_sa"
+
+# List all files in the directory that start with the prefix
+files <- list.files(
+  path = dir_path,
+  pattern = paste0("^", prefix),
+  full.names = TRUE
+)
+
+# Check what was found (optional)
+print(files)
+
+# Read and combine files
+# Adjust read.csv to readr::read_csv or data.table::fread if you prefer
+SA_Duet_Metrics_Aggregated <- do.call(
+  rbind,
+  lapply(files, function(f) {
+    df <- read.csv(f, stringsAsFactors = FALSE)
+    df$source_file <- basename(f)  # optional: keep track of which file each row came from
+    df
+  })
+)
+
+SA_Duet_Metrics_Aggregated <- SA_Duet_Metrics_Aggregated %>% 
+  merge(data.table(
+    scenario_names = c(
+    # ART cut size
+      "sa_art_10_cut_perm", "sa_art_10_cut_2025", "sa_art_10_cut_2025_la", 
+      "sa_art_25_cut_perm", "sa_art_25_cut_2025", "sa_art_25_cut_2025_la",
+    # PrEP cut size
+      "sa_prep_200_cut_perm", "sa_prep_200_cut_2025", "sa_prep_200_cut_2025_la",
+      "sa_prep_50_cut_perm", "sa_prep_50_cut_2025", "sa_prep_50_cut_2025_la",
+    # Oral PrEP efficacy
+      "sa_prep_eff_50_baseline", "sa_prep_eff_50_cut_perm", "sa_prep_eff_50_cut_2025", "sa_prep_eff_50_cut_2025_la",
+      "sa_prep_eff_100_baseline", "sa_prep_eff_100_cut_perm", "sa_prep_eff_100_cut_2025" , "sa_prep_eff_100_cut_2025_la",
+    # PrEP duration - short
+      "sa_prep_shortprep_baseline", "sa_prep_shortprep_cut_perm", "sa_prep_shortprep_cut_2025", "sa_prep_shortprep_cut_2025_la",
+    # ART timing - 
+    "sa_art_timing_cut_2025", "sa_art_timing_cut_2025_la"
+    ),
+    baseline_scenario_name = c(
+        # ART cut size
+          "cut.perm", "cut.2025", "cut.la", 
+          "cut.perm", "cut.2025", "cut.la",
+        # PrEP cut size
+          "cut.perm", "cut.2025", "cut.la",
+          "cut.perm", "cut.2025", "cut.la",
+        # Oral PrEP efficacy
+          "baseline", "cut.perm", "cut.2025", "cut.la",
+          "baseline", "cut.perm", "cut.2025" , "cut.la",
+        # PrEP duration - short
+          "baseline", "cut.perm", "cut.2025", "cut.la",
+        # ART timing - 
+        "cut.2025", "cut.la"
+    )),
+  by.x = c("Scenario"), by.y = c("scenario_names")
+  )
+
+SA_Duet_Metrics_Aggregated %>% write_csv(paste0(dir_path,"/SA_Duet_Metrics_Aggregated.csv"))
+```
+
+## Actual analysis and investigation of the sensitivity analysis
+
+```{r}
+SA_Duet_Metrics_Aggregated <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures/SA_Duet_Metrics_Aggregated.csv")
+
+SA_Duet_Metrics_by_Year <- read_csv("/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures/SA_Duet_Metrics_by_Year.csv")
+
+```
+
+```{r}
+rbind(
+  data.metrics.by.year %>%
+    filter(Age =='[15,99)', Metric == 'Newly.Infected') %>% select(Year, Metric, Mean, Scenario = scenario_name),
+  SA_Duet_Metrics_by_Year %>% 
+    filter(Age =='[15,99)', Metric == 'Newly.Infected') %>%
+    filter(SA_subgroup == "ART.timing") %>% select(Year, Metric, Mean, Scenario)
+) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Mean, color = Scenario))
+
+
+rbind(
+  data.metrics.by.year %>%
+    filter(Age =='[15,99)', Metric == 'Died_from_HIV') %>% select(Year, Metric, Mean, Scenario = scenario_name),
+  SA_Duet_Metrics_by_Year %>% 
+    filter(Age =='[15,99)', Metric == 'Died_from_HIV') %>%
+    filter(SA_subgroup == "ART.timing") %>% select(Year, Metric, Mean, Scenario)
+) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = Mean, color = Scenario))
+
+```
+
+Okay, so it appears that the timing means that we have MORE acquisitions why why why
+Let's look at the actual ART coverage ...
+
+```{r}
+data.metrics.by.year  %>% 
+  filter(#Year %in% c(2025, 2030),
+         Age == "[15,99)",
+         Metric %in% c("Infected", "On_ART")) %>% 
+  pivot_wider(
+    id_cols = c(scenario_name, Year),
+    names_from = Metric,
+    values_from = Mean
+  ) %>% 
+  mutate(cov = On_ART/Infected) %>% 
+  arrange(Year, scenario_name) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = cov, color = scenario_name))
+```
+
+```{r}
+SA_Duet_Metrics_by_Year %>% 
+  filter(#Year %in% c(2025, 2030),
+         Age == "[15,99)",
+         Metric %in% c("Infected", "On_ART"),
+         SA_subgroup == 'ART.timing') %>% 
+  pivot_wider(
+    id_cols = c(Scenario, Year),
+    names_from = Metric,
+    values_from = Mean
+  ) %>% 
+  mutate(cov = On_ART/Infected) %>% 
+  arrange(Year, Scenario) %>% 
+  ggplot() + 
+  geom_line(mapping = aes(x = Year, y = cov, color = Scenario))
+```
+### Checking on ART Timing
+```{r}
+SA_Duet_Metrics_Aggregated %>% 
+  filter(#Year %in% c(2025, 2030),
+         Age == "[15,99)",
+         #Metric %in% c("Infected", "On_ART"),
+         SA_subgroup == 'ART.timing') %>% 
+  merge(
+    metrics.aggregated %>% 
+      filter(metric %in% c("Died_from_HIV","Newly.Infected")) %>% 
+      select(baseline_scenario_name = scenario_name, Metric = metric, Baseline_mean = metric.mean),
+    by.x = c("Metric"), by.y = c("Metric")
+  ) %>% 
+  mutate(diff = Mean - Baseline_mean) %>% 
+  mutate(pct = diff/Baseline_mean)
+  
 ```
 
