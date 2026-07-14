@@ -1,64 +1,37 @@
 # eSwatini
 
+This repository keeps track of the EMOD model and data used to produce results for our manuscript **Health impact of bilateral aid disruptions to HIV services in Eswatini: insights from a two‑model study** 
+
 ## Data Provenance
 
 * *HIV Prevalence Data*
-    * DHS
-    * PHIA
-    * SHIMS
+  * DHS
+  * PHIA
+  * SHIMS
 * *Demographics Data*
-    * UN WPP, extracted by DTC in 2023
-    * UN WPP 2019 estimates 1,148,000 total population 
-    * Meanwhile, national census of SWZ estimates 1,093,238 in 2017, while UN WPP estimates 1,125,000 in that same year.
+  * UN WPP, extracted by DTC in 2023
+  * UN WPP 2019 estimates 1,148,000 total population
+  * Meanwhile, national census of SWZ estimates 1,093,238 in 2017, while UN WPP estimates 1,125,000 in that same year.
 * *ART Prevalence Data*
-    * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference tracker called "UTT scale-up ART"
-    * ART is distributed in a piecewise fashion, using SHIMS (2011, 2016, 2021) data to inform ART coverage by age and sex
-    * *ART Availability*
+  * Note that we are not calibrating to ART prevalence. Rather, ART is distributed through a reference tracker called "UTT scale-up ART"
+  * ART is distributed in a piecewise fashion, using SHIMS (2011, 2016, 2021) data to inform ART coverage by age and sex
+  * *ART Availability*
 * *Circumcision distribution*
 
 ## Major Updates
 
-### 2025-07-15
+### 2026-07-14
 
-* Now working on simulating how countries should plan for disruptions to their HIV services.
-* Is it more important to invest in preventative care or ART maintenance, given limited resources?
+* Finished manuscript 
+* Most recent analysis for manuscript is from Analysis/Duet_manuscript_figures.Rmd
 
-Proposed changes
-* Add variable rates of EffectiveART vs. NonSuppressiveART, to match how viral load suppression rate outcomes grow with time, in order to bring down incidence among men in more recent years
+### 2025-11-01
 
-### 2024-08-30
+* Scoping work for manuscript, purpose of which is to estimate the impacts of HIV service disruptions in Eswatini
+* Braithwaite team has worked with Eswatini MOH to determine extent and magnitude of disruptions
+* Modeling alignment exercise with that team, comparing outputs
 
-Problem: 
-
-* Incidence is too high among men post 2016
-* Leads to excess younger people (under age of 30) with HIV, age distribution peaks too low currently
-
-Solution:
-
-* Dial down HIGH risk population post-2010
-* Dial up ART distribution among young people
-
-### 2024-07-07
-
-Updated ART coverage distribution to match SHIMS data.
-
-### 2024-01-19
-
-Completed test3_swz2024 - these results were presented at eSwatini meetings in January 2024.
-
-## Notes from Clark, c. 2023-09-26
-
-This project directory starts from a random simulation in this COMPS experiment:
-1cf76785-fd30-ec11-9ecd-9440c9bee941
-
-random simulation is:
-e0754e1f-fe30-ec11-9ecd-9440c9bee941
-
-This starting point uses a more recent EMOD binary than a prior attempt, which means the configs MAY be more easily updatable to a current malaria-ongoing
-EMOD binary.
-
-Starting EMOD version, as reported from COMPS:
-Intellectual Ventures(R)/EMOD Disease Transmission Kernel 2.18.4476.0
-Built on Jun  8 2021 17:23:43 by SYSTEM from HIV-Ongoing (9567070) checked in on 2021-06-08 15:24:57 -0700
-
-The current post processor is needed to prevent miscounting due to the current inclusion of IP_Key:Risk and IP_Key:ARTstate in ReportHIVByAgeAndGender.csv .
+* Scenarios for this project are part of scenarios_duet.csv
+* Campaign file for this project is InputFiles/Templates/campaign_20250715_duet_longPrEP.json
+    * The campaign file InputFiles/Templates/campaign_20250715_duet_longPrEP_art_timing.json is for the sensitivity analysis where we change the timing of how quickly ART resumes
+    * The campaign file InputFiles/Templates/campaign_20250715_duet_preprtec.json uses a ReferenceTracker for distributing PrEP instead of an NChooser, this campaign file has not been sufficiently tested
