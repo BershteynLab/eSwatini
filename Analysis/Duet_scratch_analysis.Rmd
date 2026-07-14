@@ -3974,12 +3974,11 @@ data.staging %>% filter(AgeBin == '[15,99)') %>%
 
 ```{r}
 
-experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-arttiming_test_same_campaigns_sa_art_timing_cut_2025___2026_03_06_18_42_53_425232/"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_baseline___2026_03_09_10_51_44_262740"
 
-sa.art.timing.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sa.baseline <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  #scenario_name =  "sa_art_timing_cut_2025",
-  scenario_name =  "arttiming_test",
+  scenario_name =  "sa.baseline",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
@@ -3990,12 +3989,11 @@ sa.art.timing.cut.2025 <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_baseline___2026_02_18_18_19_29_152170"
+experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025___2026_03_10_14_34_30_514373/"
 
-sa.art.timing.cut.2025.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sa.art.timing <- EMODAnalyzeR::read.simulation.results.bigpurple(
   experiment_path = experiment.path,
-  #scenario_name =  "sa_art_timing_cut_2025_la",
-  scenario_name = "sa.baseline",
+  scenario_name = "sa.art.timing",
   summarize_columns = c("Population","Infected", "On_ART",
                       "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
                       "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
@@ -4006,26 +4004,58 @@ sa.art.timing.cut.2025.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-art.timing.results <- rbind(
-    sa.art.timing.cut.2025.la,
-    sa.art.timing.cut.2025,
-    results.baseline,
-    results.cut.2025
+experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025_la___2026_03_11_12_28_16_510105/"
+
+sa.art.timing.la.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = "sa.art.timing.la",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+experiment.path <- "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_perm___2026_03_09_10_52_46_612397/"
+
+sa.cut.perm.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+  experiment_path = experiment.path,
+  scenario_name = "sa.cut.perm.art.10",
+  summarize_columns = c("Population","Infected", "On_ART",
+                      "Died", "Died_from_HIV", "Newly.Infected","Diagnosed",
+                      "Initiate_PrEP","Initiate_LAPrEP","Program_VMMC", "Program_VMMC_Uptake",
+                      "PEPFAR_ARTDropout_Yes","PEPFAR_ARTDropout_No","OnART1_initiate","OnART1_initiate_FAILURE"
+                      ),
+  stratify_columns = c("Year", "Age", "Gender", "IP_Key.OnPrEP"),
+  min_age_inclusive = 0,
+  max_age_inclusive = 99
+)
+
+sa.test.results <- rbind(
+  sa.baseline,
+  sa.art.timing,
+  sa.art.timing.la.results,
+  results.cut.2025
+  # sa.cut.2025.la.results,
+  # sa.cut.perm.results
   )
 
-sim.results.pop.scaling <- art.timing.results %>%
+sim.results.pop.scaling <- sa.test.results %>%
     filter(Year == SWZ_CENSUS_YEAR) %>%
     group_by(sim.ix, scenario_name) %>%
     summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
     mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
 
-art.timing.results <- art.timing.results %>%
+sa.test.results <- sa.test.results %>%
     inner_join(
       sim.results.pop.scaling,
       by = c("sim.ix", "scenario_name")
     )
 
-art.timing.results %>%
+sa.test.results %>%
   filter(Age >= 15, Year >= 2020) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
   summarize(Infected = sum(Infected * pop_scaling_factor),
@@ -4039,7 +4069,7 @@ art.timing.results %>%
   geom_line(mapping = aes(x = Year, y = cov, color = scenario_name))
 
 
-art.timing.results %>%
+sa.test.results %>%
   filter(Age >= 15, Year >= 2020) %>% 
   mutate(Year = floor(Year)) %>% 
   group_by(sim.ix, scenario_name, Year) %>% 
@@ -4054,7 +4084,7 @@ art.timing.results %>%
   geom_line(mapping = aes(x = Year, y = cov, color = scenario_name))
 ```
 ```{r}
-duet.results.highprep.v7 %>% 
+duet.results.v7 %>% 
   filter(Age >= 15) %>% 
   filter(Year >= 2020) %>% 
   group_by(Year, scenario_name, sim.ix) %>% 

@@ -131,20 +131,20 @@ results.cut.la <- EMODAnalyzeR::read.simulation.results.bigpurple(
   max_age_inclusive = 99
 )
 
-duet.results.highprep.v7 <- rbind(
+duet.results.v7 <- rbind(
   results.baseline,
   results.cut.perm,
   results.cut.2025,
   results.cut.la
 )
 
-sim.results.pop.scaling <- duet.results.highprep.v7 %>%
+sim.results.pop.scaling <- duet.results.v7 %>%
   filter(Year == SWZ_CENSUS_YEAR) %>%
   group_by(sim.ix, scenario_name) %>%
   summarize(total.pop = sum(Population), .groups = 'drop_last') %>%
   mutate(pop_scaling_factor = SWZ_CENSUS_POP/total.pop)
 
-duet.results.highprep.v7 <- duet.results.highprep.v7 %>%
+duet.results.v7 <- duet.results.v7 %>%
   inner_join(
     sim.results.pop.scaling,
     by = c("sim.ix", "scenario_name")
@@ -261,7 +261,7 @@ for (i in 1:(length(age_bins) - 1)){
 }
 
 # Label each age by its bin
-data <- duet.results.highprep.v7 %>% mutate(
+data <- duet.results.v7 %>% mutate(
   AgeBin = cut(Age, breaks = age_bins, right = FALSE)
   ) %>%
   filter(!is.na(AgeBin))
@@ -526,7 +526,7 @@ ggsave("Duet_figures/HIV_Acquisitions_time_series_longprep_v7.pdf", height = 4, 
 ```
 
 ```{r}
-duet.results.highprep.v7 %>%
+duet.results.v7 %>%
   mutate(Year = floor(Year)) %>% 
   filter(Age >= 15) %>% 
   mutate(AgeBin = "[15,99)") %>% 
@@ -738,37 +738,36 @@ sa.dt <- data.table(
   
   dir = c(
   # ART cut
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_perm___2026_02_18_18_07_39_069490/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025___2026_02_18_18_08_38_060677",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025_la___2026_02_18_18_09_12_100725/",
-      "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_perm___2026_02_18_18_09_47_634297/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025___2026_02_18_18_10_21_837179/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025_la___2026_02_18_18_10_57_012973/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_perm___2026_03_09_10_52_46_612397/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025___2026_03_09_10_53_24_563960/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_10_cut_2025_la___2026_03_09_10_54_03_471309/",
+      "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_perm___2026_03_09_19_38_06_353038/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025___2026_03_09_19_39_08_344446/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_art_25_cut_2025_la___2026_03_09_19_40_11_134155/",
   # PrEP cut size
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_perm___2026_02_18_18_11_31_192251/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025___2026_02_18_18_12_06_028478/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025_la___2026_02_18_18_12_40_419912/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_perm___2026_02_18_18_13_21_884650/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025___2026_02_18_18_13_55_859500/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025_la___2026_02_18_18_14_30_307922/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_perm___2026_03_09_19_40_46_499754/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025___2026_03_09_19_41_22_526177/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_50_cut_2025_la___2026_03_09_19_42_03_196263/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_perm___2026_03_09_19_42_40_043271/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025___2026_03_09_19_43_16_504255/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_200_cut_2025_la___2026_03_09_19_43_52_234865/",
   # PrEP efficacy
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_baseline___2026_02_18_18_15_03_191812",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_perm___2026_02_18_18_15_36_480825/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025___2026_02_18_18_16_09_658655/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025_la___2026_02_18_18_16_42_481039/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_baseline___2026_02_18_18_17_15_602045/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_perm___2026_02_18_18_17_48_322905/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025___2026_02_18_18_18_21_300039/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025_la___2026_02_18_18_18_56_362883/",
-  
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_baseline___2026_03_09_19_44_29_171803/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_perm___2026_03_09_19_45_06_500496/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025___2026_03_09_19_45_42_502086/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_50_cut_2025_la___2026_03_09_19_46_42_895836/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_baseline___2026_03_09_19_47_17_810563/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_perm___2026_03_09_19_47_55_021410/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025___2026_03_09_19_48_29_479740/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP-sa_prep_eff_100_cut_2025_la___2026_03_09_19_49_07_237881/",
   # PrEP Duration
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_baseline___2026_02_18_18_19_29_152170",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_perm___2026_02_18_18_20_02_584145/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025___2026_02_18_18_20_34_467197/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025_la___2026_02_18_18_21_07_973275/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_baseline___2026_03_09_19_49_43_733298/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_perm___2026_03_09_19_50_19_429255/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025___2026_03_09_19_50_56_910533/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet-sa_prep_shortprep_cut_2025_la___2026_03_09_19_51_37_189822/",
   # ART Timing
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025___2026_03_05_16_46_18_259337/",
-    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025_la_v8___2026_03_05_16_47_32_654805/"
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025___2026_03_10_14_34_30_514373/",
+    "/gpfs/scratch/citrod01/experiments/eSwatini/Duet/Baseline-campaign_20250715_duet_longPrEP_art_timing-sa_art_timing_cut_2025_la___2026_03_11_12_28_16_510105/"
   )
 )
 
@@ -782,9 +781,9 @@ metrics.names = c("Population", "Infected", "On_ART",
 age.bin.list =  c("[0,15)", "[15,20)", "[20,25)", "[25,30)", 
                   "[30,35)", "[35,40)", "[40,45)", "[45,50)", 
                   "[50,55)", "[55,60)", "[60,99)", "[15,99)")
-years.list = c(2020:2029)
+years.list = c(2020:2030)
 
-for (ix in 25:26) { #1:nrow(sa.dt)) { 
+for (ix in 1:26) { #1:nrow(sa.dt)) { 
   sim.results <- NULL
 
   scenario_name = sa.dt[ix,]$scenario_names
@@ -889,51 +888,52 @@ for (ix in 25:26) { #1:nrow(sa.dt)) {
     mutate(SA_subgroup = sa_subgroup) %>%
     write_csv(paste0("Duet_figures/Duet_Metrics_by_Year_",scenario_name,".csv"))
  
-  # Aggregated metrics
-  data.staging <- data %>% 
-    mutate(Year = floor(Year)) %>% 
-    filter(Age >= 15) %>% 
-    filter(Year %in% c(2025, 2026, 2027, 2028, 2029)) %>% 
-    group_by(scenario_name, sim.ix) %>% 
-    summarize(
-      Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
-      Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
-      Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor), 
-      Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor),
-      .groups = "drop_last"
-    ) %>% ungroup()
-
-  metrics.aggregated = data.frame()
-  
-  for (j in metrics.names[c(-1,-2, -3)]){
-    for(l in c("[15,99)")){
-      print(c(j,l))
-      h <- calculate.CI.by.metric(
-        data = data.staging,
-        scenario.name = scenario_name,
-        metric = j)
-
-      h$Age = l
-      
-      metrics.aggregated = rbind(metrics.aggregated, h) 
-    }
-  }
-  
-  metrics.aggregated %>% 
-    mutate(Model = "EMOD") %>%
-    select(
-      Model,
-      Scenario=  scenario_name,
-      Age,
-      Metric = metric, Mean = metric.mean, Lower.Bound = metric.lb, Upper.Bound = metric.ub) %>% 
-    mutate(SA_subgroup = sa_subgroup) %>% 
-    write_csv(paste0("Duet_figures/SA_Duet_Metrics_Aggregated_",scenario_name,".csv"))
+  # # Aggregated metrics
+  # data.staging <- data %>% 
+  #   mutate(Year = floor(Year)) %>% 
+  #   filter(Age >= 15) %>% 
+  #   filter(Year %in% c(2025, 2026, 2027, 2028, 2029)) %>% 
+  #   group_by(scenario_name, sim.ix) %>% 
+  #   summarize(
+  #     Newly.Infected = sum(Newly.Infected * pop_scaling_factor),
+  #     Died_from_HIV = sum(Died_from_HIV * pop_scaling_factor),
+  #     Initiate_PrEP = sum(Initiate_PrEP * pop_scaling_factor), 
+  #     Initiate_LAPrEP = sum(Initiate_LAPrEP * pop_scaling_factor),
+  #     .groups = "drop_last"
+  #   ) %>% ungroup()
+  # 
+  # metrics.aggregated = data.frame()
+  # 
+  # for (j in metrics.names[c(-1,-2, -3)]){
+  #   for(l in c("[15,99)")){
+  #     print(c(j,l))
+  #     h <- calculate.CI.by.metric(
+  #       data = data.staging,
+  #       scenario.name = scenario_name,
+  #       metric = j)
+  # 
+  #     h$Age = l
+  #     
+  #     metrics.aggregated = rbind(metrics.aggregated, h) 
+  #   }
+  # }
+  # 
+  # metrics.aggregated %>%
+  #   mutate(Model = "EMOD") %>%
+  #   select(
+  #     Model,
+  #     Scenario=  scenario_name,
+  #     Age,
+  #     Metric = metric, Mean = metric.mean, Lower.Bound = metric.lb, Upper.Bound = metric.ub) %>%
+  #   mutate(SA_subgroup = sa_subgroup) %>%
+  #   write_csv(paste0("Duet_figures/SA_Duet_Metrics_Aggregated_",scenario_name,".csv"))
 
 }
 ```
 
 ## Gather all results
 
+### Metrics aggregated by year
 ```{r}
 dir_path <- "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures"
 
@@ -964,6 +964,8 @@ SA_Duet_Metrics_by_Year <- do.call(
 SA_Duet_Metrics_by_Year %>% write_csv(paste0(dir_path,"/SA_Duet_Metrics_by_Year.csv"))
 ```
 
+
+### Aggregated overall
 ```{r}
 dir_path <- "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/Duet_figures/"
 
