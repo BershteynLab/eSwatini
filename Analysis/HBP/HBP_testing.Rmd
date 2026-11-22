@@ -864,7 +864,7 @@ The real question is, do we improve upon incidence from before?
 # Ages 15-49
 incidence.data <- data.table(Year = c(2011, 2011, 2016, 2016, 2021, 2021),
                                      Gender = c("Male", "Female"),
-                                     inc = c(1.7,3.1,.99, 1.99, .2, 1.45),
+                                     inc = c(1.7,3.1,.99, 1.99, VVA),
                                      lb = c(1.3, 2.6, .032, 1.09, 0, 0.69 ),
                                      ub = c(2.1,3.7, 1.66, 2.88, .48, 2.2))
 ```

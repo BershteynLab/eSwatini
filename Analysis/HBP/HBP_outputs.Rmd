@@ -232,6 +232,7 @@ ggsave(paste0(c("SWZ_prev_age_",date_string_ymd,".pdf"), collapse = ""), Prev.ag
 ## Plot
 ```{r}
 sim.onart <- swz.results.hbp %>%
+  filter(Age > 15) %>%
   dplyr::group_by(Year, Gender, sim.ix) %>% 
   dplyr::summarize(On_ART = sum(On_ART * pop_scaling_factor),
                    Infected = sum(Infected * pop_scaling_factor), 
@@ -260,6 +261,11 @@ ART.cov.plot <- sim.onart %>% filter(Year >= 2000, Year <=2025)  %>%
 ART.cov.plot
 
 ggsave(paste0(c("SWZ_art_coverage_",date_string_ymd,".pdf"), collapse = ""), ART.cov.plot, height = 4, width = 6, units = 'in')
+```
+
+
+```{r}
+sim.onart %>% filter(Year == 2025)
 ```
 
 
@@ -373,6 +379,11 @@ art.cov.age.plot
 ggsave(paste0(c("SWZ_art_coverage_age_",date_string_ymd,".pdf"), collapse = ""), art.cov.age.plot, height = 6, width = 12, units = 'in')
 
 ```
+
+```{r}
+
+```
+
 
 # All ages VLS coverage vs time
 

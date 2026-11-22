@@ -1,4 +1,4 @@
-post_channel_config.json
+gitpost_channel_config.json
 Graveyard
 Graveyard/*
 COMPS_log.log
@@ -16,7 +16,6 @@ SWZ_calib.code-workspace
 .RData
 .Rhistory
 
-Analysis
 Analysis/HBP/*.pdf
 Analysis/HBP/*.csv
 Analysis/*.pdf
@@ -25,3 +24,5 @@ __pycache__
 __pycache__/*
 DownloadAnalyzerTPI_cache
 DownloadAnalyzerTPI_cache/*
+Analysis/Duet_figures/*.pdf
+Analysis/Duet_figures/*.csv
