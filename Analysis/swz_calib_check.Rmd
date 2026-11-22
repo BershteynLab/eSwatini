@@ -458,7 +458,6 @@ Infected.by.age.15.49.summary %>% filter(Year== 2035)
 
 #### Make a plot
 ```{r}
-  
 p <- Infected.by.age.15.49.summary %>% 
   filter(Year >= 2000, Year <= 2035) %>% 
   mutate(Gender = factor(Gender, labels = c("Male", "Female")))  %>%
@@ -500,8 +499,8 @@ p +
              shape = 1, size = 1, color = 'black',
              show.legend = FALSE)
 
-ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/IDM_figure_3_HIV_mean_age_1549_compare.pdf",
-       width = 12, height = 6 , units = "in")
+# ggsave(filename = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Analysis/IDM_figure_3_HIV_mean_age_1549_compare.pdf",
+#        width = 12, height = 6 , units = "in")
 ```
 
 
@@ -2449,10 +2448,10 @@ sim.results.v3 <- EMODAnalyzeR::read.simulation.results(
 )
 
 sim.results.pop.scaling <- sim.results.v3 %>% 
-      filter(Year == CENSUS_YEAR) %>%
-      group_by(sim.id) %>%
-      summarize(total.pop = sum(Population), .groups = 'keep') %>% 
-      mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
+    filter(Year == CENSUS_YEAR) %>%
+    group_by(sim.id) %>%
+    summarize(total.pop = sum(Population), .groups = 'keep') %>% 
+    mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
 
 sim.results.v3 <- sim.results.v3 %>% 
   inner_join(
@@ -2465,13 +2464,13 @@ sim.results.v3 <- sim.results.v3 %>%
 sim.results.v3.agg <- sim.results.v3 %>% 
   mutate(Year = floor(Year)) %>% 
   group_by(Year, Gender, Age, sim.ix) %>% 
-  summarize(Population = sum(Population * pop.scaling.factor),
-            Infected = sum(Infected * pop.scaling.factor),
-            On_ART = sum(On_ART * pop.scaling.factor),
+  summarize(Population = sum(Population * pop.scaling.factor/2),
+            Infected = sum(Infected * pop.scaling.factor/2),
+            On_ART = sum(On_ART * pop.scaling.factor/2),
             Died = sum(Died * pop.scaling.factor),
             Died_from_HIV = sum(Died_from_HIV * pop.scaling.factor),
             Newly.Infected = sum(Newly.Infected * pop.scaling.factor),
-            Diagnosed = sum(Diagnosed * pop.scaling.factor)) %>% 
+            Diagnosed = sum(Diagnosed * pop.scaling.factor/2)) %>% 
   group_by(Year, Gender, Age) %>% 
   summarize(Population = mean(Population),
             Infected = mean(Infected),
@@ -2483,3 +2482,19 @@ sim.results.v3.agg <- sim.results.v3 %>%
 
 sim.results.v3.agg %>% write_csv("SWZ_simulation_results_v3_aggregated_for_Kasturi.csv")
 ```
+
+Save the whole table for Kasturi to do CIs
+```{r}
+sim.results.v3[,-c(11,13)] %>% write_csv("SWZ_simlulation_results_v3_disaggregated_for_Kasturi.csv")
+
+saveRDS(sim.results.v3[,-c(11,13)], "SWZ_simlulation_results_v3_disaggregated_for_Kasturi.rds", compress = "xz")
+
+```
+
+
+
+
+
+```{r}
+```
+

@@ -26,7 +26,6 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(data.table))
 library(magrittr)
 library(readxl)
-#devtools::install_github("BershteynLab/EMODAnalyzeR")
 ```
 
 ## Constants
@@ -59,6 +58,38 @@ assign.age.bin <- function(Age, age_bin_labels){
   AgeBin <- cut(Age, breaks = breaks, right = FALSE, labels = age_bin_labels)
   factor(AgeBin, levels = age_bin_labels)
 }
+
+# Read one "Obs-" sheet from the calibration ingest form.
+# The sheet has a metadata block on top; the data table starts at the last row whose first cell is "Year".
+read.obs.sheet <- function(ingest_filename, sheet){
+  raw <- read_excel(ingest_filename, sheet, col_names = FALSE, .name_repair = "minimal")
+  header_row <- max(which(raw[[1]] == "Year"))
+  read_excel(ingest_filename, sheet, skip = header_row - 1, .name_repair = "unique_quiet") %>%
+    filter(!is.na(Year), !is.na(AgeBin))
+}
+
+# Read ReportHIVByAgeAndGender.csv from every Simulation_* folder in an experiment,
+# summing summarize_columns within stratify_columns. Column names are cleaned the same way as
+# data.table::fread(check.names = TRUE), e.g. "Newly Infected" -> "Newly.Infected"
+read.sim.results <- function(experiment_path, scenario_name, summarize_columns, stratify_columns){
+  files <- Sys.glob(file.path(experiment_path, "Simulation_*", "output", "ReportHIVByAgeAndGender.csv"))
+  print(paste("Found", length(files), "output files for scenario", scenario_name))
+
+  map_dfr(files, function(f){
+    read_csv(f, show_col_types = FALSE, name_repair = ~ make.names(str_trim(.x))) %>%
+      group_by(across(all_of(stratify_columns))) %>%
+      summarize(across(all_of(summarize_columns), ~ sum(.x, na.rm = TRUE)), .groups = 'drop') %>%
+      mutate(sim.id = f, scenario_name = scenario_name)
+  })
+}
+
+# Prevalence = sum(Infected)/sum(Population) within each stratum
+calc.prevalence <- function(data, stratify_columns){
+  data %>%
+    group_by(across(all_of(stratify_columns))) %>%
+    summarize(Infected = sum(Infected), Population = sum(Population), .groups = 'drop') %>%
+    mutate(Prevalence = if_else(Population > 0, Infected/Population, 0))
+}
 ```
 
 # Read in data
@@ -68,15 +99,13 @@ assign.age.bin <- function(Age, age_bin_labels){
 # Most recent baseline (demo_test branch)
 experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Baseline-campaign_20250715_duet-demo_test_baseline___2026_11_05_14_27_10_253189/"
 
-sim.results <- EMODAnalyzeR::read.simulation.results.bigpurple(
+sim.results <- read.sim.results(
   experiment_path = experiment.path,
   scenario_name = "baseline",
   summarize_columns = c("Population","Infected", "On_ART",
                         "Died", "Died_from_HIV",
                         "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age"),
-  min_age_inclusive = 0,
-  max_age_inclusive = 99
+  stratify_columns = c("Year", "Gender", "Age")
 )
 
 sim.results.pop.scaling <- sim.results %>%
@@ -94,18 +123,26 @@ sim.results <- sim.results %>%
 ```
 
 ## Calibration targets
-```{r}
-obs.prev.sheet <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Prevalence")
-obs.prev.sheet <- obs.prev.sheet %>%
-  filter(!is.na(AgeBin)) %>%
-  select(Year, Gender, AgeBin, Prevalence, effective_count, lb, ub) %>%
-  mutate(AgeMin = agebin.min(AgeBin), AgeMax = agebin.max(AgeBin))
 
-obs.pop.sheet <- EMODAnalyzeR::read.ingest.sheet(ingest.file.base, "Obs-Population")
-obs.pop.sheet <- obs.pop.sheet %>%
-  filter(!is.na(AgeBin)) %>%
-  select(Year, Gender, AgeBin, Population, two_sigma, lb, ub) %>%
-  mutate(AgeMin = agebin.min(AgeBin), AgeMax = agebin.max(AgeBin))
+95% bounds are computed the same way as the calibration does:
+
+* Prevalence: Beta(x + 1, n - x + 1) quantiles, with n = `effective_count` and x = Prevalence * n
+* Population: Population ± 1.96 * (`two_sigma`/2)
+
+```{r}
+obs.prev.sheet <- read.obs.sheet(ingest.file.base, "Obs-Prevalence") %>%
+  select(Year, Gender, AgeBin, Prevalence, effective_count) %>%
+  mutate(across(c(Year, Prevalence, effective_count), as.numeric),
+         lb = qbeta(0.025, Prevalence * effective_count + 1, effective_count - Prevalence * effective_count + 1),
+         ub = qbeta(0.975, Prevalence * effective_count + 1, effective_count - Prevalence * effective_count + 1),
+         AgeMin = agebin.min(AgeBin), AgeMax = agebin.max(AgeBin))
+
+obs.pop.sheet <- read.obs.sheet(ingest.file.base, "Obs-Population") %>%
+  select(Year, Gender, AgeBin, Population, two_sigma) %>%
+  mutate(across(c(Year, Population, two_sigma), as.numeric),
+         lb = Population - 1.96 * two_sigma/2,
+         ub = Population + 1.96 * two_sigma/2,
+         AgeMin = agebin.min(AgeBin), AgeMax = agebin.max(AgeBin))
 
 obs.prev.sheet %>% head
 obs.pop.sheet %>% head
@@ -133,11 +170,9 @@ prev.15.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021)
                          ub = c(32.73564238, 20.87807258, 39.76691062, 25.2464012, 36.01828845,21.18736119, 32.17962673, 16.4728948)/100)
 
 # Simulated adult prevalence
-data <- EMODAnalyzeR::calculate.prevalence(
+data <- calc.prevalence(
   sim.results %>% filter(Age >= ADULT_AGE_MIN, Age < ADULT_AGE_MAX),
-         stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"),
-         numerator = "Infected",
-         denominator = "Population")
+  stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"))
 
 prev.data.mean <- data %>%
     dplyr::group_by(Year, Gender, scenario_name) %>%
@@ -240,10 +275,8 @@ data <- data %>%
   filter(!is.na(AgeBin))
 
 # Calculate prevalence, grouping by age bin
-data.prev <- data %>% EMODAnalyzeR::calculate.prevalence(
-  stratify_columns = c("Year", "AgeBin", "Gender", "scenario_name", "sim.id"),
-  numerator = "Infected",
-  denominator = "Population")
+data.prev <- data %>% calc.prevalence(
+  stratify_columns = c("Year", "AgeBin", "Gender", "scenario_name", "sim.id"))
 
 # Calculate mean prevalence across all sim runs
 ageprev.data.mean <- data.prev %>%
@@ -309,7 +342,7 @@ Only the obs years that fall inside the simulation's reporting window are plotte
 
 Note that `ReportHIVByAgeAndGender` only reports in the age bins it was configured with
 (currently 0, 15, 20, ..., 60, 65, 99), so `Age == 0` is everyone under 15 and `Age == 65` is everyone 65-98.
-The 5-year WPP bins are summed up to match the report's bins before comparing (`two_sigma` added in quadrature).
+The 5-year WPP bins are summed up to match the report's bins before comparing (`two_sigma` added in quadrature, bounds are ± 1.96 * `two_sigma`/2 as above).
 
 ## Load and transform data
 ```{r}
@@ -326,7 +359,7 @@ obs.pop.sheet.rebin <- obs.pop.sheet %>%
   summarize(Population = sum(Population),
             two_sigma = sqrt(sum(two_sigma^2)),
             .groups = 'drop') %>%
-  mutate(lb = Population - two_sigma, ub = Population + two_sigma)
+  mutate(lb = Population - 1.96 * two_sigma/2, ub = Population + 1.96 * two_sigma/2)
 
 pop_subset_years <- intersect(unique(obs.pop.sheet$Year), unique(sim.results$Year))
 pop_subset_years
@@ -414,7 +447,7 @@ obs.pop.total <- obs.pop.sheet %>%
   summarize(Population = sum(Population),
             two_sigma = sqrt(sum(two_sigma^2)),
             .groups = 'drop') %>%
-  mutate(lb = Population - two_sigma, ub = Population + two_sigma)
+  mutate(lb = Population - 1.96 * two_sigma/2, ub = Population + 1.96 * two_sigma/2)
 
 Pop.total.plot <- ggplot() +
   geom_ribbon(data = pop.data.total,
