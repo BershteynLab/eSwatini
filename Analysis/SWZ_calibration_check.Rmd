@@ -313,16 +313,24 @@ Third check against the other calibration channel, `Obs-Population` (UN WPP, 5-y
 Simulated population is rescaled so that the total population in `r SWZ_CENSUS_YEAR` matches `r format(SWZ_CENSUS_POP, big.mark = ",")`.
 Only the obs years that fall inside the simulation's reporting window are plotted.
 
-Note that `ReportHIVByAgeAndGender` only reports in the age bins it was configured with
-(currently 0, 15, 20, ..., 60, 65, 99), so `Age == 0` is everyone under 15 and `Age == 65` is everyone 65-98.
-The 5-year WPP bins are summed up to match the report's bins before comparing (`two_sigma` added in quadrature, bounds are ± 1.96 * `two_sigma`/2 as above).
+Simulated ages are binned into the census 5-year age bins of the `Obs-Population` sheet ([0:5), [5:10), ..., [95:99)),
+with everyone 95+ in the last bin. If `ReportHIVByAgeAndGender` was configured with coarser age bins than the census
+(e.g. 0, 15, 20, ..., 65), any census bins the simulation can't resolve are merged (with a warning), summing
+populations and adding `two_sigma` in quadrature (bounds are ± 1.96 * `two_sigma`/2 as above).
 
 ## Load and transform data
 ```{r}
-# Age bins as reported by the simulation; 99 is folded into the last (open-ended) bin
-sim_age_breaks <- sort(unique(sim.results$Age))
-sim_age_breaks <- sim_age_breaks[sim_age_breaks < 99]
-pop_age_labels <- paste0("[", sim_age_breaks, ":", c(sim_age_breaks[-1], 99), ")")
+# Age bins come from the census (Obs-Population) sheet: [0:5), [5:10), ..., [95:99).
+# A census bin edge is only kept if the simulation reports an age at that edge, so that both sides can be
+# binned identically. With single-year (or 5-year) simulation ages this is exactly the census 5-year bins.
+census_age_breaks <- sort(unique(obs.pop.sheet$AgeMin))
+pop_age_breaks <- census_age_breaks[census_age_breaks %in% unique(sim.results$Age)]
+if (!all(census_age_breaks %in% pop_age_breaks)) {
+  warning("Simulation does not report every census age edge; merging census bins starting at: ",
+          paste(setdiff(census_age_breaks, pop_age_breaks), collapse = ", "))
+}
+# Last bin is open-ended: simulated ages >= the last edge (including 99+) go into it
+pop_age_labels <- paste0("[", pop_age_breaks, ":", c(pop_age_breaks[-1], max(obs.pop.sheet$AgeMax)), ")")
 pop_age_labels
 
 # Re-bin the obs sheet to match the simulation's reporting bins
