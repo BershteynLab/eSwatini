@@ -107,6 +107,8 @@ sim.results$scenario_name = 'baseline'
 * Prevalence: Beta(x + 1, n - x + 1) quantiles, with n = `effective_count` and x = Prevalence * n
 * Population: Population ± 1.96 * (`two_sigma`/2)
 
+If you want to calculate bounds instead by bootstrapping I can show you how to do that.
+
 ```{r}
 obs.prev.sheet <- read.obs.sheet(ingest.file.base, "Obs-Prevalence") %>%
   select(Year, Gender, AgeBin, Prevalence, effective_count) %>%
@@ -128,12 +130,6 @@ obs.pop.sheet %>% head
 
 # Adult prevalence vs time
 
-The `Obs-Prevalence` sheet only has prevalence by 5-year age bin, so the adult (15-49) target is built by
-weighting each age bin's observed prevalence by the simulated population in that age bin
-(mean across simulations, same year and gender). The 95% CI combines the binomial variance from each age bin
-using its `effective_count`:
-
-$$\hat p = \sum_i w_i p_i, \qquad \mathrm{Var}(\hat p) = \sum_i w_i^2 \frac{p_i (1 - p_i)}{n_i}$$
 
 The published national survey estimates (DHS 2006, SHIMS 2011, SHIMS2 2016, SHIMS3 2021) used in previous
 notebooks are also plotted as open circles for reference.
@@ -308,15 +304,6 @@ ggsave(paste0(c("~/Downloads/SWZ_calib_prev_age_",date_string_ymd,".pdf"), colla
 ```
 
 # Population by age over time
-
-Third check against the other calibration channel, `Obs-Population` (UN WPP, 5-year age bins in 2000, 2005, ..., 2020).
-Simulated population is rescaled so that the total population in `r SWZ_CENSUS_YEAR` matches `r format(SWZ_CENSUS_POP, big.mark = ",")`.
-Only the obs years that fall inside the simulation's reporting window are plotted.
-
-Simulated ages are binned into the census 5-year age bins of the `Obs-Population` sheet ([0:5), [5:10), ..., [95:99)),
-with everyone 95+ in the last bin. If `ReportHIVByAgeAndGender` was configured with coarser age bins than the census
-(e.g. 0, 15, 20, ..., 65), any census bins the simulation can't resolve are merged (with a warning), summing
-populations and adding `two_sigma` in quadrature (bounds are ± 1.96 * `two_sigma`/2 as above).
 
 ## Load and transform data
 ```{r}
