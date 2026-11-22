@@ -39,7 +39,7 @@ ADULT_AGE_MAX = 50 # exclusive
 current_date <- Sys.Date()
 date_string_ymd <- format(current_date, format = "%Y%m%d")
 
-ingest.file.base = "/gpfs/data/bershteynlab/EMOD/citrod01/SWZ_calib/Data/calibration_ingest_form-Swaziland--UPDATED--2024-01-14.xlsm"
+ingest.file.base = "../Data/calibration_ingest_form-Swaziland--UPDATED--2024-01-14.xlsm"
 ```
 
 ## Functions
@@ -79,7 +79,7 @@ read.sim.results <- function(experiment_path, scenario_name, summarize_columns, 
     read_csv(f, show_col_types = FALSE, name_repair = ~ make.names(str_trim(.x))) %>%
       group_by(across(all_of(stratify_columns))) %>%
       summarize(across(all_of(summarize_columns), ~ sum(.x, na.rm = TRUE)), .groups = 'drop') %>%
-      mutate(sim.id = f, scenario_name = scenario_name)
+      mutate(sim.ix = f, scenario_name = scenario_name)
   })
 }
 
@@ -96,30 +96,8 @@ calc.prevalence <- function(data, stratify_columns){
 
 ## Simulation results
 ```{r}
-# Most recent baseline (demo_test branch)
-experiment.path = "/gpfs/scratch/citrod01/experiments/eSwatini/Baseline-campaign_20250715_duet-demo_test_baseline___2026_11_05_14_27_10_253189/"
-
-sim.results <- read.sim.results(
-  experiment_path = experiment.path,
-  scenario_name = "baseline",
-  summarize_columns = c("Population","Infected", "On_ART",
-                        "Died", "Died_from_HIV",
-                        "Newly.Infected","Diagnosed"),
-  stratify_columns = c("Year", "Gender", "Age")
-)
-
-sim.results.pop.scaling <- sim.results %>%
-  filter(Year == SWZ_CENSUS_YEAR) %>%
-  group_by(sim.id, scenario_name) %>%
-  summarize(total.pop = sum(Population), .groups = 'drop') %>%
-  mutate(pop.scaling.factor = SWZ_CENSUS_POP/total.pop)
-
-sim.results <- sim.results %>%
-  inner_join(
-    sim.results.pop.scaling,
-    by = c("sim.id", "scenario_name")
-  ) %>%
-  mutate(Gender = case_when(Gender==0 ~ "Male", Gender==1 ~ "Female"))
+sim.results = read_csv("/Users/daniel/Downloads/SWZ_simulation_results_v3_disaggregated_for_Kasturi.csv")
+sim.results$scenario_name = 'baseline'
 ```
 
 ## Calibration targets
@@ -164,7 +142,7 @@ notebooks are also plotted as open circles for reference.
 ```{r}
 # Published survey estimates for adults 15-49, used in swz_calib_check.Rmd and HBP_outputs.Rmd
 prev.15.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021),
-                         Gender = c("Female", "Male"),
+                         Gender = c(1, 0),
                          prev = c(31.36998255, 19.54469739, 38.79583333, 24.3101129, 34.67579541, 19.87162343, 32.01485259, 16.34463925)/100,
                          lb = c(30.02809341, 18.26093783, 37.83139223,23.39183621, 33.35133936,18.60315482,31.85041561, 16.21699044)/100,
                          ub = c(32.73564238, 20.87807258, 39.76691062, 25.2464012, 36.01828845,21.18736119, 32.17962673, 16.4728948)/100)
@@ -172,7 +150,7 @@ prev.15.49 <- data.table(Year = c(2006, 2006, 2011,2011, 2016, 2016, 2021, 2021)
 # Simulated adult prevalence
 data <- calc.prevalence(
   sim.results %>% filter(Age >= ADULT_AGE_MIN, Age < ADULT_AGE_MAX),
-  stratify_columns = c("Year", "Gender", "sim.id", "scenario_name"))
+  stratify_columns = c("Year", "Gender", "sim.ix", "scenario_name"))
 
 prev.data.mean <- data %>%
     dplyr::group_by(Year, Gender, scenario_name) %>%
@@ -180,7 +158,8 @@ prev.data.mean <- data %>%
                      lower = quantile(Prevalence, probs = 0.025),
                      upper = quantile(Prevalence, probs = 0.975),
                      .groups = 'keep') %>%
-  ungroup()
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~  "Female"))
 
 # Simulated population in each obs age bin, used as weights for aggregating the age-specific targets
 obs.prev.adult <- obs.prev.sheet %>%
@@ -190,11 +169,12 @@ sim.pop.weights <- sim.results %>%
   filter(Year %in% unique(obs.prev.adult$Year)) %>%
   mutate(AgeBin = assign.age.bin(Age, unique(obs.prev.adult$AgeBin))) %>%
   filter(!is.na(AgeBin), Age < ADULT_AGE_MAX) %>%
-  group_by(Year, Gender, AgeBin, sim.id) %>%
+  group_by(Year, Gender, AgeBin, sim.ix) %>%
   summarize(Population = sum(Population), .groups = 'drop') %>%
   group_by(Year, Gender, AgeBin) %>%
   summarize(Population = mean(Population), .groups = 'drop') %>%
-  mutate(AgeBin = as.character(AgeBin))
+  mutate(AgeBin = as.character(AgeBin)) %>% 
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~  "Female"))
 
 obs.prev.adult.agg <- obs.prev.adult %>%
   inner_join(sim.pop.weights, by = c("Year", "Gender", "AgeBin")) %>%
@@ -229,12 +209,6 @@ plot.prev <- ggplot() +
                   mapping = aes(x = Year, ymin = lb, ymax = ub),
                   show.legend = FALSE,
                   color = 'black', linewidth = .5, width = .5)+
-    # Published survey estimates
-    geom_point(data = prev.15.49,
-               mapping = aes(x = Year, y = prev),
-               show.legend = FALSE,
-               color = 'grey40', shape = 1,
-               size = 2) +
     facet_wrap(~ Gender, ncol=2) +
     xlab("Year")+
     ylab("HIV Prevalence (Ages 15-49)") +
@@ -247,13 +221,11 @@ plot.prev <- ggplot() +
     theme(legend.position="bottom") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme(strip.background = element_rect(colour="black", fill="white")) +
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-    scale_color_manual(values=c("blue", "red")) +
-    scale_fill_manual(values=c("blue", "red"))
+    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 plot.prev
 
-ggsave(paste0(c("SWZ_calib_prev_adults_",date_string_ymd,".pdf"), collapse = ""), plot.prev, height = 4, width = 8, units = 'in')
+ggsave(paste0(c("~/Downloads/SWZ_calib_prev_adults_",date_string_ymd,".pdf"), collapse = ""), plot.prev, height = 4, width = 8, units = 'in')
 ```
 
 # Prevalence vs age over time
@@ -276,7 +248,7 @@ data <- data %>%
 
 # Calculate prevalence, grouping by age bin
 data.prev <- data %>% calc.prevalence(
-  stratify_columns = c("Year", "AgeBin", "Gender", "scenario_name", "sim.id"))
+  stratify_columns = c("Year", "AgeBin", "Gender", "scenario_name", "sim.ix"))
 
 # Calculate mean prevalence across all sim runs
 ageprev.data.mean <- data.prev %>%
@@ -286,7 +258,8 @@ ageprev.data.mean <- data.prev %>%
                    upper = quantile(Prevalence, probs = 0.975),
                    .groups = 'keep') %>%
   ungroup() %>%
-  mutate(AgeBin = factor(AgeBin, levels = age_labels))
+  mutate(AgeBin = factor(AgeBin, levels = age_labels)) %>% 
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~  "Female"))
 
 # Reformat the prevalence data
 obs.prev.sheet <- obs.prev.sheet %>%
@@ -331,7 +304,7 @@ Prev.age.plot <- ageprev.data.mean %>%
 
 Prev.age.plot
 
-ggsave(paste0(c("SWZ_calib_prev_age_",date_string_ymd,".pdf"), collapse = ""), Prev.age.plot, height = 10, width = 12, units = 'in')
+ggsave(paste0(c("~/Downloads/SWZ_calib_prev_age_",date_string_ymd,".pdf"), collapse = ""), Prev.age.plot, height = 10, width = 12, units = 'in')
 ```
 
 # Population by age over time
@@ -372,7 +345,7 @@ data <- sim.results %>%
 
 # Count total people in each age bin, scaled up to the national population
 pop.data <- data %>%
-  group_by(Year, Gender, AgeBin, scenario_name, sim.id) %>%
+  group_by(Year, Gender, AgeBin, scenario_name, sim.ix) %>%
   summarize(Population = sum(Population * pop.scaling.factor), .groups = 'keep') %>%
   group_by(Year, Gender, AgeBin, scenario_name) %>%
   summarize(mean.Population = mean(Population),
@@ -380,7 +353,8 @@ pop.data <- data %>%
             upper = quantile(Population, probs = 0.975),
             .groups = 'keep') %>%
   ungroup() %>%
-  mutate(AgeBin = factor(AgeBin, levels = pop_age_labels))
+  mutate(AgeBin = factor(AgeBin, levels = pop_age_labels)) %>% 
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~  "Female"))
 
 obs.pop.sheet.plot <- obs.pop.sheet.rebin %>%
   filter(Year %in% pop_subset_years) %>%
@@ -426,20 +400,21 @@ Pop.age.plot <- pop.data %>%
 
 Pop.age.plot
 
-ggsave(paste0(c("SWZ_calib_pop_age_",date_string_ymd,".pdf"), collapse = ""), Pop.age.plot, height = 10, width = 12, units = 'in')
+ggsave(paste0(c("~/Downloads/SWZ_calib_pop_age_",date_string_ymd,".pdf"), collapse = ""), Pop.age.plot, height = 10, width = 12, units = 'in')
 ```
 
 ## Total population vs time
 ```{r, fig.width = 8}
 pop.data.total <- sim.results %>%
-  group_by(Year, Gender, scenario_name, sim.id) %>%
+  group_by(Year, Gender, scenario_name, sim.ix) %>%
   summarize(Population = sum(Population * pop.scaling.factor), .groups = 'keep') %>%
   group_by(Year, Gender, scenario_name) %>%
   summarize(mean.Population = mean(Population),
             lower = quantile(Population, probs = 0.025),
             upper = quantile(Population, probs = 0.975),
             .groups = 'keep') %>%
-  ungroup()
+  ungroup() %>% 
+  mutate(Gender = case_when(Gender == 0 ~ "Male", Gender == 1 ~  "Female"))
 
 # Sum the obs sheet over age bins; two_sigma bounds added in quadrature
 obs.pop.total <- obs.pop.sheet %>%
@@ -470,11 +445,9 @@ Pop.total.plot <- ggplot() +
   theme(legend.position="bottom") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   theme(strip.background = element_rect(colour="black", fill="white")) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  scale_color_manual(values=c("blue", "red")) +
-  scale_fill_manual(values=c("blue", "red"))
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
 Pop.total.plot
 
-ggsave(paste0(c("SWZ_calib_pop_total_",date_string_ymd,".pdf"), collapse = ""), Pop.total.plot, height = 4, width = 8, units = 'in')
+ggsave(paste0(c("~/Downloads/SWZ_calib_pop_total_",date_string_ymd,".pdf"), collapse = ""), Pop.total.plot, height = 4, width = 8, units = 'in')
 ```
